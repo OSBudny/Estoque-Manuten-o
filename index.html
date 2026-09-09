@@ -2,540 +2,332 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Estoque Manutenção</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-:root{
-  --bg:#0b1016;
-  --bg2:#111923;
-  --card:#17212d;
-  --card2:#1d2936;
-  --border:#2d3b49;
-  --orange:#ff8c00;
-  --orange2:#ffad42;
-  --text:#f5f7fa;
-  --muted:#9eabb8;
-  --green:#25c27a;
-  --red:#ef5350;
-  --yellow:#f5c542;
-  --blue:#4da3ff;
-}
-
-*{
-  box-sizing:border-box;
-  font-family:Arial,Helvetica,sans-serif;
-}
-
+*{box-sizing:border-box}
 body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
+margin:0;
+font-family:Arial,Helvetica,sans-serif;
+background:#0b1118;
+color:#f4f6f8
 }
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
 
-button,
-input,
-select,
-textarea{
-  font:inherit;
+#login{
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+background:linear-gradient(135deg,#0b1118,#172331);
+padding:20px
 }
-
-button{
-  cursor:pointer;
+.login{
+width:100%;
+max-width:420px;
+background:#17212c;
+border:1px solid #2c3b49;
+border-radius:16px;
+padding:32px;
+box-shadow:0 20px 60px #0008
 }
-
-.hidden{
-  display:none!important;
-}
-
-/* LOGIN */
-
-#loginScreen{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  background:
-    radial-gradient(circle at top right,#1d2b39 0,#0b1016 45%);
-}
-
-.login-box{
-  width:100%;
-  max-width:430px;
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:34px;
-  box-shadow:0 20px 60px rgba(0,0,0,.35);
-}
-
-.logo{
-  font-size:27px;
-  font-weight:bold;
-  margin-bottom:8px;
-}
-
-.logo span{
-  color:var(--orange);
-}
-
-.subtitle{
-  color:var(--muted);
-  margin-bottom:28px;
-}
-
-.field{
-  margin-bottom:16px;
-}
+.login h1{margin:0 0 8px}
+.login h1 span{color:#ff8c00}
+.login p{color:#9ca9b5;margin-bottom:25px}
 
 label{
-  display:block;
-  font-size:13px;
-  color:#c8d0d8;
-  margin-bottom:7px;
+display:block;
+font-size:13px;
+color:#c8d0d8;
+margin:0 0 7px
 }
-
-input,
-select,
-textarea{
-  width:100%;
-  border:1px solid var(--border);
-  background:#101821;
-  color:white;
-  padding:12px 13px;
-  border-radius:9px;
-  outline:none;
+input,select,textarea{
+width:100%;
+background:#0e1720;
+border:1px solid #30404e;
+color:#fff;
+border-radius:8px;
+padding:11px;
+outline:none
 }
-
-input:focus,
-select:focus,
-textarea:focus{
-  border-color:var(--orange);
+input:focus,select:focus,textarea:focus{
+border-color:#ff8c00
 }
-
-textarea{
-  min-height:90px;
-  resize:vertical;
-}
+.field{margin-bottom:15px}
 
 .btn{
-  border:0;
-  border-radius:9px;
-  padding:12px 16px;
-  color:white;
-  font-weight:bold;
-  background:var(--orange);
+border:0;
+border-radius:8px;
+padding:11px 15px;
+font-weight:bold;
+background:#ff8c00;
+color:#fff
 }
+.btn:hover{background:#ffa52e}
+.btn.dark{background:#24313e}
+.btn.red{background:#8b2d2d}
+.btn.green{background:#16794f}
+.btn.blue{background:#21699f}
 
-.btn:hover{
-  background:var(--orange2);
+.login-buttons{
+display:flex;
+gap:10px
 }
-
-.btn.secondary{
-  background:#202d3a;
-  border:1px solid var(--border);
-}
-
-.btn.danger{
-  background:#7e2828;
-}
-
-.btn.green{
-  background:#167c50;
-}
-
-.btn.blue{
-  background:#236da8;
-}
-
-.login-actions{
-  display:flex;
-  gap:10px;
-  margin-top:20px;
-}
-
-.login-actions .btn{
-  flex:1;
-}
-
-.message{
-  margin-top:15px;
-  padding:11px;
-  border-radius:8px;
-  font-size:13px;
-  display:none;
-}
-
-.message.error{
-  display:block;
-  background:#4b2020;
-  color:#ffb5b5;
-}
-
-.message.success{
-  display:block;
-  background:#173f2e;
-  color:#a9f0cb;
-}
-
-/* APP */
+.login-buttons .btn{flex:1}
 
 #app{
-  min-height:100vh;
-  display:flex;
+min-height:100vh;
+display:flex
 }
 
 .sidebar{
-  width:245px;
-  background:#101720;
-  border-right:1px solid var(--border);
-  min-height:100vh;
-  padding:22px 15px;
-  position:fixed;
-  left:0;
-  top:0;
-  bottom:0;
-  z-index:10;
+width:245px;
+position:fixed;
+top:0;
+bottom:0;
+left:0;
+background:#101820;
+border-right:1px solid #2a3743;
+padding:20px 14px
 }
-
-.brand{
-  padding:8px 12px 28px;
-  font-size:22px;
-  font-weight:bold;
+.logo{
+font-size:22px;
+font-weight:bold;
+padding:8px 10px 25px
 }
+.logo span{color:#ff8c00}
 
-.brand span{
-  color:var(--orange);
-}
-
-.user-box{
-  background:#17212d;
-  border:1px solid var(--border);
-  padding:12px;
-  border-radius:10px;
-  margin-bottom:20px;
-  font-size:12px;
-  color:var(--muted);
-  word-break:break-all;
+.user{
+font-size:12px;
+color:#aab5bf;
+background:#18232e;
+border:1px solid #293844;
+border-radius:9px;
+padding:11px;
+margin-bottom:18px;
+word-break:break-all
 }
 
 .nav{
-  display:flex;
-  flex-direction:column;
-  gap:5px;
+display:flex;
+flex-direction:column;
+gap:5px
 }
-
 .nav button{
-  background:transparent;
-  color:#c5ced7;
-  border:0;
-  text-align:left;
-  padding:12px;
-  border-radius:8px;
-  font-size:14px;
+background:transparent;
+border:0;
+color:#bdc7d0;
+padding:12px;
+border-radius:8px;
+text-align:left
 }
-
-.nav button:hover,
-.nav button.active{
-  background:#222e3b;
-  color:white;
+.nav button:hover,.nav button.active{
+background:#222f3b;
+color:#fff
 }
-
 .nav button.active{
-  border-left:3px solid var(--orange);
+border-left:3px solid #ff8c00
 }
 
 .logout{
-  position:absolute;
-  bottom:20px;
-  left:15px;
-  right:15px;
+position:absolute;
+bottom:20px;
+left:14px;
+right:14px
 }
 
-.main{
-  margin-left:245px;
-  width:calc(100% - 245px);
-  padding:28px;
+main{
+margin-left:245px;
+width:calc(100% - 245px);
+padding:27px
 }
 
-.topbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:25px;
-  gap:15px;
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:24px
 }
-
-.page-title{
-  font-size:28px;
-  font-weight:bold;
+.title{
+font-size:28px;
+font-weight:bold
 }
-
-.page-subtitle{
-  color:var(--muted);
-  margin-top:5px;
-  font-size:14px;
+.subtitle{
+font-size:14px;
+color:#929faa;
+margin-top:5px
 }
-
-.content{
-  width:100%;
-}
-
-/* CARDS */
 
 .cards{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px;
-  margin-bottom:22px;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+margin-bottom:20px
 }
-
 .card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:13px;
-  padding:20px;
+background:#17212c;
+border:1px solid #2b3946;
+border-radius:13px;
+padding:20px
 }
-
-.card-title{
-  color:var(--muted);
-  font-size:13px;
-  margin-bottom:10px;
+.card small{
+color:#929faa
 }
-
-.card-value{
-  font-size:29px;
-  font-weight:bold;
+.card strong{
+display:block;
+font-size:29px;
+margin-top:10px
 }
+.orange strong{color:#ff8c00}
+.green strong{color:#25c27a}
+.red strong{color:#ef5350}
+.blue strong{color:#4da3ff}
+.yellow strong{color:#f5c542}
 
-.card.orange .card-value{
-  color:var(--orange);
+.grid2{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px
 }
-
-.card.green .card-value{
-  color:var(--green);
-}
-
-.card.red .card-value{
-  color:var(--red);
-}
-
-.card.blue .card-value{
-  color:var(--blue);
-}
-
-/* TABLE */
 
 .panel{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:13px;
-  padding:20px;
-  margin-bottom:20px;
+background:#17212c;
+border:1px solid #2b3946;
+border-radius:13px;
+padding:20px;
+margin-bottom:20px
 }
-
-.panel-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-  margin-bottom:17px;
+.panel-head{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+margin-bottom:16px
 }
-
 .panel-title{
-  font-size:18px;
-  font-weight:bold;
+font-size:18px;
+font-weight:bold
 }
 
 .toolbar{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:15px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-bottom:15px
 }
-
-.toolbar input{
-  max-width:350px;
-}
+.toolbar input{max-width:380px}
 
 .table-wrap{
-  overflow:auto;
+overflow:auto
 }
-
 table{
-  width:100%;
-  border-collapse:collapse;
-  min-width:850px;
+width:100%;
+border-collapse:collapse;
+min-width:800px
 }
-
-th,
-td{
-  padding:12px 10px;
-  border-bottom:1px solid var(--border);
-  text-align:left;
-  font-size:13px;
+th,td{
+padding:11px 9px;
+border-bottom:1px solid #2b3946;
+text-align:left;
+font-size:13px
 }
-
-th{
-  color:#b9c3cc;
-  font-weight:bold;
-}
-
-td{
-  color:#e7ebef;
-}
-
-tr:hover td{
-  background:#1b2632;
-}
+th{color:#aeb9c2}
+tr:hover td{background:#1c2833}
 
 .badge{
-  display:inline-block;
-  padding:5px 8px;
-  border-radius:20px;
-  font-size:11px;
-  font-weight:bold;
+padding:5px 8px;
+border-radius:20px;
+font-size:11px;
+font-weight:bold;
+display:inline-block
 }
-
-.badge.green{
-  background:#164d36;
-  color:#9cf0c5;
-}
-
-.badge.red{
-  background:#542323;
-  color:#ffaaaa;
-}
-
-.badge.yellow{
-  background:#564b1c;
-  color:#ffe995;
-}
-
-.badge.blue{
-  background:#183e5e;
-  color:#9dd3ff;
-}
-
-/* MODAL */
-
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.72);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:50;
-  padding:20px;
-}
-
-.modal-box{
-  width:100%;
-  max-width:720px;
-  max-height:90vh;
-  overflow:auto;
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:25px;
-}
-
-.modal-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:20px;
-}
-
-.close{
-  border:0;
-  background:transparent;
-  color:#aaa;
-  font-size:25px;
-}
-
-.form-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:15px;
-}
-
-.form-full{
-  grid-column:1/-1;
-}
-
-.modal-actions{
-  display:flex;
-  justify-content:flex-end;
-  gap:10px;
-  margin-top:20px;
-}
-
-/* EMPTY */
+.badge.green{background:#164d36;color:#a1f1c9}
+.badge.red{background:#572424;color:#ffadad}
+.badge.yellow{background:#554b1c;color:#ffe898}
+.badge.blue{background:#183e5e;color:#a3d5ff}
 
 .empty{
-  text-align:center;
-  padding:40px;
-  color:var(--muted);
+padding:35px;
+text-align:center;
+color:#87939e
 }
 
-/* RESPONSIVE */
+.modal{
+position:fixed;
+inset:0;
+background:#000b;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:20px;
+z-index:100
+}
+.modal-box{
+width:100%;
+max-width:750px;
+max-height:90vh;
+overflow:auto;
+background:#17212c;
+border:1px solid #344452;
+border-radius:15px;
+padding:24px
+}
+.modal-head{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px
+}
+.close{
+background:transparent;
+border:0;
+color:#aaa;
+font-size:27px
+}
+.form-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px
+}
+.full{grid-column:1/-1}
+.modal-actions{
+display:flex;
+justify-content:flex-end;
+gap:10px;
+margin-top:20px
+}
+
+.stat-line{
+display:flex;
+justify-content:space-between;
+padding:13px 0;
+border-bottom:1px solid #2b3946
+}
 
 @media(max-width:1000px){
-  .cards{
-    grid-template-columns:repeat(2,1fr);
-  }
+.cards{grid-template-columns:repeat(2,1fr)}
 }
-
 @media(max-width:700px){
-  .sidebar{
-    width:70px;
-    padding:15px 8px;
-  }
-
-  .brand{
-    font-size:0;
-    padding:10px;
-  }
-
-  .brand span{
-    font-size:22px;
-  }
-
-  .user-box{
-    display:none;
-  }
-
-  .nav button{
-    font-size:0;
-    text-align:center;
-  }
-
-  .nav button::first-letter{
-    font-size:20px;
-  }
-
-  .logout{
-    font-size:0;
-  }
-
-  .main{
-    margin-left:70px;
-    width:calc(100% - 70px);
-    padding:15px;
-  }
-
-  .cards{
-    grid-template-columns:1fr;
-  }
-
-  .form-grid{
-    grid-template-columns:1fr;
-  }
+.sidebar{width:70px;padding:15px 7px}
+.logo{font-size:0}
+.logo span{font-size:20px}
+.user{display:none}
+.nav button{font-size:0;text-align:center}
+.logout{font-size:0}
+main{
+margin-left:70px;
+width:calc(100% - 70px);
+padding:15px
+}
+.cards{grid-template-columns:1fr}
+.grid2{grid-template-columns:1fr}
+.form-grid{grid-template-columns:1fr}
+.full{grid-column:auto}
 }
 </style>
 </head>
@@ -543,1842 +335,1431 @@ tr:hover td{
 <body>
 
 <!-- LOGIN -->
+<section id="login">
 
-<section id="loginScreen">
+<div class="login">
 
-  <div class="login-box">
+<h1>Estoque <span>Manutenção</span></h1>
+<p>Controle online de peças e materiais da manutenção</p>
 
-    <div class="logo">
-      Estoque <span>Manutenção</span>
-    </div>
+<form id="loginForm">
 
-    <div class="subtitle">
-      Sistema online de controle de estoque de peças
-    </div>
+<div class="field">
+<label>E-mail</label>
+<input id="email" type="email" required>
+</div>
 
-    <form id="loginForm">
+<div class="field">
+<label>Senha</label>
+<input id="password" type="password" required>
+</div>
 
-      <div class="field">
-        <label>E-mail</label>
-        <input id="loginEmail" type="email" required>
-      </div>
+<div class="login-buttons">
+<button class="btn" type="submit">Entrar</button>
+<button class="btn dark" type="button" id="signup">Criar acesso</button>
+</div>
 
-      <div class="field">
-        <label>Senha</label>
-        <input id="loginPassword" type="password" required>
-      </div>
+</form>
 
-      <div class="login-actions">
-        <button class="btn" type="submit">Entrar</button>
-        <button class="btn secondary" type="button" id="showSignup">
-          Criar acesso
-        </button>
-      </div>
+<div id="loginMsg"></div>
 
-    </form>
-
-    <div id="loginMessage" class="message"></div>
-
-  </div>
-
+</div>
 </section>
 
 
 <!-- APLICAÇÃO -->
-
 <section id="app" class="hidden">
 
-  <aside class="sidebar">
+<aside class="sidebar">
 
-    <div class="brand">
-      Estoque <span>Manutenção</span>
-    </div>
+<div class="logo">
+Estoque <span>Manutenção</span>
+</div>
 
-    <div class="user-box">
-      Usuário conectado:
-      <br>
-      <strong id="userEmail"></strong>
-    </div>
+<div class="user">
+Usuário:<br>
+<strong id="userEmail"></strong>
+</div>
 
-    <nav class="nav">
+<nav class="nav">
 
-      <button class="active" data-page="dashboard">
-        📊 Dashboard
-      </button>
+<button class="active" data-page="dashboard">
+📊 Dashboard
+</button>
 
-      <button data-page="parts">
-        🔩 Peças
-      </button>
+<button data-page="parts">
+🔩 Peças
+</button>
 
-      <button data-page="movements">
-        📦 Movimentações
-      </button>
+<button data-page="movements">
+📦 Movimentações
+</button>
 
-      <button data-page="critical">
-        🚨 Estoque crítico
-      </button>
+<button data-page="critical">
+🚨 Estoque crítico
+</button>
 
-      <button data-page="indicators">
-        📈 Indicadores
-      </button>
+<button data-page="indicators">
+📈 Indicadores
+</button>
 
-    </nav>
+</nav>
 
-    <button id="logoutBtn" class="btn danger logout">
-      Sair
-    </button>
+<button id="logout" class="btn red logout">
+Sair
+</button>
 
-  </aside>
+</aside>
 
 
-  <main class="main">
+<main>
 
-    <div class="topbar">
+<div class="header">
 
-      <div>
-        <div id="pageTitle" class="page-title">
-          Dashboard
-        </div>
+<div>
+<div id="title" class="title">Dashboard</div>
+<div id="subtitle" class="subtitle">
+Visão geral do estoque de manutenção
+</div>
+</div>
 
-        <div id="pageSubtitle" class="page-subtitle">
-          Visão geral do estoque de manutenção
-        </div>
-      </div>
+<button class="btn dark" id="refresh">
+↻ Atualizar
+</button>
 
-      <button id="refreshBtn" class="btn secondary">
-        ↻ Atualizar
-      </button>
+</div>
 
-    </div>
+<div id="content"></div>
 
-    <div id="content" class="content"></div>
-
-  </main>
+</main>
 
 </section>
 
 
 <!-- MODAL PEÇA -->
-
 <div id="partModal" class="modal hidden">
 
-  <div class="modal-box">
+<div class="modal-box">
 
-    <div class="modal-header">
+<div class="modal-head">
+<div class="panel-title" id="partTitle">Nova peça</div>
+<button class="close" onclick="closePart()">×</button>
+</div>
 
-      <div class="panel-title" id="partModalTitle">
-        Nova peça
-      </div>
+<form id="partForm">
 
-      <button class="close" onclick="closePartModal()">×</button>
+<input type="hidden" id="partId">
 
-    </div>
+<div class="form-grid">
 
-    <form id="partForm">
+<div>
+<label>Código *</label>
+<input id="code" required>
+</div>
 
-      <input type="hidden" id="partId">
+<div>
+<label>Descrição *</label>
+<input id="description" required>
+</div>
 
-      <div class="form-grid">
+<div>
+<label>Categoria</label>
+<select id="category"></select>
+</div>
 
-        <div>
-          <label>Código *</label>
-          <input id="partCode" required>
-        </div>
+<div>
+<label>Localização</label>
+<select id="location"></select>
+</div>
 
-        <div>
-          <label>Descrição *</label>
-          <input id="partDescription" required>
-        </div>
+<div>
+<label>Unidade</label>
+<input id="unit" value="UN">
+</div>
 
-        <div>
-          <label>Categoria</label>
-          <select id="partCategory"></select>
-        </div>
+<div>
+<label>Custo unitário</label>
+<input id="cost" type="number" min="0" step="0.01" value="0">
+</div>
 
-        <div>
-          <label>Localização</label>
-          <select id="partLocation"></select>
-        </div>
+<div>
+<label>Estoque mínimo</label>
+<input id="minimum" type="number" min="0" step="0.01" value="0">
+</div>
 
-        <div>
-          <label>Unidade</label>
-          <input id="partUnit" value="UN">
-        </div>
+<div>
+<label>Estoque máximo</label>
+<input id="maximum" type="number" min="0" step="0.01" value="0">
+</div>
 
-        <div>
-          <label>Custo unitário</label>
-          <input id="partCost" type="number" step="0.01" min="0" value="0">
-        </div>
+<div>
+<label>Ponto de reposição</label>
+<input id="reorder" type="number" min="0" step="0.01" value="0">
+</div>
 
-        <div>
-          <label>Estoque mínimo</label>
-          <input id="partMin" type="number" step="0.01" min="0" value="0">
-        </div>
+<div>
+<label>Criticidade</label>
+<select id="criticality">
+<option>Crítica</option>
+<option>Alta</option>
+<option selected>Média</option>
+<option>Baixa</option>
+</select>
+</div>
 
-        <div>
-          <label>Estoque máximo</label>
-          <input id="partMax" type="number" step="0.01" min="0" value="0">
-        </div>
+</div>
 
-        <div>
-          <label>Ponto de reposição</label>
-          <input id="partReorder" type="number" step="0.01" min="0" value="0">
-        </div>
+<div class="modal-actions">
+<button type="button" class="btn dark" onclick="closePart()">Cancelar</button>
+<button class="btn" type="submit">Salvar peça</button>
+</div>
 
-        <div>
-          <label>Criticidade</label>
-          <select id="partCriticality">
-            <option>Crítica</option>
-            <option>Alta</option>
-            <option selected>Média</option>
-            <option>Baixa</option>
-          </select>
-        </div>
+</form>
 
-      </div>
-
-      <div class="modal-actions">
-
-        <button type="button" class="btn secondary" onclick="closePartModal()">
-          Cancelar
-        </button>
-
-        <button type="submit" class="btn">
-          Salvar peça
-        </button>
-
-      </div>
-
-    </form>
-
-  </div>
-
+</div>
 </div>
 
 
 <!-- MODAL MOVIMENTAÇÃO -->
-
 <div id="movementModal" class="modal hidden">
 
-  <div class="modal-box">
+<div class="modal-box">
 
-    <div class="modal-header">
+<div class="modal-head">
+<div class="panel-title">Nova movimentação</div>
+<button class="close" onclick="closeMovement()">×</button>
+</div>
 
-      <div class="panel-title">
-        Nova movimentação
-      </div>
+<form id="movementForm">
 
-      <button class="close" onclick="closeMovementModal()">×</button>
+<div class="form-grid">
 
-    </div>
+<div class="full">
+<label>Peça *</label>
+<select id="movementPart" required></select>
+</div>
 
-    <form id="movementForm">
+<div>
+<label>Tipo *</label>
+<select id="movementType">
+<option value="Entrada">Entrada</option>
+<option value="Saída">Saída</option>
+<option value="Devolução">Devolução</option>
+<option value="Ajuste">Ajuste</option>
+</select>
+</div>
 
-      <div class="form-grid">
+<div>
+<label>Quantidade *</label>
+<input id="quantity" type="number" min="0.01" step="0.01" required>
+</div>
 
-        <div class="form-full">
-          <label>Peça *</label>
-          <select id="movementPart" required></select>
-        </div>
+<div>
+<label>Custo unitário</label>
+<input id="movementCost" type="number" min="0" step="0.01" value="0">
+</div>
 
-        <div>
-          <label>Tipo *</label>
-          <select id="movementType" required>
-            <option value="Entrada">Entrada</option>
-            <option value="Saída">Saída</option>
-            <option value="Devolução">Devolução</option>
-            <option value="Ajuste">Ajuste</option>
-          </select>
-        </div>
+<div>
+<label>Documento</label>
+<input id="document">
+</div>
 
-        <div>
-          <label>Quantidade *</label>
-          <input id="movementQuantity" type="number" min="0.01" step="0.01" required>
-        </div>
+<div>
+<label>Equipamento</label>
+<input id="equipment">
+</div>
 
-        <div>
-          <label>Custo unitário</label>
-          <input id="movementCost" type="number" min="0" step="0.01" value="0">
-        </div>
+<div>
+<label>Ordem de manutenção</label>
+<input id="order">
+</div>
 
-        <div>
-          <label>Número do documento</label>
-          <input id="movementDocument">
-        </div>
+<div>
+<label>Motivo</label>
+<input id="reason">
+</div>
 
-        <div>
-          <label>Equipamento</label>
-          <input id="movementEquipment">
-        </div>
+</div>
 
-        <div>
-          <label>Ordem de manutenção</label>
-          <input id="movementOrder">
-        </div>
+<div class="modal-actions">
+<button type="button" class="btn dark" onclick="closeMovement()">Cancelar</button>
+<button class="btn" type="submit">Registrar</button>
+</div>
 
-        <div>
-          <label>Motivo</label>
-          <input id="movementReason">
-        </div>
+</form>
 
-      </div>
-
-      <div class="modal-actions">
-
-        <button type="button" class="btn secondary" onclick="closeMovementModal()">
-          Cancelar
-        </button>
-
-        <button type="submit" class="btn">
-          Registrar movimentação
-        </button>
-
-      </div>
-
-    </form>
-
-  </div>
-
+</div>
 </div>
 
 
 <script>
 
-/* =========================================================
-   CONFIGURAÇÃO SUPABASE
-========================================================= */
+const SUPABASE_URL="https://uhtmkrlouzbdirkaolet.supabase.co";
 
-const SUPABASE_URL =
-  "https://uhtmkrlouzbdirkaolet.supabase.co";
+const SUPABASE_KEY="sb_publishable_MefMlR2RVIdGv-j9pPqGgw_X72XOvdS";
 
-const SUPABASE_KEY =
-  "sb_publishable_MefMlR2RVIdGv-j9pPqGgw_X72XOvdS";
-
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
-
-
-/* =========================================================
-   ESTADO
-========================================================= */
-
-let currentUser = null;
-let parts = [];
-let categories = [];
-let locations = [];
-let movements = [];
-
-
-/* =========================================================
-   ELEMENTOS
-========================================================= */
-
-const loginScreen =
-  document.getElementById("loginScreen");
-
-const app =
-  document.getElementById("app");
-
-const content =
-  document.getElementById("content");
-
-const loginMessage =
-  document.getElementById("loginMessage");
-
-
-/* =========================================================
-   MENSAGENS
-========================================================= */
-
-function showLoginMessage(text,type="error"){
-
-  loginMessage.textContent = text;
-  loginMessage.className =
-    "message " + type;
-
-}
-
-function clearLoginMessage(){
-
-  loginMessage.textContent = "";
-  loginMessage.className = "message";
-
-}
-
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
-document
-.getElementById("loginForm")
-.addEventListener("submit",async e=>{
-
-  e.preventDefault();
-
-  clearLoginMessage();
-
-  const email =
-    document.getElementById("loginEmail").value.trim();
-
-  const password =
-    document.getElementById("loginPassword").value;
-
-  const {data,error} =
-    await supabaseClient.auth.signInWithPassword({
-      email,
-      password
-    });
-
-  if(error){
-
-    showLoginMessage(
-      "Não foi possível entrar: " + error.message
-    );
-
-    return;
-  }
-
-  currentUser = data.user;
-
-  openApplication();
-
-});
-
-
-/* =========================================================
-   CADASTRO
-========================================================= */
-
-document
-.getElementById("showSignup")
-.addEventListener("click",async()=>{
-
-  const email =
-    prompt("Digite o e-mail que será usado no sistema:");
-
-  if(!email) return;
-
-  const password =
-    prompt("Digite uma senha com pelo menos 6 caracteres:");
-
-  if(!password) return;
-
-  if(password.length < 6){
-
-    showLoginMessage(
-      "A senha precisa ter pelo menos 6 caracteres."
-    );
-
-    return;
-  }
-
-  const {error} =
-    await supabaseClient.auth.signUp({
-      email,
-      password
-    });
-
-  if(error){
-
-    showLoginMessage(
-      "Erro ao criar acesso: " + error.message
-    );
-
-    return;
-  }
-
-  showLoginMessage(
-    "Acesso criado. Se o Supabase solicitar confirmação do e-mail, confirme antes de entrar.",
-    "success"
-  );
-
-});
-
-
-/* =========================================================
-   SESSÃO
-========================================================= */
-
-async function checkSession(){
-
-  const {data} =
-    await supabaseClient.auth.getSession();
-
-  if(data.session){
-
-    currentUser = data.session.user;
-
-    openApplication();
-
-  }
-
-}
-
-
-supabaseClient.auth.onAuthStateChange(
-  (event,session)=>{
-
-    if(session){
-
-      currentUser = session.user;
-
-    }
-
-  }
+const db=window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
 );
 
+let user=null;
+let parts=[];
+let categories=[];
+let locations=[];
+let movements=[];
 
-/* =========================================================
-   ABRIR APLICAÇÃO
-========================================================= */
 
-async function openApplication(){
+/* LOGIN */
 
-  loginScreen.classList.add("hidden");
-  app.classList.remove("hidden");
+loginForm.addEventListener("submit",async e=>{
 
-  document.getElementById("userEmail").textContent =
-    currentUser?.email || "";
+e.preventDefault();
 
-  await loadAll();
+const {data,error}=await db.auth.signInWithPassword({
+email:email.value.trim(),
+password:password.value
+});
 
-  showPage("dashboard");
-
+if(error){
+loginMsg.innerHTML=
+"<p style='color:#ff9999'>Erro: "+escape(error.message)+"</p>";
+return;
 }
 
+user=data.user;
 
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-document
-.getElementById("logoutBtn")
-.addEventListener("click",async()=>{
-
-  await supabaseClient.auth.signOut();
-
-  currentUser = null;
-
-  app.classList.add("hidden");
-  loginScreen.classList.remove("hidden");
+await start();
 
 });
 
 
-/* =========================================================
-   CARREGAMENTO
-========================================================= */
+signup.addEventListener("click",async()=>{
 
-async function loadAll(){
+const e=prompt("Digite o e-mail:");
 
-  await Promise.all([
-    loadParts(),
-    loadCategories(),
-    loadLocations(),
-    loadMovements()
-  ]);
+if(!e)return;
+
+const p=prompt("Digite a senha:");
+
+if(!p)return;
+
+if(p.length<6){
+alert("A senha precisa ter pelo menos 6 caracteres.");
+return;
+}
+
+const {error}=await db.auth.signUp({
+email:e,
+password:p
+});
+
+if(error)
+alert("Erro: "+error.message);
+else
+alert("Acesso criado. Se solicitado, confirme o e-mail.");
+
+});
+
+
+logout.addEventListener("click",async()=>{
+
+await db.auth.signOut();
+
+location.reload();
+
+});
+
+
+async function check(){
+
+const {data}=await db.auth.getSession();
+
+if(data.session){
+
+user=data.session.user;
+
+await start();
+
+}
 
 }
 
 
-/* =========================================================
-   PEÇAS
-========================================================= */
+async function start(){
+
+login.classList.add("hidden");
+app.classList.remove("hidden");
+
+userEmail.textContent=user.email;
+
+await load();
+
+showPage("dashboard");
+
+}
+
+
+db.auth.onAuthStateChange((event,session)=>{
+
+if(session)
+user=session.user;
+
+});
+
+
+/* DADOS */
+
+async function load(){
+
+await Promise.all([
+loadParts(),
+loadCategories(),
+loadLocations(),
+loadMovements()
+]);
+
+}
+
 
 async function loadParts(){
 
-  const {data,error} =
-    await supabaseClient
-      .from("parts")
-      .select(`
-        *,
-        categories(name),
-        locations(name)
-      `)
-      .order("description");
+const r=await db
+.from("parts")
+.select("*,categories(name),locations(name)")
+.order("description");
 
-  if(error){
+if(r.error){
 
-    console.error(error);
-
-    alert(
-      "Erro ao carregar peças: " +
-      error.message
-    );
-
-    return;
-  }
-
-  parts = data || [];
+console.error(r.error);
+alert("Erro ao carregar peças: "+r.error.message);
+return;
 
 }
 
+parts=r.data||[];
 
-/* =========================================================
-   CATEGORIAS
-========================================================= */
+}
+
 
 async function loadCategories(){
 
-  const {data,error} =
-    await supabaseClient
-      .from("categories")
-      .select("*")
-      .eq("active",true)
-      .order("name");
+const r=await db
+.from("categories")
+.select("*")
+.eq("active",true)
+.order("name");
 
-  if(error){
-
-    console.error(error);
-
-    return;
-  }
-
-  categories = data || [];
+if(!r.error)
+categories=r.data||[];
 
 }
 
-
-/* =========================================================
-   LOCAIS
-========================================================= */
 
 async function loadLocations(){
 
-  const {data,error} =
-    await supabaseClient
-      .from("locations")
-      .select("*")
-      .eq("active",true)
-      .order("name");
+const r=await db
+.from("locations")
+.select("*")
+.eq("active",true)
+.order("name");
 
-  if(error){
-
-    console.error(error);
-
-    return;
-  }
-
-  locations = data || [];
+if(!r.error)
+locations=r.data||[];
 
 }
 
-
-/* =========================================================
-   MOVIMENTAÇÕES
-========================================================= */
 
 async function loadMovements(){
 
-  const {data,error} =
-    await supabaseClient
-      .from("stock_movements")
-      .select(`
-        *,
-        parts(code,description)
-      `)
-      .order("movement_date",{ascending:false})
-      .limit(500);
+const r=await db
+.from("stock_movements")
+.select("*,parts(code,description)")
+.order("movement_date",{ascending:false})
+.limit(500);
 
-  if(error){
-
-    console.error(error);
-
-    return;
-  }
-
-  movements = data || [];
+if(!r.error)
+movements=r.data||[];
 
 }
 
 
-/* =========================================================
-   NAVEGAÇÃO
-========================================================= */
+/* NAVEGAÇÃO */
 
-document
-.querySelectorAll(".nav button")
-.forEach(button=>{
+document.querySelectorAll(".nav button")
+.forEach(b=>{
 
-  button.addEventListener("click",()=>{
+b.addEventListener("click",()=>{
 
-    document
-      .querySelectorAll(".nav button")
-      .forEach(b=>b.classList.remove("active"));
+document.querySelectorAll(".nav button")
+.forEach(x=>x.classList.remove("active"));
 
-    button.classList.add("active");
+b.classList.add("active");
 
-    showPage(button.dataset.page);
+showPage(b.dataset.page);
 
-  });
+});
 
 });
 
 
 function showPage(page){
 
-  const titles = {
+const names={
+dashboard:["Dashboard","Visão geral do estoque de manutenção"],
+parts:["Peças","Cadastro e controle do estoque"],
+movements:["Movimentações","Entradas, saídas, devoluções e ajustes"],
+critical:["Estoque crítico","Itens que precisam de atenção"],
+indicators:["Indicadores","Análise geral do estoque"]
+};
 
-    dashboard:[
-      "Dashboard",
-      "Visão geral do estoque de manutenção"
-    ],
+title.textContent=names[page][0];
+subtitle.textContent=names[page][1];
 
-    parts:[
-      "Peças",
-      "Cadastro e consulta das peças"
-    ],
-
-    movements:[
-      "Movimentações",
-      "Entradas, saídas, devoluções e ajustes"
-    ],
-
-    critical:[
-      "Estoque crítico",
-      "Peças que precisam de atenção"
-    ],
-
-    indicators:[
-      "Indicadores",
-      "Indicadores gerais do estoque"
-    ]
-
-  };
-
-  document.getElementById("pageTitle").textContent =
-    titles[page][0];
-
-  document.getElementById("pageSubtitle").textContent =
-    titles[page][1];
-
-  if(page==="dashboard")
-    renderDashboard();
-
-  if(page==="parts")
-    renderParts();
-
-  if(page==="movements")
-    renderMovements();
-
-  if(page==="critical")
-    renderCritical();
-
-  if(page==="indicators")
-    renderIndicators();
+if(page==="dashboard")dashboard();
+if(page==="parts")partsPage();
+if(page==="movements")movementsPage();
+if(page==="critical")criticalPage();
+if(page==="indicators")indicatorsPage();
 
 }
 
 
-/* =========================================================
-   DASHBOARD
-========================================================= */
+/* DASHBOARD */
 
-function renderDashboard(){
+function dashboard(){
 
-  const totalParts =
-    parts.length;
+const total=parts.length;
 
-  const totalStock =
-    parts.reduce(
-      (sum,p)=>sum+Number(p.current_stock||0),
-      0
-    );
+const quantity=parts.reduce(
+(s,p)=>s+num(p.current_stock),0
+);
 
-  const critical =
-    parts.filter(
-      p=>Number(p.current_stock||0)
-       <= Number(p.min_stock||0)
-    ).length;
+const critical=parts.filter(
+p=>num(p.current_stock)<=num(p.min_stock)
+).length;
 
-  const stockValue =
-    parts.reduce(
-      (sum,p)=>
-        sum +
-        Number(p.current_stock||0) *
-        Number(p.unit_cost||0),
-      0
-    );
+const reorder=parts.filter(p=>
+num(p.current_stock)>num(p.min_stock)&&
+num(p.reorder_point)>0&&
+num(p.current_stock)<=num(p.reorder_point)
+).length;
 
-  content.innerHTML = `
+const value=parts.reduce(
+(s,p)=>s+num(p.current_stock)*num(p.unit_cost),0
+);
 
-    <div class="cards">
+const entradas=movements
+.filter(m=>m.movement_type==="Entrada")
+.reduce((s,m)=>s+num(m.quantity),0);
 
-      <div class="card orange">
-        <div class="card-title">Peças cadastradas</div>
-        <div class="card-value">${totalParts}</div>
-      </div>
-
-      <div class="card blue">
-        <div class="card-title">Quantidade em estoque</div>
-        <div class="card-value">${formatNumber(totalStock)}</div>
-      </div>
-
-      <div class="card red">
-        <div class="card-title">Estoque crítico</div>
-        <div class="card-value">${critical}</div>
-      </div>
-
-      <div class="card green">
-        <div class="card-title">Valor do estoque</div>
-        <div class="card-value">${formatMoney(stockValue)}</div>
-      </div>
-
-    </div>
-
-    <div class="panel">
-
-      <div class="panel-header">
-
-        <div class="panel-title">
-          Resumo das peças
-        </div>
-
-        <button class="btn"
-          onclick="openPartModal()">
-          + Nova peça
-        </button>
-
-      </div>
-
-      ${renderPartsTable(10)}
-
-    </div>
-
-    <div class="panel">
-
-      <div class="panel-header">
-
-        <div class="panel-title">
-          Últimas movimentações
-        </div>
-
-        <button class="btn secondary"
-          onclick="showPage('movements')">
-          Ver todas
-        </button>
-
-      </div>
-
-      ${renderMovementsTable(8)}
-
-    </div>
-
-  `;
-
-}
+const saidas=movements
+.filter(m=>m.movement_type==="Saída")
+.reduce((s,m)=>s+num(m.quantity),0);
 
 
-/* =========================================================
-   PEÇAS
-========================================================= */
+content.innerHTML=`
 
-function renderParts(){
+<div class="cards">
 
-  content.innerHTML = `
+<div class="card orange">
+<small>Peças cadastradas</small>
+<strong>${total}</strong>
+</div>
 
-    <div class="panel">
+<div class="card blue">
+<small>Quantidade em estoque</small>
+<strong>${fmt(quantity)}</strong>
+</div>
 
-      <div class="panel-header">
+<div class="card red">
+<small>Estoque crítico</small>
+<strong>${critical}</strong>
+</div>
 
-        <div class="panel-title">
-          Cadastro de peças
-        </div>
+<div class="card green">
+<small>Valor do estoque</small>
+<strong>${money(value)}</strong>
+</div>
 
-        <button class="btn"
-          onclick="openPartModal()">
-          + Nova peça
-        </button>
+</div>
 
-      </div>
 
-      <div class="toolbar">
+<div class="cards">
 
-        <input
-          id="partSearch"
-          placeholder="Pesquisar código ou descrição..."
-          oninput="filterParts()">
+<div class="card yellow">
+<small>Itens para reposição</small>
+<strong>${reorder}</strong>
+</div>
 
-      </div>
+<div class="card green">
+<small>Total de entradas</small>
+<strong>${fmt(entradas)}</strong>
+</div>
 
-      <div id="partsTableContainer">
-        ${renderPartsTable()}
-      </div>
+<div class="card red">
+<small>Total de saídas</small>
+<strong>${fmt(saidas)}</strong>
+</div>
 
-    </div>
+<div class="card blue">
+<small>Movimentações</small>
+<strong>${movements.length}</strong>
+</div>
 
-  `;
+</div>
+
+
+<div class="grid2">
+
+<div class="panel">
+
+<div class="panel-head">
+<div class="panel-title">Estoque crítico</div>
+<button class="btn red" onclick="showPage('critical')">
+Ver
+</button>
+</div>
+
+${criticalTable(5)}
+
+</div>
+
+
+<div class="panel">
+
+<div class="panel-head">
+<div class="panel-title">Últimas movimentações</div>
+<button class="btn dark" onclick="showPage('movements')">
+Ver todas
+</button>
+</div>
+
+${movementTable(6)}
+
+</div>
+
+</div>
+
+`;
 
 }
 
 
-function renderPartsTable(limit=null){
+/* PEÇAS */
 
-  let list = [...parts];
+function partsPage(){
 
-  if(limit)
-    list = list.slice(0,limit);
+content.innerHTML=`
 
-  if(!list.length){
+<div class="panel">
 
-    return `
-      <div class="empty">
-        Nenhuma peça encontrada.
-      </div>
-    `;
+<div class="panel-head">
 
-  }
+<div class="panel-title">Peças cadastradas</div>
 
-  return `
+<button class="btn" onclick="openPart()">
++ Nova peça
+</button>
 
-    <div class="table-wrap">
+</div>
 
-      <table>
+<div class="toolbar">
 
-        <thead>
+<input
+id="search"
+placeholder="Pesquisar código ou descrição..."
+oninput="filterParts()">
 
-          <tr>
-            <th>Código</th>
-            <th>Descrição</th>
-            <th>Categoria</th>
-            <th>Localização</th>
-            <th>Estoque</th>
-            <th>Mínimo</th>
-            <th>Custo</th>
-            <th>Status</th>
-            <th>Ações</th>
-          </tr>
+</div>
 
-        </thead>
+<div id="partsTable">
+${partsTable(parts)}
+</div>
 
-        <tbody>
+</div>
 
-          ${list.map(p=>{
+`;
 
-            const stock =
-              Number(p.current_stock||0);
+}
 
-            const min =
-              Number(p.min_stock||0);
 
-            let status =
-              '<span class="badge green">Normal</span>';
+function partsTable(list){
 
-            if(stock<=min){
+if(!list.length)
+return `<div class="empty">Nenhuma peça cadastrada.</div>`;
 
-              status =
-                '<span class="badge red">Crítico</span>';
+return`
 
-            }
-            else if(
-              Number(p.reorder_point||0)>0 &&
-              stock<=Number(p.reorder_point)
-            ){
+<div class="table-wrap">
 
-              status =
-                '<span class="badge yellow">Repor</span>';
+<table>
 
-            }
+<thead>
+<tr>
+<th>Código</th>
+<th>Descrição</th>
+<th>Categoria</th>
+<th>Local</th>
+<th>Estoque</th>
+<th>Mínimo</th>
+<th>Reposição</th>
+<th>Custo</th>
+<th>Status</th>
+<th></th>
+</tr>
+</thead>
 
-            return `
+<tbody>
 
-              <tr>
+${list.map(p=>{
 
-                <td><strong>${escapeHtml(p.code)}</strong></td>
+const stock=num(p.current_stock);
+const min=num(p.min_stock);
+const rep=num(p.reorder_point);
 
-                <td>${escapeHtml(p.description)}</td>
+let status='<span class="badge green">Normal</span>';
 
-                <td>${escapeHtml(p.categories?.name||"-")}</td>
+if(stock<=min)
+status='<span class="badge red">Crítico</span>';
+else if(rep>0&&stock<=rep)
+status='<span class="badge yellow">Repor</span>';
 
-                <td>${escapeHtml(p.locations?.name||"-")}</td>
+return`
 
-                <td><strong>${formatNumber(stock)}</strong> ${escapeHtml(p.unit||"")}</td>
+<tr>
 
-                <td>${formatNumber(min)}</td>
+<td><strong>${escape(p.code)}</strong></td>
 
-                <td>${formatMoney(p.unit_cost)}</td>
+<td>${escape(p.description)}</td>
 
-                <td>${status}</td>
+<td>${escape(p.categories?.name||"-")}</td>
 
-                <td>
+<td>${escape(p.locations?.name||"-")}</td>
 
-                  <button
-                    class="btn secondary"
-                    onclick="editPart('${p.id}')">
-                    Editar
-                  </button>
+<td><strong>${fmt(stock)}</strong> ${escape(p.unit||"")}</td>
 
-                </td>
+<td>${fmt(min)}</td>
 
-              </tr>
+<td>${fmt(rep)}</td>
 
-            `;
+<td>${money(p.unit_cost)}</td>
 
-          }).join("")}
+<td>${status}</td>
 
-        </tbody>
+<td>
+<button class="btn dark" onclick="editPart('${p.id}')">
+Editar
+</button>
+</td>
 
-      </table>
+</tr>
 
-    </div>
+`;
 
-  `;
+}).join("")}
+
+</tbody>
+
+</table>
+
+</div>
+
+`;
 
 }
 
 
 function filterParts(){
 
-  const search =
-    document
-      .getElementById("partSearch")
-      .value
-      .toLowerCase();
+const q=document.getElementById("search").value.toLowerCase();
 
-  const filtered =
-    parts.filter(p=>
-      String(p.code||"")
-        .toLowerCase()
-        .includes(search)
-      ||
-      String(p.description||"")
-        .toLowerCase()
-        .includes(search)
-    );
+const list=parts.filter(p=>
+String(p.code||"").toLowerCase().includes(q)||
+String(p.description||"").toLowerCase().includes(q)
+);
 
-  document.getElementById(
-    "partsTableContainer"
-  ).innerHTML =
-    renderPartsArray(filtered);
+document.getElementById("partsTable").innerHTML=partsTable(list);
 
 }
 
 
-function renderPartsArray(list){
+/* MODAL PEÇA */
 
-  if(!list.length){
+function populatePart(){
 
-    return `
-      <div class="empty">
-        Nenhuma peça encontrada.
-      </div>
-    `;
+category.innerHTML=
+'<option value="">Selecione...</option>'+
+categories.map(c=>
+`<option value="${c.id}">${escape(c.name)}</option>`
+).join("");
 
-  }
-
-  const old = parts;
-
-  parts = list;
-
-  const html =
-    renderPartsTable();
-
-  parts = old;
-
-  return html;
+location.innerHTML=
+'<option value="">Selecione...</option>'+
+locations.map(l=>
+`<option value="${l.id}">${escape(l.name)}</option>`
+).join("");
 
 }
 
 
-/* =========================================================
-   MODAL PEÇA
-========================================================= */
+function openPart(id=null){
 
-function openPartModal(id=null){
+populatePart();
 
-  document
-    .getElementById("partModal")
-    .classList.remove("hidden");
+partModal.classList.remove("hidden");
 
-  populatePartSelects();
+partForm.reset();
 
-  if(id){
+partId.value="";
 
-    const p =
-      parts.find(x=>x.id===id);
+unit.value="UN";
 
-    if(!p) return;
+partTitle.textContent=id?"Editar peça":"Nova peça";
 
-    document.getElementById("partModalTitle")
-      .textContent="Editar peça";
+if(id){
 
-    document.getElementById("partId").value=p.id;
-    document.getElementById("partCode").value=p.code||"";
-    document.getElementById("partDescription").value=p.description||"";
-    document.getElementById("partCategory").value=p.category_id||"";
-    document.getElementById("partLocation").value=p.location_id||"";
-    document.getElementById("partUnit").value=p.unit||"UN";
-    document.getElementById("partCost").value=p.unit_cost||0;
-    document.getElementById("partMin").value=p.min_stock||0;
-    document.getElementById("partMax").value=p.max_stock||0;
-    document.getElementById("partReorder").value=p.reorder_point||0;
-    document.getElementById("partCriticality").value=p.criticality||"Média";
+const p=parts.find(x=>x.id===id);
 
-  }
-  else{
+if(!p)return;
 
-    document.getElementById("partModalTitle")
-      .textContent="Nova peça";
+partId.value=p.id;
+code.value=p.code||"";
+description.value=p.description||"";
+category.value=p.category_id||"";
+location.value=p.location_id||"";
+unit.value=p.unit||"UN";
+cost.value=p.unit_cost||0;
+minimum.value=p.min_stock||0;
+maximum.value=p.max_stock||0;
+reorder.value=p.reorder_point||0;
+criticality.value=p.criticality||"Média";
 
-    document.getElementById("partForm").reset();
-
-    document.getElementById("partId").value="";
-
-    document.getElementById("partUnit").value="UN";
-
-  }
+}
 
 }
 
 
-function closePartModal(){
-
-  document
-    .getElementById("partModal")
-    .classList.add("hidden");
-
+function editPart(id){
+openPart(id);
 }
 
 
-function populatePartSelects(){
-
-  document.getElementById("partCategory").innerHTML =
-    '<option value="">Selecione...</option>' +
-    categories.map(c=>
-      `<option value="${c.id}">
-        ${escapeHtml(c.name)}
-      </option>`
-    ).join("");
-
-  document.getElementById("partLocation").innerHTML =
-    '<option value="">Selecione...</option>' +
-    locations.map(l=>
-      `<option value="${l.id}">
-        ${escapeHtml(l.name)}
-      </option>`
-    ).join("");
-
+function closePart(){
+partModal.classList.add("hidden");
 }
 
 
-document
-.getElementById("partForm")
-.addEventListener("submit",async e=>{
+partForm.addEventListener("submit",async e=>{
 
-  e.preventDefault();
+e.preventDefault();
 
-  const id =
-    document.getElementById("partId").value;
+const id=partId.value;
 
-  const payload = {
+const payload={
+code:code.value.trim(),
+description:description.value.trim(),
+category_id:category.value||null,
+location_id:location.value||null,
+unit:unit.value.trim()||"UN",
+unit_cost:num(cost.value),
+min_stock:num(minimum.value),
+max_stock:num(maximum.value),
+reorder_point:num(reorder.value),
+criticality:criticality.value,
+updated_at:new Date().toISOString()
+};
 
-    code:
-      document.getElementById("partCode").value.trim(),
+let r;
 
-    description:
-      document.getElementById("partDescription").value.trim(),
+if(id){
 
-    category_id:
-      document.getElementById("partCategory").value || null,
+r=await db.from("parts").update(payload).eq("id",id);
 
-    location_id:
-      document.getElementById("partLocation").value || null,
+}else{
 
-    unit:
-      document.getElementById("partUnit").value.trim() || "UN",
+payload.current_stock=0;
 
-    min_stock:
-      Number(document.getElementById("partMin").value||0),
+r=await db.from("parts").insert(payload);
 
-    max_stock:
-      Number(document.getElementById("partMax").value||0),
+}
 
-    reorder_point:
-      Number(document.getElementById("partReorder").value||0),
+if(r.error){
 
-    unit_cost:
-      Number(document.getElementById("partCost").value||0),
+alert("Erro ao salvar:\n"+r.error.message);
+return;
 
-    criticality:
-      document.getElementById("partCriticality").value,
+}
 
-    updated_at:
-      new Date().toISOString()
+closePart();
 
-  };
+await load();
 
-  let result;
-
-  if(id){
-
-    result =
-      await supabaseClient
-        .from("parts")
-        .update(payload)
-        .eq("id",id);
-
-  }
-  else{
-
-    payload.current_stock=0;
-
-    result =
-      await supabaseClient
-        .from("parts")
-        .insert(payload);
-
-  }
-
-  if(result.error){
-
-    alert(
-      "Erro ao salvar peça:\n" +
-      result.error.message
-    );
-
-    return;
-  }
-
-  closePartModal();
-
-  await loadParts();
-
-  showPage("parts");
+partsPage();
 
 });
 
 
-function editPart(id){
+/* MOVIMENTAÇÕES */
 
-  openPartModal(id);
+function movementsPage(){
 
-}
+content.innerHTML=`
 
+<div class="panel">
 
-/* =========================================================
-   MOVIMENTAÇÕES
-========================================================= */
+<div class="panel-head">
 
-function renderMovements(){
+<div class="panel-title">Movimentações</div>
 
-  content.innerHTML = `
+<button class="btn" onclick="openMovement()">
++ Nova movimentação
+</button>
 
-    <div class="panel">
+</div>
 
-      <div class="panel-header">
+<div class="toolbar">
 
-        <div class="panel-title">
-          Histórico de movimentações
-        </div>
+<input
+id="movementSearch"
+placeholder="Pesquisar peça..."
+oninput="filterMovements()">
 
-        <button class="btn"
-          onclick="openMovementModal()">
-          + Nova movimentação
-        </button>
+</div>
 
-      </div>
+<div id="movementTable">
+${movementTable()}
+</div>
 
-      <div class="toolbar">
+</div>
 
-        <input
-          id="movementSearch"
-          placeholder="Pesquisar peça..."
-          oninput="filterMovements()">
-
-      </div>
-
-      <div id="movementsContainer">
-
-        ${renderMovementsTable()}
-
-      </div>
-
-    </div>
-
-  `;
+`;
 
 }
 
 
-function renderMovementsTable(limit=null){
+function movementTable(limit=null){
 
-  let list=[...movements];
+let list=[...movements];
 
-  if(limit)
-    list=list.slice(0,limit);
+if(limit)list=list.slice(0,limit);
 
-  if(!list.length){
+if(!list.length)
+return `<div class="empty">Nenhuma movimentação registrada.</div>`;
 
-    return `
-      <div class="empty">
-        Nenhuma movimentação registrada.
-      </div>
-    `;
+return`
 
-  }
+<div class="table-wrap">
 
-  return `
+<table>
 
-    <div class="table-wrap">
+<thead>
+<tr>
+<th>Data</th>
+<th>Peça</th>
+<th>Tipo</th>
+<th>Quantidade</th>
+<th>Antes</th>
+<th>Depois</th>
+<th>Documento</th>
+<th>Equipamento</th>
+<th>OM</th>
+</tr>
+</thead>
 
-      <table>
+<tbody>
 
-        <thead>
+${list.map(m=>{
 
-          <tr>
-            <th>Data</th>
-            <th>Peça</th>
-            <th>Tipo</th>
-            <th>Quantidade</th>
-            <th>Antes</th>
-            <th>Depois</th>
-            <th>Documento</th>
-            <th>Equipamento</th>
-            <th>OM</th>
-          </tr>
+let c="blue";
 
-        </thead>
+if(m.movement_type==="Entrada"||m.movement_type==="Devolução")
+c="green";
 
-        <tbody>
+if(m.movement_type==="Saída")
+c="red";
 
-          ${list.map(m=>{
+if(m.movement_type==="Ajuste")
+c="yellow";
 
-            let cls="blue";
+return`
 
-            if(m.movement_type==="Entrada")
-              cls="green";
+<tr>
 
-            if(m.movement_type==="Saída")
-              cls="red";
+<td>${date(m.movement_date)}</td>
 
-            if(m.movement_type==="Devolução")
-              cls="green";
+<td>
+<strong>${escape(m.parts?.code||"-")}</strong><br>
+${escape(m.parts?.description||"-")}
+</td>
 
-            if(m.movement_type==="Ajuste")
-              cls="yellow";
+<td>
+<span class="badge ${c}">
+${escape(m.movement_type||"")}
+</span>
+</td>
 
-            return `
+<td>${fmt(m.quantity)}</td>
+<td>${fmt(m.stock_before)}</td>
+<td>${fmt(m.stock_after)}</td>
+<td>${escape(m.document_number||"-")}</td>
+<td>${escape(m.equipment||"-")}</td>
+<td>${escape(m.maintenance_order||"-")}</td>
 
-              <tr>
+</tr>
 
-                <td>
-                  ${formatDate(m.movement_date)}
-                </td>
+`;
 
-                <td>
-                  <strong>
-                    ${escapeHtml(m.parts?.code||"")}
-                  </strong>
-                  <br>
-                  ${escapeHtml(m.parts?.description||"")}
-                </td>
+}).join("")}
 
-                <td>
-                  <span class="badge ${cls}">
-                    ${escapeHtml(m.movement_type)}
-                  </span>
-                </td>
+</tbody>
 
-                <td>
-                  ${formatNumber(m.quantity)}
-                </td>
+</table>
 
-                <td>
-                  ${formatNumber(m.stock_before)}
-                </td>
+</div>
 
-                <td>
-                  ${formatNumber(m.stock_after)}
-                </td>
-
-                <td>
-                  ${escapeHtml(m.document_number||"-")}
-                </td>
-
-                <td>
-                  ${escapeHtml(m.equipment||"-")}
-                </td>
-
-                <td>
-                  ${escapeHtml(m.maintenance_order||"-")}
-                </td>
-
-              </tr>
-
-            `;
-
-          }).join("")}
-
-        </tbody>
-
-      </table>
-
-    </div>
-
-  `;
+`;
 
 }
 
 
 function filterMovements(){
 
-  const search =
-    document
-      .getElementById("movementSearch")
-      .value
-      .toLowerCase();
+const q=document
+.getElementById("movementSearch")
+.value.toLowerCase();
 
-  const filtered =
-    movements.filter(m=>
-      String(m.parts?.code||"")
-        .toLowerCase()
-        .includes(search)
-      ||
-      String(m.parts?.description||"")
-        .toLowerCase()
-        .includes(search)
-    );
+const list=movements.filter(m=>
+String(m.parts?.code||"").toLowerCase().includes(q)||
+String(m.parts?.description||"").toLowerCase().includes(q)
+);
 
-  const old=movements;
-
-  movements=filtered;
-
-  document.getElementById(
-    "movementsContainer"
-  ).innerHTML =
-    renderMovementsTable();
-
-  movements=old;
+document.getElementById("movementTable")
+.innerHTML=movementTableFrom(list);
 
 }
 
 
-/* =========================================================
-   MODAL MOVIMENTAÇÃO
-========================================================= */
+function movementTableFrom(list){
 
-function openMovementModal(){
+if(!list.length)
+return `<div class="empty">Nenhuma movimentação encontrada.</div>`;
 
-  document
-    .getElementById("movementModal")
-    .classList.remove("hidden");
+const old=movements;
+movements=list;
+const html=movementTable();
+movements=old;
 
-  document
-    .getElementById("movementForm")
-    .reset();
-
-  document.getElementById("movementPart").innerHTML =
-    '<option value="">Selecione a peça...</option>' +
-
-    parts
-      .filter(p=>p.active!==false)
-      .map(p=>
-        `<option value="${p.id}">
-          ${escapeHtml(p.code)} - ${escapeHtml(p.description)}
-        </option>`
-      ).join("");
+return html;
 
 }
 
 
-function closeMovementModal(){
+/* MODAL MOVIMENTAÇÃO */
 
-  document
-    .getElementById("movementModal")
-    .classList.add("hidden");
+function openMovement(){
+
+movementModal.classList.remove("hidden");
+
+movementForm.reset();
+
+movementPart.innerHTML=
+'<option value="">Selecione a peça...</option>'+
+parts.map(p=>
+`<option value="${p.id}">
+${escape(p.code)} - ${escape(p.description)}
+</option>`
+).join("");
 
 }
 
 
-document
-.getElementById("movementForm")
-.addEventListener("submit",async e=>{
+function closeMovement(){
+movementModal.classList.add("hidden");
+}
 
-  e.preventDefault();
 
-  const partId =
-    document.getElementById("movementPart").value;
+movementForm.addEventListener("submit",async e=>{
 
-  const type =
-    document.getElementById("movementType").value;
+e.preventDefault();
 
-  const quantity =
-    Number(
-      document.getElementById("movementQuantity").value
-    );
+const partIdValue=movementPart.value;
 
-  if(!partId || quantity<=0){
+const type=movementType.value;
 
-    alert("Informe a peça e uma quantidade válida.");
+const qty=num(quantity.value);
 
-    return;
-  }
+const p=parts.find(x=>x.id===partIdValue);
 
-  const part =
-    parts.find(p=>p.id===partId);
+if(!p){
 
-  if(!part){
+alert("Selecione uma peça.");
+return;
 
-    alert("Peça não encontrada.");
+}
 
-    return;
-  }
+if(qty<=0){
 
-  const before =
-    Number(part.current_stock||0);
+alert("Informe uma quantidade válida.");
+return;
 
-  let after=before;
+}
 
-  if(type==="Entrada")
-    after=before+quantity;
+const before=num(p.current_stock);
 
-  if(type==="Devolução")
-    after=before+quantity;
+let after=before;
 
-  if(type==="Saída")
-    after=before-quantity;
+if(type==="Entrada"||type==="Devolução")
+after=before+qty;
 
-  if(type==="Ajuste")
-    after=quantity;
+if(type==="Saída")
+after=before-qty;
 
-  if(after<0){
+if(type==="Ajuste")
+after=qty;
 
-    alert(
-      "A movimentação não pode deixar o estoque negativo."
-    );
+if(after<0){
 
-    return;
-  }
+alert("A saída não pode deixar o estoque negativo.");
+return;
 
-  const cost =
-    Number(
-      document.getElementById("movementCost").value ||
-      part.unit_cost ||
-      0
-    );
+}
 
-  const movement = {
 
-    part_id:partId,
+const movement={
 
-    movement_type:type,
+part_id:partIdValue,
 
-    quantity:quantity,
+movement_type:type,
 
-    unit_cost:cost,
+quantity:qty,
 
-    stock_before:before,
+unit_cost:num(movementCost.value)||num(p.unit_cost),
 
-    stock_after:after,
+stock_before:before,
 
-    document_number:
-      document.getElementById("movementDocument").value.trim() || null,
+stock_after:after,
 
-    reason:
-      document.getElementById("movementReason").value.trim() || null,
+document_number:document.getElementById("document").value.trim()||null,
 
-    equipment:
-      document.getElementById("movementEquipment").value.trim() || null,
+equipment:equipment.value.trim()||null,
 
-    maintenance_order:
-      document.getElementById("movementOrder").value.trim() || null,
+maintenance_order:order.value.trim()||null,
 
-    created_by:
-      currentUser?.id || null,
+reason:reason.value.trim()||null,
 
-    movement_date:
-      new Date().toISOString()
+created_by:user?.id||null,
 
-  };
+movement_date:new Date().toISOString()
 
-  const insertResult =
-    await supabaseClient
-      .from("stock_movements")
-      .insert(movement);
+};
 
-  if(insertResult.error){
 
-    alert(
-      "Erro ao registrar movimentação:\n" +
-      insertResult.error.message
-    );
+const r=await db
+.from("stock_movements")
+.insert(movement);
 
-    return;
-  }
+if(r.error){
 
-  const updateResult =
-    await supabaseClient
-      .from("parts")
-      .update({
-        current_stock:after,
-        updated_at:new Date().toISOString()
-      })
-      .eq("id",partId);
+alert("Erro ao registrar movimentação:\n"+r.error.message);
+return;
 
-  if(updateResult.error){
+}
 
-    alert(
-      "A movimentação foi registrada, mas houve erro ao atualizar o saldo:\n" +
-      updateResult.error.message
-    );
 
-    return;
-  }
+const u=await db
+.from("parts")
+.update({
+current_stock:after,
+updated_at:new Date().toISOString()
+})
+.eq("id",partIdValue);
 
-  closeMovementModal();
 
-  await loadAll();
+if(u.error){
 
-  showPage("movements");
+alert(
+"A movimentação foi registrada, mas houve erro ao atualizar o estoque:\n"+
+u.error.message
+);
 
-  alert("Movimentação registrada com sucesso.");
+return;
+
+}
+
+
+closeMovement();
+
+await load();
+
+showPage("movements");
+
+alert("Movimentação registrada com sucesso.");
 
 });
 
 
-/* =========================================================
-   ESTOQUE CRÍTICO
-========================================================= */
+/* CRÍTICO */
 
-function renderCritical(){
+function criticalPage(){
 
-  const critical =
-    parts.filter(p=>
-      Number(p.current_stock||0)
-      <=
-      Number(p.min_stock||0)
-    );
+const critical=parts.filter(p=>
+num(p.current_stock)<=num(p.min_stock)
+);
 
-  content.innerHTML = `
+content.innerHTML=`
 
-    <div class="panel">
+<div class="panel">
 
-      <div class="panel-header">
+<div class="panel-head">
+<div class="panel-title">
+🚨 Peças abaixo ou no estoque mínimo
+</div>
+</div>
 
-        <div class="panel-title">
-          Peças abaixo ou no estoque mínimo
-        </div>
+${criticalTable(null,critical)}
 
-      </div>
+</div>
 
-      ${
-        critical.length
-        ? renderPartsArray(critical)
-        : `
-          <div class="empty">
-            ✅ Nenhuma peça está em situação crítica.
-          </div>
-        `
-      }
-
-    </div>
-
-  `;
+`;
 
 }
 
 
-/* =========================================================
-   INDICADORES
-========================================================= */
+function criticalTable(limit=null,list=null){
 
-function renderIndicators(){
+let arr=list||parts.filter(p=>
+num(p.current_stock)<=num(p.min_stock)
+);
 
-  const total =
-    parts.length;
+if(limit)
+arr=arr.slice(0,limit);
 
-  const critical =
-    parts.filter(p=>
-      Number(p.current_stock||0)
-      <=
-      Number(p.min_stock||0)
-    ).length;
+if(!arr.length)
+return `<div class="empty">✅ Nenhum item crítico.</div>`;
 
-  const normal =
-    total-critical;
+return`
 
-  const stock =
-    parts.reduce(
-      (s,p)=>s+Number(p.current_stock||0),
-      0
-    );
+<div class="table-wrap">
 
-  const value =
-    parts.reduce(
-      (s,p)=>
-        s+
-        Number(p.current_stock||0)*
-        Number(p.unit_cost||0),
-      0
-    );
+<table>
 
-  const entradas =
-    movements
-      .filter(m=>m.movement_type==="Entrada")
-      .reduce((s,m)=>s+Number(m.quantity||0),0);
+<thead>
+<tr>
+<th>Código</th>
+<th>Descrição</th>
+<th>Estoque</th>
+<th>Mínimo</th>
+<th>Diferença</th>
+<th>Status</th>
+</tr>
+</thead>
 
-  const saidas =
-    movements
-      .filter(m=>m.movement_type==="Saída")
-      .reduce((s,m)=>s+Number(m.quantity||0),0);
+<tbody>
 
-  content.innerHTML = `
+${arr.map(p=>{
 
-    <div class="cards">
+const s=num(p.current_stock);
+const m=num(p.min_stock);
 
-      <div class="card orange">
-        <div class="card-title">Total de peças</div>
-        <div class="card-value">${total}</div>
-      </div>
+return`
 
-      <div class="card green">
-        <div class="card-title">Peças normais</div>
-        <div class="card-value">${normal}</div>
-      </div>
+<tr>
 
-      <div class="card red">
-        <div class="card-title">Peças críticas</div>
-        <div class="card-value">${critical}</div>
-      </div>
+<td><strong>${escape(p.code)}</strong></td>
+<td>${escape(p.description)}</td>
+<td>${fmt(s)}</td>
+<td>${fmt(m)}</td>
+<td>${fmt(s-m)}</td>
+<td><span class="badge red">CRÍTICO</span></td>
 
-      <div class="card blue">
-        <div class="card-title">Quantidade em estoque</div>
-        <div class="card-value">${formatNumber(stock)}</div>
-      </div>
+</tr>
 
-    </div>
+`;
 
-    <div class="cards">
+}).join("")}
 
-      <div class="card green">
-        <div class="card-title">Valor do estoque</div>
-        <div class="card-value">
-          ${formatMoney(value)}
-        </div>
-      </div>
+</tbody>
 
-      <div class="card blue">
-        <div class="card-title">Total de entradas</div>
-        <div class="card-value">
-          ${formatNumber(entradas)}
-        </div>
-      </div>
+</table>
 
-      <div class="card red">
-        <div class="card-title">Total de saídas</div>
-        <div class="card-value">
-          ${formatNumber(saidas)}
-        </div>
-      </div>
+</div>
 
-      <div class="card orange">
-        <div class="card-title">Movimentações</div>
-        <div class="card-value">
-          ${movements.length}
-        </div>
-      </div>
-
-    </div>
-
-    <div class="panel">
-
-      <div class="panel-title">
-        Situação do estoque
-      </div>
-
-      <br>
-
-      <p>
-        <strong>${normal}</strong> peças em situação normal.
-      </p>
-
-      <p>
-        <strong>${critical}</strong> peças precisam de atenção.
-      </p>
-
-    </div>
-
-  `;
+`;
 
 }
 
 
-/* =========================================================
-   ATUALIZAR
-========================================================= */
+/* INDICADORES */
 
-document
-.getElementById("refreshBtn")
-.addEventListener("click",async()=>{
+function indicatorsPage(){
 
-  await loadAll();
+const total=parts.length;
 
-  const active =
-    document.querySelector(".nav button.active");
+const critical=parts.filter(p=>
+num(p.current_stock)<=num(p.min_stock)
+).length;
 
-  showPage(
-    active?.dataset.page || "dashboard"
-  );
+const normal=total-critical;
+
+const quantity=parts.reduce(
+(s,p)=>s+num(p.current_stock),0
+);
+
+const value=parts.reduce(
+(s,p)=>s+num(p.current_stock)*num(p.unit_cost),0
+);
+
+const entries=movements.filter(
+m=>m.movement_type==="Entrada"
+).reduce((s,m)=>s+num(m.quantity),0);
+
+const exits=movements.filter(
+m=>m.movement_type==="Saída"
+).reduce((s,m)=>s+num(m.quantity),0);
+
+const returns=movements.filter(
+m=>m.movement_type==="Devolução"
+).reduce((s,m)=>s+num(m.quantity),0);
+
+
+content.innerHTML=`
+
+<div class="cards">
+
+<div class="card orange">
+<small>Total de peças</small>
+<strong>${total}</strong>
+</div>
+
+<div class="card green">
+<small>Peças normais</small>
+<strong>${normal}</strong>
+</div>
+
+<div class="card red">
+<small>Peças críticas</small>
+<strong>${critical}</strong>
+</div>
+
+<div class="card blue">
+<small>Quantidade total</small>
+<strong>${fmt(quantity)}</strong>
+</div>
+
+</div>
+
+<div class="cards">
+
+<div class="card green">
+<small>Valor do estoque</small>
+<strong>${money(value)}</strong>
+</div>
+
+<div class="card blue">
+<small>Entradas</small>
+<strong>${fmt(entries)}</strong>
+</div>
+
+<div class="card red">
+<small>Saídas</small>
+<strong>${fmt(exits)}</strong>
+</div>
+
+<div class="card yellow">
+<small>Devoluções</small>
+<strong>${fmt(returns)}</strong>
+</div>
+
+</div>
+
+<div class="panel">
+
+<div class="panel-title">Resumo</div>
+
+<div class="stat-line">
+<span>Peças cadastradas</span>
+<strong>${total}</strong>
+</div>
+
+<div class="stat-line">
+<span>Itens em situação normal</span>
+<strong>${normal}</strong>
+</div>
+
+<div class="stat-line">
+<span>Itens críticos</span>
+<strong>${critical}</strong>
+</div>
+
+<div class="stat-line">
+<span>Quantidade em estoque</span>
+<strong>${fmt(quantity)}</strong>
+</div>
+
+<div class="stat-line">
+<span>Valor financeiro do estoque</span>
+<strong>${money(value)}</strong>
+</div>
+
+</div>
+
+`;
+
+}
+
+
+/* ATUALIZAR */
+
+refresh.addEventListener("click",async()=>{
+
+await load();
+
+const active=document.querySelector(".nav button.active");
+
+showPage(active?.dataset.page||"dashboard");
 
 });
 
 
-/* =========================================================
-   UTILITÁRIOS
-========================================================= */
+/* FORMATAÇÃO */
 
-function formatNumber(value){
+function num(v){
+const n=Number(v);
+return Number.isFinite(n)?n:0;
+}
 
-  return Number(value||0)
-    .toLocaleString("pt-BR",{
-      maximumFractionDigits:2
-    });
+function fmt(v){
+return num(v).toLocaleString("pt-BR",{
+maximumFractionDigits:2
+});
+}
 
+function money(v){
+return num(v).toLocaleString("pt-BR",{
+style:"currency",
+currency:"BRL"
+});
+}
+
+function date(v){
+if(!v)return"-";
+return new Date(v).toLocaleString("pt-BR");
+}
+
+function escape(v){
+return String(v??"")
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
 }
 
 
-function formatMoney(value){
+/* INÍCIO */
 
-  return Number(value||0)
-    .toLocaleString("pt-BR",{
-      style:"currency",
-      currency:"BRL"
-    });
-
-}
-
-
-function formatDate(value){
-
-  if(!value) return "-";
-
-  return new Date(value)
-    .toLocaleString("pt-BR");
-
-}
-
-
-function escapeHtml(value){
-
-  return String(value??"")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-
-}
-
-
-/* =========================================================
-   INICIALIZAÇÃO
-========================================================= */
-
-checkSession();
+check();
 
 </script>
 
