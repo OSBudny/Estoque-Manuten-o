@@ -49,7 +49,9 @@ button{
     display:none!important;
 }
 
-/* LOGIN */
+/* =========================
+   LOGIN
+========================= */
 
 #loginScreen{
     min-height:100vh;
@@ -181,7 +183,9 @@ select:focus{
     color:#71e0b0;
 }
 
-/* APP */
+/* =========================
+   APP
+========================= */
 
 #app{
     min-height:100vh;
@@ -315,7 +319,9 @@ header{
     font-size:13px;
 }
 
-/* CARDS */
+/* =========================
+   CARDS
+========================= */
 
 .cards{
     display:grid;
@@ -360,7 +366,9 @@ header{
     color:var(--blue);
 }
 
-/* GRID */
+/* =========================
+   GRID
+========================= */
 
 .grid2{
     display:grid;
@@ -386,7 +394,9 @@ header{
     font-weight:normal;
 }
 
-/* TABLE */
+/* =========================
+   TABLE
+========================= */
 
 .tableWrap{
     overflow:auto;
@@ -423,7 +433,9 @@ tr:hover td{
     text-align:center;
 }
 
-/* STATUS */
+/* =========================
+   STATUS
+========================= */
 
 .badge{
     display:inline-block;
@@ -463,7 +475,9 @@ tr:hover td{
     color:#77baff;
 }
 
-/* FORM */
+/* =========================
+   FORM
+========================= */
 
 .formGrid{
     display:grid;
@@ -488,13 +502,17 @@ tr:hover td{
     grid-column:1/-1;
 }
 
-/* SEARCH */
+/* =========================
+   SEARCH
+========================= */
 
 .search{
     max-width:350px;
 }
 
-/* ALERT */
+/* =========================
+   ALERTAS
+========================= */
 
 .alertList{
     display:flex;
@@ -523,7 +541,9 @@ tr:hover td{
     font-size:12px;
 }
 
-/* INDICADORES */
+/* =========================
+   INDICADORES
+========================= */
 
 .indicatorBox{
     background:#0a0e11;
@@ -555,9 +575,103 @@ tr:hover td{
 .barFill{
     height:100%;
     background:var(--orange);
+    border-radius:10px;
+    transition:width .4s ease;
 }
 
-/* LOADING */
+/* =========================
+   BARRAS DE QUANTIDADE
+========================= */
+
+.stockBars{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.stockBarItem{
+    background:#0a0e11;
+    border:1px solid var(--border);
+    border-radius:9px;
+    padding:13px;
+}
+
+.stockBarHeader{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:8px;
+}
+
+.stockBarName{
+    min-width:0;
+}
+
+.stockBarName strong{
+    display:block;
+    color:#eeeeee;
+    font-size:13px;
+    margin-bottom:3px;
+}
+
+.stockBarName span{
+    display:block;
+    color:var(--muted);
+    font-size:11px;
+}
+
+.stockBarQuantity{
+    white-space:nowrap;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.stockBarTrack{
+    width:100%;
+    height:15px;
+    background:#1b2127;
+    border-radius:10px;
+    overflow:hidden;
+    border:1px solid #252d34;
+}
+
+.stockBarFill{
+    height:100%;
+    background:var(--orange);
+    border-radius:10px;
+    transition:width .5s ease;
+}
+
+.stockBarFill.normal{
+    background:var(--green);
+}
+
+.stockBarFill.reposicao{
+    background:var(--yellow);
+}
+
+.stockBarFill.critico{
+    background:var(--red);
+}
+
+.stockBarFooter{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-top:7px;
+    color:var(--muted);
+    font-size:10px;
+}
+
+.stockBarStatus{
+    font-weight:bold;
+}
+
+/* =========================
+   LOADING
+========================= */
 
 .loading{
     padding:35px;
@@ -565,9 +679,12 @@ tr:hover td{
     color:var(--muted);
 }
 
-/* RESPONSIVE */
+/* =========================
+   RESPONSIVE
+========================= */
 
 @media(max-width:1000px){
+
     .cards{
         grid-template-columns:repeat(2,1fr);
     }
@@ -582,6 +699,7 @@ tr:hover td{
 }
 
 @media(max-width:700px){
+
     header{
         height:auto;
         min-height:70px;
@@ -636,9 +754,14 @@ tr:hover td{
     .search{
         max-width:none;
     }
+
+    .stockBarHeader{
+        align-items:flex-start;
+    }
 }
 
 @media(max-width:480px){
+
     .cards{
         grid-template-columns:1fr;
     }
@@ -652,22 +775,32 @@ tr:hover td{
 
 <body>
 
-<!-- LOGIN -->
+<!-- =====================================================
+     LOGIN
+===================================================== -->
 
 <div id="loginScreen">
 
     <div class="loginBox">
 
         <div class="loginLogo">
+
             <div class="icon">🔩</div>
+
             <h1>Estoque Manutenção</h1>
-            <p>Controle de peças, saldo e reposição</p>
+
+            <p>
+                Controle de peças, saldo e reposição
+            </p>
+
         </div>
 
         <form id="loginForm">
 
             <div class="formGroup">
+
                 <label>E-mail</label>
+
                 <input
                     id="email"
                     type="email"
@@ -675,10 +808,13 @@ tr:hover td{
                     placeholder="Digite seu e-mail"
                     required
                 >
+
             </div>
 
             <div class="formGroup">
+
                 <label>Senha</label>
+
                 <input
                     id="password"
                     type="password"
@@ -686,6 +822,7 @@ tr:hover td{
                     placeholder="Digite sua senha"
                     required
                 >
+
             </div>
 
             <div class="loginActions">
@@ -710,14 +847,19 @@ tr:hover td{
 
         </form>
 
-        <div id="loginMessage" class="message"></div>
+        <div
+            id="loginMessage"
+            class="message"
+        ></div>
 
     </div>
 
 </div>
 
 
-<!-- APP -->
+<!-- =====================================================
+     APP
+===================================================== -->
 
 <div id="app" class="hidden">
 
@@ -728,19 +870,35 @@ tr:hover td{
         <div class="brandIcon">🔩</div>
 
         <div class="brandText">
-            <strong>Estoque Manutenção</strong>
-            <span>Controle atual de peças, saldo e reposição</span>
+
+            <strong>
+                Estoque Manutenção
+            </strong>
+
+            <span>
+                Controle atual de peças, saldo e reposição
+            </span>
+
         </div>
 
     </div>
 
+
     <div class="headerRight">
 
-        <span class="online">● ONLINE</span>
+        <span class="online">
+            ● ONLINE
+        </span>
 
-        <span id="userEmail" class="userEmail"></span>
+        <span
+            id="userEmail"
+            class="userEmail"
+        ></span>
 
-        <button id="btnLogout" class="logout">
+        <button
+            id="btnLogout"
+            class="logout"
+        >
             Sair
         </button>
 
@@ -755,23 +913,38 @@ tr:hover td{
 
     <aside class="sidebar">
 
-        <button class="navButton active" data-section="dashboard">
+        <button
+            class="navButton active"
+            data-section="dashboard"
+        >
             📊 Painel de Estoque
         </button>
 
-        <button class="navButton" data-section="parts">
+        <button
+            class="navButton"
+            data-section="parts"
+        >
             🔩 Peças
         </button>
 
-        <button class="navButton" data-section="movements">
+        <button
+            class="navButton"
+            data-section="movements"
+        >
             📦 Entradas / Saídas
         </button>
 
-        <button class="navButton" data-section="replenishment">
+        <button
+            class="navButton"
+            data-section="replenishment"
+        >
             🚨 Reposição
         </button>
 
-        <button class="navButton" data-section="indicators">
+        <button
+            class="navButton"
+            data-section="indicators"
+        >
             📈 Indicadores
         </button>
 
@@ -780,15 +953,27 @@ tr:hover td{
 
     <main class="main">
 
-        <!-- DASHBOARD -->
+        <!-- =================================================
+             PAINEL DE ESTOQUE
+        ================================================== -->
 
-        <section id="section-dashboard" class="section active">
+        <section
+            id="section-dashboard"
+            class="section active"
+        >
 
             <div class="sectionHeader">
 
                 <div>
-                    <h2>📊 Painel de Estoque</h2>
-                    <p>Saldo atual e necessidade de reposição.</p>
+
+                    <h2>
+                        📊 Painel de Estoque
+                    </h2>
+
+                    <p>
+                        Saldo atual e necessidade de reposição.
+                    </p>
+
                 </div>
 
                 <button
@@ -909,7 +1094,10 @@ tr:hover td{
             </div>
 
 
-            <div class="panel" style="margin-top:15px">
+            <div
+                class="panel"
+                style="margin-top:15px"
+            >
 
                 <div class="panelTitle">
                     Posição atual do estoque
@@ -929,15 +1117,27 @@ tr:hover td{
         </section>
 
 
-        <!-- PEÇAS -->
+        <!-- =================================================
+             PEÇAS
+        ================================================== -->
 
-        <section id="section-parts" class="section">
+        <section
+            id="section-parts"
+            class="section"
+        >
 
             <div class="sectionHeader">
 
                 <div>
-                    <h2>🔩 Peças</h2>
-                    <p>Cadastro e posição atual das peças.</p>
+
+                    <h2>
+                        🔩 Peças
+                    </h2>
+
+                    <p>
+                        Cadastro e posição atual das peças.
+                    </p>
+
                 </div>
 
                 <button
@@ -976,15 +1176,27 @@ tr:hover td{
         </section>
 
 
-        <!-- MOVIMENTAÇÕES -->
+        <!-- =================================================
+             MOVIMENTAÇÕES
+        ================================================== -->
 
-        <section id="section-movements" class="section">
+        <section
+            id="section-movements"
+            class="section"
+        >
 
             <div class="sectionHeader">
 
                 <div>
-                    <h2>📦 Entradas / Saídas</h2>
-                    <p>Atualize o saldo real do estoque.</p>
+
+                    <h2>
+                        📦 Entradas / Saídas
+                    </h2>
+
+                    <p>
+                        Atualize o saldo real do estoque.
+                    </p>
+
                 </div>
 
             </div>
@@ -1003,9 +1215,14 @@ tr:hover td{
 
                         <div class="formGroup">
 
-                            <label>Tipo</label>
+                            <label>
+                                Tipo
+                            </label>
 
-                            <select id="movementType" required>
+                            <select
+                                id="movementType"
+                                required
+                            >
 
                                 <option value="entry">
                                     Entrada
@@ -1026,12 +1243,19 @@ tr:hover td{
 
                         <div class="formGroup">
 
-                            <label>Peça</label>
+                            <label>
+                                Peça
+                            </label>
 
-                            <select id="movementPart" required>
+                            <select
+                                id="movementPart"
+                                required
+                            >
+
                                 <option value="">
                                     Selecione a peça
                                 </option>
+
                             </select>
 
                         </div>
@@ -1039,7 +1263,9 @@ tr:hover td{
 
                         <div class="formGroup">
 
-                            <label>Quantidade</label>
+                            <label>
+                                Quantidade
+                            </label>
 
                             <input
                                 id="movementQuantity"
@@ -1054,7 +1280,9 @@ tr:hover td{
 
                         <div class="formGroup">
 
-                            <label>Data</label>
+                            <label>
+                                Data
+                            </label>
 
                             <input
                                 id="movementDate"
@@ -1123,15 +1351,27 @@ tr:hover td{
         </section>
 
 
-        <!-- REPOSIÇÃO -->
+        <!-- =================================================
+             REPOSIÇÃO
+        ================================================== -->
 
-        <section id="section-replenishment" class="section">
+        <section
+            id="section-replenishment"
+            class="section"
+        >
 
             <div class="sectionHeader">
 
                 <div>
-                    <h2>🚨 Reposição</h2>
-                    <p>Veja quanto precisa ser reposto para atingir a cota máxima.</p>
+
+                    <h2>
+                        🚨 Reposição
+                    </h2>
+
+                    <p>
+                        Veja quanto precisa ser reposto para atingir a cota máxima.
+                    </p>
+
                 </div>
 
             </div>
@@ -1153,15 +1393,27 @@ tr:hover td{
         </section>
 
 
-        <!-- INDICADORES -->
+        <!-- =================================================
+             INDICADORES
+        ================================================== -->
 
-        <section id="section-indicators" class="section">
+        <section
+            id="section-indicators"
+            class="section"
+        >
 
             <div class="sectionHeader">
 
                 <div>
-                    <h2>📈 Indicadores</h2>
-                    <p>Resumo da movimentação e posição do estoque.</p>
+
+                    <h2>
+                        📈 Indicadores
+                    </h2>
+
+                    <p>
+                        Resumo da movimentação e posição do estoque.
+                    </p>
+
                 </div>
 
             </div>
@@ -1235,6 +1487,38 @@ tr:hover td{
             </div>
 
 
+            <!-- NOVA LISTA DE BARRAS -->
+
+            <div
+                class="panel"
+                style="margin-bottom:15px"
+            >
+
+                <div class="panelTitle">
+
+                    📦 Quantidade em estoque por peça
+
+                    <small>
+                        — saldo atual em relação à cota máxima
+                    </small>
+
+                </div>
+
+
+                <div
+                    id="stockQuantityBars"
+                    class="stockBars"
+                >
+
+                    <div class="loading">
+                        Carregando...
+                    </div>
+
+                </div>
+
+            </div>
+
+
             <div class="grid2">
 
                 <div class="panel">
@@ -1242,6 +1526,7 @@ tr:hover td{
                     <div class="panelTitle">
                         Situação do estoque
                     </div>
+
 
                     <div class="formGrid">
 
@@ -1341,7 +1626,9 @@ tr:hover td{
 </div>
 
 
-<!-- MODAL PEÇA -->
+<!-- =====================================================
+     MODAL PEÇA
+===================================================== -->
 
 <div
     id="partModal"
@@ -1370,6 +1657,7 @@ tr:hover td{
         <div class="sectionHeader">
 
             <div>
+
                 <h2 id="partModalTitle">
                     Nova peça
                 </h2>
@@ -1377,6 +1665,7 @@ tr:hover td{
                 <p>
                     Cadastre a peça e sua cota de estoque.
                 </p>
+
             </div>
 
             <button
@@ -1395,7 +1684,9 @@ tr:hover td{
 
                 <div class="formGroup">
 
-                    <label>Código</label>
+                    <label>
+                        Código
+                    </label>
 
                     <input
                         id="partCode"
@@ -1408,7 +1699,9 @@ tr:hover td{
 
                 <div class="formGroup">
 
-                    <label>Descrição</label>
+                    <label>
+                        Descrição
+                    </label>
 
                     <input
                         id="partDescription"
@@ -1421,7 +1714,9 @@ tr:hover td{
 
                 <div class="formGroup">
 
-                    <label>Unidade</label>
+                    <label>
+                        Unidade
+                    </label>
 
                     <input
                         id="partUnit"
@@ -1434,7 +1729,9 @@ tr:hover td{
 
                 <div class="formGroup">
 
-                    <label>Categoria</label>
+                    <label>
+                        Categoria
+                    </label>
 
                     <select id="partCategory">
 
@@ -1449,7 +1746,9 @@ tr:hover td{
 
                 <div class="formGroup">
 
-                    <label>Localização</label>
+                    <label>
+                        Localização
+                    </label>
 
                     <select id="partLocation">
 
@@ -1464,7 +1763,9 @@ tr:hover td{
 
                 <div class="formGroup">
 
-                    <label>Criticidade</label>
+                    <label>
+                        Criticidade
+                    </label>
 
                     <select id="partCriticality">
 
@@ -1487,7 +1788,9 @@ tr:hover td{
 
                 <div class="formGroup">
 
-                    <label>Estoque mínimo</label>
+                    <label>
+                        Estoque mínimo
+                    </label>
 
                     <input
                         id="partMin"
@@ -1502,7 +1805,9 @@ tr:hover td{
 
                 <div class="formGroup">
 
-                    <label>Cota máxima</label>
+                    <label>
+                        Cota máxima
+                    </label>
 
                     <input
                         id="partMax"
@@ -1517,7 +1822,9 @@ tr:hover td{
 
                 <div class="formGroup">
 
-                    <label>Ponto de reposição</label>
+                    <label>
+                        Ponto de reposição
+                    </label>
 
                     <input
                         id="partReorder"
@@ -1532,7 +1839,9 @@ tr:hover td{
 
                 <div class="formGroup">
 
-                    <label>Valor unitário</label>
+                    <label>
+                        Valor unitário
+                    </label>
 
                     <input
                         id="partCost"
@@ -1547,7 +1856,9 @@ tr:hover td{
 
                 <div class="formGroup">
 
-                    <label>Estoque inicial</label>
+                    <label>
+                        Estoque inicial
+                    </label>
 
                     <input
                         id="partInitial"
@@ -1598,7 +1909,7 @@ tr:hover td{
 
 /* =========================================================
    SUPABASE
-   ========================================================= */
+========================================================= */
 
 const SUPABASE_URL =
     "https://uhtmkrlouzbdirkaolet.supabase.co";
@@ -1611,10 +1922,11 @@ let db;
 
 try{
 
-    db = window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
+    db =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
 
 }catch(error){
 
@@ -1630,7 +1942,7 @@ try{
 
 /* =========================================================
    VARIÁVEIS
-   ========================================================= */
+========================================================= */
 
 let currentUser = null;
 
@@ -1647,7 +1959,7 @@ let realtimeChannel = null;
 
 /* =========================================================
    UTILITÁRIOS
-   ========================================================= */
+========================================================= */
 
 function $(id){
     return document.getElementById(id);
@@ -1656,9 +1968,10 @@ function $(id){
 
 function money(value){
 
-    const number = Number(value || 0);
+    const numberValue =
+        Number(value || 0);
 
-    return number.toLocaleString(
+    return numberValue.toLocaleString(
         "pt-BR",
         {
             style:"currency",
@@ -1685,13 +1998,22 @@ function dateBR(value){
         return "-";
     }
 
-    const d = new Date(value + "T00:00:00");
+    const d =
+        new Date(
+            value + "T00:00:00"
+        );
 
-    if(Number.isNaN(d.getTime())){
+    if(
+        Number.isNaN(
+            d.getTime()
+        )
+    ){
         return value;
     }
 
-    return d.toLocaleDateString("pt-BR");
+    return d.toLocaleDateString(
+        "pt-BR"
+    );
 }
 
 
@@ -1701,13 +2023,20 @@ function dateTimeBR(value){
         return "-";
     }
 
-    const d = new Date(value);
+    const d =
+        new Date(value);
 
-    if(Number.isNaN(d.getTime())){
+    if(
+        Number.isNaN(
+            d.getTime()
+        )
+    ){
         return value;
     }
 
-    return d.toLocaleString("pt-BR");
+    return d.toLocaleString(
+        "pt-BR"
+    );
 }
 
 
@@ -1722,7 +2051,11 @@ function escapeHTML(value){
 }
 
 
-function showMessage(element,message,type){
+function showMessage(
+    element,
+    message,
+    type
+){
 
     if(!element){
         return;
@@ -1730,9 +2063,14 @@ function showMessage(element,message,type){
 
     element.className =
         "message " +
-        (type === "success" ? "success" : "error");
+        (
+            type === "success"
+                ? "success"
+                : "error"
+        );
 
-    element.textContent = message;
+    element.textContent =
+        message;
 }
 
 
@@ -1742,74 +2080,106 @@ function clearMessage(element){
         return;
     }
 
-    element.className = "message";
+    element.className =
+        "message";
 
-    element.textContent = "";
+    element.textContent =
+        "";
 }
 
 
 /* =========================================================
-   STATUS DO ESTOQUE
-   ========================================================= */
+   STATUS
+========================================================= */
 
 function getStatus(part){
 
-    const stock = Number(part.current_stock || 0);
+    const stock =
+        Number(
+            part.current_stock || 0
+        );
 
-    const min = Number(part.min_stock || 0);
+    const min =
+        Number(
+            part.min_stock || 0
+        );
+
 
     if(stock <= min){
 
         if(stock <= 0){
+
             return {
                 text:"CRÍTICO",
-                class:"badgeCritico"
+                class:"badgeCritico",
+                barClass:"critico"
             };
+
         }
 
         return {
             text:"REPOSIÇÃO",
-            class:"badgeReposicao"
+            class:"badgeReposicao",
+            barClass:"reposicao"
         };
+
     }
+
 
     return {
         text:"NORMAL",
-        class:"badgeNormal"
+        class:"badgeNormal",
+        barClass:"normal"
     };
+
 }
 
 
 function getReplenishment(part){
 
-    const stock = Number(part.current_stock || 0);
+    const stock =
+        Number(
+            part.current_stock || 0
+        );
 
-    const max = Number(part.max_stock || 0);
+    const max =
+        Number(
+            part.max_stock || 0
+        );
 
     return Math.max(
         0,
         max - stock
     );
+
 }
 
 
 /* =========================================================
    LOGIN
-   ========================================================= */
+========================================================= */
 
 async function login(){
 
     const email =
-        $("email").value.trim();
+        $("email")
+            .value
+            .trim();
 
     const password =
-        $("password").value;
+        $("password")
+            .value;
+
 
     clearMessage(
         $("loginMessage")
     );
 
-    if(!email || !password){
+
+    if(
+        !email ||
+        !password
+    ){
 
         showMessage(
             $("loginMessage"),
@@ -1821,7 +2191,8 @@ async function login(){
     }
 
 
-    $("btnLogin").disabled = true;
+    $("btnLogin").disabled =
+        true;
 
     $("btnLogin").textContent =
         "Entrando...";
@@ -1859,13 +2230,17 @@ async function login(){
         showMessage(
             $("loginMessage"),
             "Erro ao entrar: " +
-            (error.message || "erro desconhecido"),
+            (
+                error.message ||
+                "erro desconhecido"
+            ),
             "error"
         );
 
     }finally{
 
-        $("btnLogin").disabled = false;
+        $("btnLogin").disabled =
+            false;
 
         $("btnLogin").textContent =
             "Entrar";
@@ -1878,13 +2253,19 @@ async function login(){
 async function signup(){
 
     const email =
-        $("email").value.trim();
+        $("email")
+            .value
+            .trim();
 
     const password =
-        $("password").value;
+        $("password")
+            .value;
 
 
-    if(!email || !password){
+    if(
+        !email ||
+        !password
+    ){
 
         showMessage(
             $("loginMessage"),
@@ -1896,7 +2277,9 @@ async function signup(){
     }
 
 
-    if(password.length < 6){
+    if(
+        password.length < 6
+    ){
 
         showMessage(
             $("loginMessage"),
@@ -1908,7 +2291,8 @@ async function signup(){
     }
 
 
-    $("btnSignup").disabled = true;
+    $("btnSignup").disabled =
+        true;
 
     $("btnSignup").textContent =
         "Criando...";
@@ -1952,7 +2336,8 @@ async function signup(){
 
     }finally{
 
-        $("btnSignup").disabled = false;
+        $("btnSignup").disabled =
+            false;
 
         $("btnSignup").textContent =
             "Criar acesso";
@@ -1974,27 +2359,38 @@ async function logout(){
 
     }
 
-    currentUser = null;
+    currentUser =
+        null;
 
-    $("app").classList.add("hidden");
+    $("app")
+        .classList
+        .add("hidden");
 
-    $("loginScreen").classList.remove("hidden");
+    $("loginScreen")
+        .classList
+        .remove("hidden");
 
 }
 
 
 /* =========================================================
    ENTRAR NO APP
-   ========================================================= */
+========================================================= */
 
 async function enterApp(){
 
-    $("loginScreen").classList.add("hidden");
+    $("loginScreen")
+        .classList
+        .add("hidden");
 
-    $("app").classList.remove("hidden");
+    $("app")
+        .classList
+        .remove("hidden");
+
 
     $("userEmail").textContent =
         currentUser?.email || "";
+
 
     await loadAll();
 
@@ -2004,8 +2400,8 @@ async function enterApp(){
 
 
 /* =========================================================
-   CARREGAMENTO
-   ========================================================= */
+   CARREGAR DADOS
+========================================================= */
 
 async function loadAll(){
 
@@ -2016,7 +2412,8 @@ async function loadAll(){
             movementsResult,
             categoriesResult,
             locationsResult
-        ] = await Promise.all([
+        ] =
+        await Promise.all([
 
             db
                 .from("parts")
@@ -2026,7 +2423,12 @@ async function loadAll(){
             db
                 .from("stock_movements")
                 .select("*")
-                .order("movement_date",{ascending:false})
+                .order(
+                    "movement_date",
+                    {
+                        ascending:false
+                    }
+                )
                 .limit(500),
 
             db
@@ -2110,7 +2512,10 @@ async function loadAll(){
 
         alert(
             "Erro ao carregar os dados API: " +
-            (error.message || "erro desconhecido")
+            (
+                error.message ||
+                "erro desconhecido"
+            )
         );
 
     }
@@ -2120,7 +2525,7 @@ async function loadAll(){
 
 /* =========================================================
    SELECTS
-   ========================================================= */
+========================================================= */
 
 function populateSelectors(){
 
@@ -2136,85 +2541,101 @@ function populateSelectors(){
         '<option value="">Selecione a peça</option>';
 
 
-    parts.forEach(part => {
+    parts.forEach(
+        part => {
 
-        const option =
-            document.createElement("option");
+            const option =
+                document.createElement(
+                    "option"
+                );
 
-        option.value =
-            part.id;
+            option.value =
+                part.id;
 
-        option.textContent =
-            `${part.code} - ${part.description} | saldo: ${number(part.current_stock)}`;
+            option.textContent =
+                `${part.code} - ${part.description} | saldo: ${number(part.current_stock)}`;
 
-        movementPart.appendChild(
-            option
-        );
+            movementPart.appendChild(
+                option
+            );
 
-    });
+        }
+    );
 
 
     if(currentMovement){
+
         movementPart.value =
             currentMovement;
+
     }
 
 
     const category =
         $("partCategory");
 
+
     category.innerHTML =
         '<option value="">Sem categoria</option>';
 
 
-    categories.forEach(item => {
+    categories.forEach(
+        item => {
 
-        const option =
-            document.createElement("option");
+            const option =
+                document.createElement(
+                    "option"
+                );
 
-        option.value =
-            item.id;
+            option.value =
+                item.id;
 
-        option.textContent =
-            item.name;
+            option.textContent =
+                item.name;
 
-        category.appendChild(
-            option
-        );
+            category.appendChild(
+                option
+            );
 
-    });
+        }
+    );
 
 
     const location =
         $("partLocation");
 
+
     location.innerHTML =
         '<option value="">Sem localização</option>';
 
 
-    locations.forEach(item => {
+    locations.forEach(
+        item => {
 
-        const option =
-            document.createElement("option");
+            const option =
+                document.createElement(
+                    "option"
+                );
 
-        option.value =
-            item.id;
+            option.value =
+                item.id;
 
-        option.textContent =
-            item.name;
+            option.textContent =
+                item.name;
 
-        location.appendChild(
-            option
-        );
+            location.appendChild(
+                option
+            );
 
-    });
+        }
+    );
 
 }
 
 
 /* =========================================================
-   RENDER
-   ========================================================= */
+   RENDER GERAL
+========================================================= */
 
 function renderAll(){
 
@@ -2233,7 +2654,7 @@ function renderAll(){
 
 /* =========================================================
    DASHBOARD
-   ========================================================= */
+========================================================= */
 
 function renderDashboard(){
 
@@ -2242,8 +2663,12 @@ function renderDashboard(){
             (sum,part) =>
                 sum +
                 (
-                    Number(part.current_stock || 0) *
-                    Number(part.unit_cost || 0)
+                    Number(
+                        part.current_stock || 0
+                    ) *
+                    Number(
+                        part.unit_cost || 0
+                    )
                 ),
             0
         );
@@ -2252,9 +2677,13 @@ function renderDashboard(){
     const critical =
         parts.filter(
             part =>
-                Number(part.current_stock || 0)
+                Number(
+                    part.current_stock || 0
+                )
                 <=
-                Number(part.min_stock || 0)
+                Number(
+                    part.min_stock || 0
+                )
         );
 
 
@@ -2277,7 +2706,9 @@ function renderDashboard(){
         critical.length;
 
     $("dashReplenish").textContent =
-        number(totalReplenishment);
+        number(
+            totalReplenishment
+        );
 
 
     /* ALERTAS */
@@ -2292,40 +2723,49 @@ function renderDashboard(){
         $("dashboardAlerts").innerHTML =
             critical
                 .slice(0,8)
-                .map(part => {
+                .map(
+                    part => {
 
-                    const status =
-                        getStatus(part);
+                        const status =
+                            getStatus(part);
 
-                    return `
-                        <div class="alertItem">
+                        return `
 
-                            <div>
+                            <div class="alertItem">
 
-                                <strong>
-                                    ${escapeHTML(part.code)}
-                                    -
-                                    ${escapeHTML(part.description)}
-                                </strong>
+                                <div>
 
-                                <span>
-                                    Saldo: ${number(part.current_stock)}
-                                    |
-                                    Mínimo: ${number(part.min_stock)}
-                                    |
-                                    Repor: ${number(getReplenishment(part))}
+                                    <strong>
+                                        ${escapeHTML(part.code)}
+                                        -
+                                        ${escapeHTML(part.description)}
+                                    </strong>
+
+                                    <span>
+                                        Saldo:
+                                        ${number(part.current_stock)}
+                                        |
+                                        Mínimo:
+                                        ${number(part.min_stock)}
+                                        |
+                                        Repor:
+                                        ${number(getReplenishment(part))}
+                                    </span>
+
+                                </div>
+
+                                <span
+                                    class="badge ${status.class}"
+                                >
+                                    ${status.text}
                                 </span>
 
                             </div>
 
-                            <span class="badge ${status.class}">
-                                ${status.text}
-                            </span>
+                        `;
 
-                        </div>
-                    `;
-
-                })
+                    }
+                )
                 .join("");
 
     }
@@ -2345,6 +2785,7 @@ function renderDashboard(){
     }else{
 
         $("dashboardMovements").innerHTML = `
+
             <table>
 
                 <thead>
@@ -2360,46 +2801,61 @@ function renderDashboard(){
 
                 <tbody>
 
-                    ${latest.map(move => {
+                    ${
+                        latest
+                            .map(
+                                move => {
 
-                        const part =
-                            parts.find(
-                                p =>
-                                    String(p.id) ===
-                                    String(move.part_id)
-                            );
+                                    const part =
+                                        parts.find(
+                                            p =>
+                                                String(p.id) ===
+                                                String(move.part_id)
+                                        );
 
-                        return `
-                            <tr>
+                                    return `
 
-                                <td>
-                                    ${dateTimeBR(move.movement_date)}
-                                </td>
+                                        <tr>
 
-                                <td>
-                                    ${movementBadge(move.movement_type)}
-                                </td>
+                                            <td>
+                                                ${dateTimeBR(
+                                                    move.movement_date
+                                                )}
+                                            </td>
 
-                                <td>
-                                    ${escapeHTML(
-                                        part
-                                            ? `${part.code} - ${part.description}`
-                                            : move.part_id
-                                    )}
-                                </td>
+                                            <td>
+                                                ${movementBadge(
+                                                    move.movement_type
+                                                )}
+                                            </td>
 
-                                <td>
-                                    ${number(move.quantity)}
-                                </td>
+                                            <td>
+                                                ${escapeHTML(
+                                                    part
+                                                        ? `${part.code} - ${part.description}`
+                                                        : move.part_id
+                                                )}
+                                            </td>
 
-                            </tr>
-                        `;
+                                            <td>
+                                                ${number(
+                                                    move.quantity
+                                                )}
+                                            </td>
 
-                    }).join("")}
+                                        </tr>
+
+                                    `;
+
+                                }
+                            )
+                            .join("")
+                    }
 
                 </tbody>
 
             </table>
+
         `;
 
     }
@@ -2414,10 +2870,13 @@ function renderDashboard(){
 
 
 /* =========================================================
-   TABELA ESTOQUE
-   ========================================================= */
+   TABELA DE ESTOQUE
+========================================================= */
 
-function renderStockTable(element,list){
+function renderStockTable(
+    element,
+    list
+){
 
     if(!list.length){
 
@@ -2450,69 +2909,102 @@ function renderStockTable(element,list){
 
             <tbody>
 
-                ${list.map(part => {
+                ${
+                    list
+                        .map(
+                            part => {
 
-                    const status =
-                        getStatus(part);
+                                const status =
+                                    getStatus(part);
 
-                    const total =
-                        Number(part.current_stock || 0) *
-                        Number(part.unit_cost || 0);
+                                const total =
+                                    Number(
+                                        part.current_stock || 0
+                                    ) *
+                                    Number(
+                                        part.unit_cost || 0
+                                    );
 
-                    return `
-                        <tr>
+                                return `
 
-                            <td>
-                                <strong>
-                                    ${escapeHTML(part.code)}
-                                </strong>
-                            </td>
+                                    <tr>
 
-                            <td>
-                                ${escapeHTML(part.description)}
-                            </td>
+                                        <td>
+                                            <strong>
+                                                ${escapeHTML(
+                                                    part.code
+                                                )}
+                                            </strong>
+                                        </td>
 
-                            <td>
-                                <strong>
-                                    ${number(part.current_stock)}
-                                    ${escapeHTML(part.unit || "")}
-                                </strong>
-                            </td>
+                                        <td>
+                                            ${escapeHTML(
+                                                part.description
+                                            )}
+                                        </td>
 
-                            <td>
-                                ${number(part.min_stock)}
-                            </td>
+                                        <td>
+                                            <strong>
+                                                ${number(
+                                                    part.current_stock
+                                                )}
+                                                ${escapeHTML(
+                                                    part.unit || ""
+                                                )}
+                                            </strong>
+                                        </td>
 
-                            <td>
-                                ${number(part.max_stock)}
-                            </td>
+                                        <td>
+                                            ${number(
+                                                part.min_stock
+                                            )}
+                                        </td>
 
-                            <td>
-                                ${number(getReplenishment(part))}
-                            </td>
+                                        <td>
+                                            ${number(
+                                                part.max_stock
+                                            )}
+                                        </td>
 
-                            <td>
-                                ${money(part.unit_cost)}
-                            </td>
+                                        <td>
+                                            ${number(
+                                                getReplenishment(part)
+                                            )}
+                                        </td>
 
-                            <td>
-                                ${money(total)}
-                            </td>
+                                        <td>
+                                            ${money(
+                                                part.unit_cost
+                                            )}
+                                        </td>
 
-                            <td>
-                                <span class="badge ${status.class}">
-                                    ${status.text}
-                                </span>
-                            </td>
+                                        <td>
+                                            ${money(
+                                                total
+                                            )}
+                                        </td>
 
-                        </tr>
-                    `;
+                                        <td>
+                                            <span
+                                                class="badge ${status.class}"
+                                            >
+                                                ${status.text}
+                                            </span>
+                                        </td>
 
-                }).join("")}
+                                    </tr>
+
+                                `;
+
+                            }
+                        )
+                        .join("")
+                }
 
             </tbody>
 
         </table>
+
     `;
 
 }
@@ -2520,26 +3012,31 @@ function renderStockTable(element,list){
 
 /* =========================================================
    PEÇAS
-   ========================================================= */
+========================================================= */
 
 function renderParts(){
 
     const search =
-        $("partSearch").value
+        $("partSearch")
+            .value
             .trim()
             .toLowerCase();
 
 
     const filtered =
-        parts.filter(part => {
+        parts.filter(
+            part => {
 
-            const text =
-                `${part.code || ""} ${part.description || ""}`
-                .toLowerCase();
+                const text =
+                    `${part.code || ""} ${part.description || ""}`
+                    .toLowerCase();
 
-            return text.includes(search);
+                return text.includes(
+                    search
+                );
 
-        });
+            }
+        );
 
 
     if(!filtered.length){
@@ -2574,76 +3071,106 @@ function renderParts(){
 
             <tbody>
 
-                ${filtered.map(part => {
+                ${
+                    filtered
+                        .map(
+                            part => {
 
-                    const status =
-                        getStatus(part);
+                                const status =
+                                    getStatus(part);
 
-                    return `
-                        <tr>
+                                return `
 
-                            <td>
-                                <strong>
-                                    ${escapeHTML(part.code)}
-                                </strong>
-                            </td>
+                                    <tr>
 
-                            <td>
-                                ${escapeHTML(part.description)}
-                            </td>
+                                        <td>
+                                            <strong>
+                                                ${escapeHTML(
+                                                    part.code
+                                                )}
+                                            </strong>
+                                        </td>
 
-                            <td>
-                                ${escapeHTML(part.unit || "UN")}
-                            </td>
+                                        <td>
+                                            ${escapeHTML(
+                                                part.description
+                                            )}
+                                        </td>
 
-                            <td>
-                                <strong>
-                                    ${number(part.current_stock)}
-                                </strong>
-                            </td>
+                                        <td>
+                                            ${escapeHTML(
+                                                part.unit || "UN"
+                                            )}
+                                        </td>
 
-                            <td>
-                                ${number(part.min_stock)}
-                            </td>
+                                        <td>
+                                            <strong>
+                                                ${number(
+                                                    part.current_stock
+                                                )}
+                                            </strong>
+                                        </td>
 
-                            <td>
-                                ${number(part.max_stock)}
-                            </td>
+                                        <td>
+                                            ${number(
+                                                part.min_stock
+                                            )}
+                                        </td>
 
-                            <td>
-                                ${number(getReplenishment(part))}
-                            </td>
+                                        <td>
+                                            ${number(
+                                                part.max_stock
+                                            )}
+                                        </td>
 
-                            <td>
-                                ${money(part.unit_cost)}
-                            </td>
+                                        <td>
+                                            ${number(
+                                                getReplenishment(part)
+                                            )}
+                                        </td>
 
-                            <td>
-                                <span class="badge ${status.class}">
-                                    ${status.text}
-                                </span>
-                            </td>
+                                        <td>
+                                            ${money(
+                                                part.unit_cost
+                                            )}
+                                        </td>
 
-                            <td>
+                                        <td>
+                                            <span
+                                                class="badge ${status.class}"
+                                            >
+                                                ${status.text}
+                                            </span>
+                                        </td>
 
-                                <button
-                                    class="btn btnDark"
-                                    style="padding:6px 9px;font-size:11px"
-                                    onclick="editPart('${part.id}')"
-                                >
-                                    Editar
-                                </button>
+                                        <td>
 
-                            </td>
+                                            <button
+                                                class="btn btnDark"
+                                                style="
+                                                    padding:6px 9px;
+                                                    font-size:11px
+                                                "
+                                                onclick="editPart('${part.id}')"
+                                            >
+                                                Editar
+                                            </button>
 
-                        </tr>
-                    `;
+                                        </td>
 
-                }).join("")}
+                                    </tr>
+
+                                `;
+
+                            }
+                        )
+                        .join("")
+                }
 
             </tbody>
 
         </table>
+
     `;
 
 }
@@ -2651,12 +3178,13 @@ function renderParts(){
 
 /* =========================================================
    MOVIMENTAÇÕES
-   ========================================================= */
+========================================================= */
 
 function movementBadge(type){
 
     const t =
-        String(type || "").toLowerCase();
+        String(type || "")
+            .toLowerCase();
 
 
     if(
@@ -2728,62 +3256,85 @@ function renderMovements(){
 
             <tbody>
 
-                ${movements.map(move => {
+                ${
+                    movements
+                        .map(
+                            move => {
 
-                    const part =
-                        parts.find(
-                            p =>
-                                String(p.id) ===
-                                String(move.part_id)
-                        );
+                                const part =
+                                    parts.find(
+                                        p =>
+                                            String(p.id) ===
+                                            String(move.part_id)
+                                    );
 
-                    return `
-                        <tr>
+                                return `
 
-                            <td>
-                                ${dateTimeBR(move.movement_date)}
-                            </td>
+                                    <tr>
 
-                            <td>
-                                ${movementBadge(move.movement_type)}
-                            </td>
+                                        <td>
+                                            ${dateTimeBR(
+                                                move.movement_date
+                                            )}
+                                        </td>
 
-                            <td>
-                                ${
-                                    part
-                                        ? escapeHTML(
-                                            `${part.code} - ${part.description}`
-                                        )
-                                        : escapeHTML(move.part_id)
-                                }
-                            </td>
+                                        <td>
+                                            ${movementBadge(
+                                                move.movement_type
+                                            )}
+                                        </td>
 
-                            <td>
-                                ${number(move.quantity)}
-                            </td>
+                                        <td>
+                                            ${
+                                                part
+                                                    ? escapeHTML(
+                                                        `${part.code} - ${part.description}`
+                                                    )
+                                                    : escapeHTML(
+                                                        move.part_id
+                                                    )
+                                            }
+                                        </td>
 
-                            <td>
-                                ${money(move.unit_cost)}
-                            </td>
+                                        <td>
+                                            ${number(
+                                                move.quantity
+                                            )}
+                                        </td>
 
-                            <td>
-                                ${number(move.stock_before)}
-                            </td>
+                                        <td>
+                                            ${money(
+                                                move.unit_cost
+                                            )}
+                                        </td>
 
-                            <td>
-                                <strong>
-                                    ${number(move.stock_after)}
-                                </strong>
-                            </td>
+                                        <td>
+                                            ${number(
+                                                move.stock_before
+                                            )}
+                                        </td>
 
-                        </tr>
-                    `;
+                                        <td>
+                                            <strong>
+                                                ${number(
+                                                    move.stock_after
+                                                )}
+                                            </strong>
+                                        </td>
 
-                }).join("")}
+                                    </tr>
+
+                                `;
+
+                            }
+                        )
+                        .join("")
+                }
 
             </tbody>
 
         </table>
+
     `;
 
 }
@@ -2791,17 +3342,23 @@ function renderMovements(){
 
 /* =========================================================
    REPOSIÇÃO
-   ========================================================= */
+========================================================= */
 
 function renderReplenishment(){
 
     const list =
         parts
-            .map(part => ({
-                part,
-                quantity:getReplenishment(part)
-            }))
-            .filter(item => item.quantity > 0)
+            .map(
+                part => ({
+                    part,
+                    quantity:
+                        getReplenishment(part)
+                })
+            )
+            .filter(
+                item =>
+                    item.quantity > 0
+            )
             .sort(
                 (a,b) =>
                     b.quantity -
@@ -2821,7 +3378,8 @@ function renderReplenishment(){
     const total =
         list.reduce(
             (sum,item) =>
-                sum + item.quantity,
+                sum +
+                item.quantity,
             0
         );
 
@@ -2847,63 +3405,89 @@ function renderReplenishment(){
 
             <tbody>
 
-                ${list.map(item => {
+                ${
+                    list
+                        .map(
+                            item => {
 
-                    const part =
-                        item.part;
+                                const part =
+                                    item.part;
 
-                    const status =
-                        getStatus(part);
+                                const status =
+                                    getStatus(part);
 
-                    const value =
-                        item.quantity *
-                        Number(part.unit_cost || 0);
+                                const value =
+                                    item.quantity *
+                                    Number(
+                                        part.unit_cost || 0
+                                    );
 
-                    return `
-                        <tr>
+                                return `
 
-                            <td>
-                                <strong>
-                                    ${escapeHTML(part.code)}
-                                </strong>
-                            </td>
+                                    <tr>
 
-                            <td>
-                                ${escapeHTML(part.description)}
-                            </td>
+                                        <td>
+                                            <strong>
+                                                ${escapeHTML(
+                                                    part.code
+                                                )}
+                                            </strong>
+                                        </td>
 
-                            <td>
-                                ${number(part.current_stock)}
-                            </td>
+                                        <td>
+                                            ${escapeHTML(
+                                                part.description
+                                            )}
+                                        </td>
 
-                            <td>
-                                ${number(part.min_stock)}
-                            </td>
+                                        <td>
+                                            ${number(
+                                                part.current_stock
+                                            )}
+                                        </td>
 
-                            <td>
-                                ${number(part.max_stock)}
-                            </td>
+                                        <td>
+                                            ${number(
+                                                part.min_stock
+                                            )}
+                                        </td>
 
-                            <td>
-                                <strong>
-                                    ${number(item.quantity)}
-                                </strong>
-                            </td>
+                                        <td>
+                                            ${number(
+                                                part.max_stock
+                                            )}
+                                        </td>
 
-                            <td>
-                                ${money(value)}
-                            </td>
+                                        <td>
+                                            <strong>
+                                                ${number(
+                                                    item.quantity
+                                                )}
+                                            </strong>
+                                        </td>
 
-                            <td>
-                                <span class="badge ${status.class}">
-                                    ${status.text}
-                                </span>
-                            </td>
+                                        <td>
+                                            ${money(
+                                                value
+                                            )}
+                                        </td>
 
-                        </tr>
-                    `;
+                                        <td>
+                                            <span
+                                                class="badge ${status.class}"
+                                            >
+                                                ${status.text}
+                                            </span>
+                                        </td>
 
-                }).join("")}
+                                    </tr>
+
+                                `;
+
+                            }
+                        )
+                        .join("")
+                }
 
             </tbody>
 
@@ -2912,7 +3496,9 @@ function renderReplenishment(){
                 <tr>
 
                     <td colspan="5">
-                        <strong>Total</strong>
+                        <strong>
+                            Total
+                        </strong>
                     </td>
 
                     <td>
@@ -2928,6 +3514,7 @@ function renderReplenishment(){
             </tfoot>
 
         </table>
+
     `;
 
 }
@@ -2935,7 +3522,7 @@ function renderReplenishment(){
 
 /* =========================================================
    INDICADORES
-   ========================================================= */
+========================================================= */
 
 function renderIndicators(){
 
@@ -2944,8 +3531,12 @@ function renderIndicators(){
             (sum,part) =>
                 sum +
                 (
-                    Number(part.current_stock || 0) *
-                    Number(part.unit_cost || 0)
+                    Number(
+                        part.current_stock || 0
+                    ) *
+                    Number(
+                        part.unit_cost || 0
+                    )
                 ),
             0
         );
@@ -2955,7 +3546,9 @@ function renderIndicators(){
         parts.reduce(
             (sum,part) =>
                 sum +
-                Number(part.current_stock || 0),
+                Number(
+                    part.current_stock || 0
+                ),
             0
         );
 
@@ -2964,14 +3557,25 @@ function renderIndicators(){
         movements
             .filter(
                 m =>
-                    ["entry","entrada","return","devolucao","devolução"]
+                    [
+                        "entry",
+                        "entrada",
+                        "return",
+                        "devolucao",
+                        "devolução"
+                    ]
                     .includes(
-                        String(m.movement_type || "").toLowerCase()
+                        String(
+                            m.movement_type || ""
+                        ).toLowerCase()
                     )
             )
             .reduce(
                 (sum,m) =>
-                    sum + Number(m.quantity || 0),
+                    sum +
+                    Number(
+                        m.quantity || 0
+                    ),
                 0
             );
 
@@ -2980,14 +3584,23 @@ function renderIndicators(){
         movements
             .filter(
                 m =>
-                    ["exit","saida","saída"]
+                    [
+                        "exit",
+                        "saida",
+                        "saída"
+                    ]
                     .includes(
-                        String(m.movement_type || "").toLowerCase()
+                        String(
+                            m.movement_type || ""
+                        ).toLowerCase()
                     )
             )
             .reduce(
                 (sum,m) =>
-                    sum + Number(m.quantity || 0),
+                    sum +
+                    Number(
+                        m.quantity || 0
+                    ),
                 0
             );
 
@@ -3050,6 +3663,15 @@ function renderIndicators(){
         number(need);
 
 
+    /* =====================================================
+       BARRAS — UMA PARA CADA PEÇA
+    ===================================================== */
+
+    renderStockQuantityBars();
+
+
+    /* MOVIMENTAÇÕES RECENTES */
+
     const recent =
         movements.slice(0,12);
 
@@ -3080,88 +3702,303 @@ function renderIndicators(){
 
             <tbody>
 
-                ${recent.map(move => {
+                ${
+                    recent
+                        .map(
+                            move => {
 
-                    const part =
-                        parts.find(
-                            p =>
-                                String(p.id) ===
-                                String(move.part_id)
-                        );
+                                const part =
+                                    parts.find(
+                                        p =>
+                                            String(p.id) ===
+                                            String(move.part_id)
+                                    );
 
-                    return `
-                        <tr>
+                                return `
 
-                            <td>
-                                ${dateTimeBR(move.movement_date)}
-                            </td>
+                                    <tr>
 
-                            <td>
-                                ${movementBadge(move.movement_type)}
-                            </td>
+                                        <td>
+                                            ${dateTimeBR(
+                                                move.movement_date
+                                            )}
+                                        </td>
 
-                            <td>
-                                ${
-                                    part
-                                        ? escapeHTML(
-                                            `${part.code} - ${part.description}`
-                                        )
-                                        : "-"
-                                }
-                            </td>
+                                        <td>
+                                            ${movementBadge(
+                                                move.movement_type
+                                            )}
+                                        </td>
 
-                            <td>
-                                ${number(move.quantity)}
-                            </td>
+                                        <td>
+                                            ${
+                                                part
+                                                    ? escapeHTML(
+                                                        `${part.code} - ${part.description}`
+                                                    )
+                                                    : "-"
+                                            }
+                                        </td>
 
-                        </tr>
-                    `;
+                                        <td>
+                                            ${number(
+                                                move.quantity
+                                            )}
+                                        </td>
 
-                }).join("")}
+                                    </tr>
+
+                                `;
+
+                            }
+                        )
+                        .join("")
+                }
 
             </tbody>
 
         </table>
+
     `;
 
 }
 
 
 /* =========================================================
+   BARRAS DE QUANTIDADE POR PEÇA
+========================================================= */
+
+function renderStockQuantityBars(){
+
+    const container =
+        $("stockQuantityBars");
+
+
+    if(!parts.length){
+
+        container.innerHTML =
+            '<div class="empty">Nenhuma peça cadastrada.</div>';
+
+        return;
+    }
+
+
+    const sortedParts =
+        [...parts].sort(
+            (a,b) =>
+                Number(
+                    b.current_stock || 0
+                ) -
+                Number(
+                    a.current_stock || 0
+                )
+        );
+
+
+    container.innerHTML =
+        sortedParts
+            .map(
+                part => {
+
+                    const stock =
+                        Number(
+                            part.current_stock || 0
+                        );
+
+                    const max =
+                        Number(
+                            part.max_stock || 0
+                        );
+
+                    const min =
+                        Number(
+                            part.min_stock || 0
+                        );
+
+
+                    let percentage;
+
+
+                    /*
+                     * Se a cota máxima estiver cadastrada,
+                     * ela representa 100% da barra.
+                     *
+                     * Se estiver zerada, usamos o próprio
+                     * estoque como referência para não
+                     * deixar a barra sem informação.
+                     */
+
+                    if(max > 0){
+
+                        percentage =
+                            (
+                                stock /
+                                max
+                            ) *
+                            100;
+
+                    }else{
+
+                        percentage =
+                            stock > 0
+                                ? 100
+                                : 0;
+
+                    }
+
+
+                    /*
+                     * A barra não passa de 100%.
+                     */
+
+                    percentage =
+                        Math.max(
+                            0,
+                            Math.min(
+                                100,
+                                percentage
+                            )
+                        );
+
+
+                    const status =
+                        getStatus(part);
+
+
+                    return `
+
+                        <div class="stockBarItem">
+
+                            <div class="stockBarHeader">
+
+                                <div class="stockBarName">
+
+                                    <strong>
+                                        ${escapeHTML(
+                                            part.code
+                                        )}
+                                        —
+                                        ${escapeHTML(
+                                            part.description
+                                        )}
+                                    </strong>
+
+                                    <span>
+                                        Unidade:
+                                        ${escapeHTML(
+                                            part.unit || "UN"
+                                        )}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="stockBarQuantity">
+
+                                    ${number(stock)}
+
+                                    /
+                                    
+                                    ${number(max)}
+
+                                    ${escapeHTML(
+                                        part.unit || "UN"
+                                    )}
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="stockBarTrack">
+
+                                <div
+                                    class="stockBarFill ${status.barClass}"
+                                    style="width:${percentage}%"
+                                ></div>
+
+                            </div>
+
+
+                            <div class="stockBarFooter">
+
+                                <span>
+                                    Mínimo:
+                                    ${number(min)}
+                                </span>
+
+
+                                <span
+                                    class="stockBarStatus"
+                                >
+                                    ${status.text}
+                                </span>
+
+
+                                <span>
+                                    Cota:
+                                    ${number(max)}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            )
+            .join("");
+
+}
+
+
+/* =========================================================
    NOVA PEÇA
-   ========================================================= */
+========================================================= */
 
 function openNewPart(){
 
-    $("partModal").classList.remove(
-        "hidden"
-    );
+    $("partModal")
+        .classList
+        .remove("hidden");
 
-    $("partModalTitle").textContent =
+
+    $("partModalTitle")
+        .textContent =
         "Nova peça";
 
+
     $("partForm").reset();
+
 
     $("partUnit").value =
         "UN";
 
+
     $("partMin").value =
         "0";
+
 
     $("partMax").value =
         "0";
 
+
     $("partReorder").value =
         "0";
+
 
     $("partCost").value =
         "0";
 
+
     $("partInitial").value =
         "0";
 
+
     $("partForm").dataset.editId =
         "";
+
 
     clearMessage(
         $("partMessage")
@@ -3172,9 +4009,9 @@ function openNewPart(){
 
 function closePartModal(){
 
-    $("partModal").classList.add(
-        "hidden"
-    );
+    $("partModal")
+        .classList
+        .add("hidden");
 
 }
 
@@ -3194,12 +4031,13 @@ function editPart(id){
     }
 
 
-    $("partModal").classList.remove(
-        "hidden"
-    );
+    $("partModal")
+        .classList
+        .remove("hidden");
 
 
-    $("partModalTitle").textContent =
+    $("partModalTitle")
+        .textContent =
         "Editar peça";
 
 
@@ -3210,35 +4048,55 @@ function editPart(id){
     $("partCode").value =
         part.code || "";
 
+
     $("partDescription").value =
         part.description || "";
+
 
     $("partUnit").value =
         part.unit || "UN";
 
+
     $("partCategory").value =
         part.category_id || "";
+
 
     $("partLocation").value =
         part.location_id || "";
 
+
     $("partCriticality").value =
         part.criticality || "Normal";
 
+
     $("partMin").value =
-        Number(part.min_stock || 0);
+        Number(
+            part.min_stock || 0
+        );
+
 
     $("partMax").value =
-        Number(part.max_stock || 0);
+        Number(
+            part.max_stock || 0
+        );
+
 
     $("partReorder").value =
-        Number(part.reorder_point || 0);
+        Number(
+            part.reorder_point || 0
+        );
+
 
     $("partCost").value =
-        Number(part.unit_cost || 0);
+        Number(
+            part.unit_cost || 0
+        );
+
 
     $("partInitial").value =
-        Number(part.current_stock || 0);
+        Number(
+            part.current_stock || 0
+        );
 
 
     clearMessage(
@@ -3250,7 +4108,7 @@ function editPart(id){
 
 /* =========================================================
    SALVAR PEÇA
-   ========================================================= */
+========================================================= */
 
 async function savePart(){
 
@@ -3261,39 +4119,70 @@ async function savePart(){
     const data = {
 
         code:
-            $("partCode").value.trim(),
+            $("partCode")
+                .value
+                .trim(),
 
         description:
-            $("partDescription").value.trim(),
+            $("partDescription")
+                .value
+                .trim(),
 
         unit:
-            $("partUnit").value.trim() || "UN",
+            $("partUnit")
+                .value
+                .trim() ||
+            "UN",
 
         category_id:
-            $("partCategory").value || null,
+            $("partCategory")
+                .value ||
+            null,
 
         location_id:
-            $("partLocation").value || null,
+            $("partLocation")
+                .value ||
+            null,
 
         criticality:
-            $("partCriticality").value,
+            $("partCriticality")
+                .value,
 
         min_stock:
-            Number($("partMin").value || 0),
+            Number(
+                $("partMin")
+                    .value ||
+                0
+            ),
 
         max_stock:
-            Number($("partMax").value || 0),
+            Number(
+                $("partMax")
+                    .value ||
+                0
+            ),
 
         reorder_point:
-            Number($("partReorder").value || 0),
+            Number(
+                $("partReorder")
+                    .value ||
+                0
+            ),
 
         unit_cost:
-            Number($("partCost").value || 0)
+            Number(
+                $("partCost")
+                    .value ||
+                0
+            )
 
     };
 
 
-    if(!data.code || !data.description){
+    if(
+        !data.code ||
+        !data.description
+    ){
 
         showMessage(
             $("partMessage"),
@@ -3307,7 +4196,8 @@ async function savePart(){
 
     if(
         data.max_stock > 0 &&
-        data.min_stock > data.max_stock
+        data.min_stock >
+        data.max_stock
     ){
 
         showMessage(
@@ -3331,16 +4221,23 @@ async function savePart(){
                 await db
                     .from("parts")
                     .update(data)
-                    .eq("id",editId);
+                    .eq(
+                        "id",
+                        editId
+                    );
 
         }else{
 
             data.current_stock =
                 Number(
-                    $("partInitial").value || 0
+                    $("partInitial")
+                        .value ||
+                    0
                 );
 
-            data.active = true;
+            data.active =
+                true;
+
 
             result =
                 await db
@@ -3368,6 +4265,7 @@ async function savePart(){
             error
         );
 
+
         showMessage(
             $("partMessage"),
             "Erro ao salvar: " +
@@ -3382,26 +4280,30 @@ async function savePart(){
 
 /* =========================================================
    SALVAR MOVIMENTAÇÃO
-   ========================================================= */
+========================================================= */
 
 async function saveMovement(){
 
     const type =
-        $("movementType").value;
+        $("movementType")
+            .value;
 
 
     const partId =
-        $("movementPart").value;
+        $("movementPart")
+            .value;
 
 
     const quantity =
         Number(
-            $("movementQuantity").value
+            $("movementQuantity")
+                .value
         );
 
 
     const date =
-        $("movementDate").value;
+        $("movementDate")
+            .value;
 
 
     if(!partId){
@@ -3414,7 +4316,10 @@ async function saveMovement(){
     }
 
 
-    if(!quantity || quantity <= 0){
+    if(
+        !quantity ||
+        quantity <= 0
+    ){
 
         alert(
             "Informe uma quantidade maior que zero."
@@ -3443,16 +4348,23 @@ async function saveMovement(){
 
 
     const isExit =
-        ["exit","saida","saída"]
+        [
+            "exit",
+            "saida",
+            "saída"
+        ]
         .includes(
-            String(type).toLowerCase()
+            String(type)
+                .toLowerCase()
         );
 
 
     if(
         isExit &&
         quantity >
-        Number(part.current_stock || 0)
+        Number(
+            part.current_stock || 0
+        )
     ){
 
         alert(
@@ -3477,7 +4389,9 @@ async function saveMovement(){
                 quantity,
 
             unit_cost:
-                Number(part.unit_cost || 0),
+                Number(
+                    part.unit_cost || 0
+                ),
 
             document_number:
                 null,
@@ -3510,7 +4424,9 @@ async function saveMovement(){
         const result =
             await db
                 .from("stock_movements")
-                .insert(movement);
+                .insert(
+                    movement
+                );
 
 
         if(result.error){
@@ -3524,7 +4440,8 @@ async function saveMovement(){
         );
 
 
-        $("movementForm").reset();
+        $("movementForm")
+            .reset();
 
 
         setMovementDate();
@@ -3540,6 +4457,7 @@ async function saveMovement(){
             error
         );
 
+
         alert(
             "Erro ao registrar movimentação: " +
             error.message
@@ -3551,13 +4469,14 @@ async function saveMovement(){
 
 
 /* =========================================================
-   INFORMAÇÃO DA PEÇA NA MOVIMENTAÇÃO
-   ========================================================= */
+   INFO MOVIMENTAÇÃO
+========================================================= */
 
 function updateMovementInfo(){
 
     const id =
-        $("movementPart").value;
+        $("movementPart")
+            .value;
 
 
     const part =
@@ -3570,14 +4489,16 @@ function updateMovementInfo(){
 
     if(!part){
 
-        $("movementInfo").textContent =
+        $("movementInfo")
+            .textContent =
             "";
 
         return;
     }
 
 
-    $("movementInfo").textContent =
+    $("movementInfo")
+        .textContent =
         `Saldo atual: ${number(part.current_stock)} ${part.unit || "UN"} | Mínimo: ${number(part.min_stock)} | Cota máxima: ${number(part.max_stock)} | A repor: ${number(getReplenishment(part))}`;
 
 }
@@ -3585,7 +4506,7 @@ function updateMovementInfo(){
 
 /* =========================================================
    REALTIME
-   ========================================================= */
+========================================================= */
 
 function setupRealtime(){
 
@@ -3648,92 +4569,112 @@ function setupRealtime(){
 
 /* =========================================================
    NAVEGAÇÃO
-   ========================================================= */
+========================================================= */
 
 function setupNavigation(){
 
     document
         .querySelectorAll(".navButton")
-        .forEach(button => {
+        .forEach(
+            button => {
 
-            button.addEventListener(
-                "click",
-                () => {
+                button.addEventListener(
+                    "click",
+                    () => {
 
-                    const section =
-                        button.dataset.section;
+                        const section =
+                            button.dataset.section;
 
 
-                    document
-                        .querySelectorAll(".navButton")
-                        .forEach(btn =>
-                            btn.classList.remove(
-                                "active"
+                        document
+                            .querySelectorAll(
+                                ".navButton"
                             )
-                        );
+                            .forEach(
+                                btn =>
+                                    btn.classList
+                                        .remove(
+                                            "active"
+                                        )
+                            );
 
 
-                    button.classList.add(
-                        "active"
-                    );
+                        button.classList
+                            .add("active");
 
 
-                    document
-                        .querySelectorAll(".section")
-                        .forEach(sec =>
-                            sec.classList.remove(
-                                "active"
+                        document
+                            .querySelectorAll(
+                                ".section"
                             )
-                        );
+                            .forEach(
+                                sec =>
+                                    sec.classList
+                                        .remove(
+                                            "active"
+                                        )
+                            );
 
 
-                    const target =
-                        $(
-                            "section-" +
-                            section
-                        );
+                        const target =
+                            $(
+                                "section-" +
+                                section
+                            );
 
 
-                    if(target){
+                        if(target){
 
-                        target.classList.add(
-                            "active"
-                        );
+                            target.classList
+                                .add("active");
+
+                        }
 
                     }
+                );
 
-                }
-            );
-
-        });
+            }
+        );
 
 }
 
 
 /* =========================================================
-   DATA PADRÃO
-   ========================================================= */
+   DATA
+========================================================= */
 
 function setMovementDate(){
 
     const today =
         new Date();
 
+
     const yyyy =
         today.getFullYear();
 
+
     const mm =
         String(
-            today.getMonth()+1
-        ).padStart(2,"0");
+            today.getMonth() + 1
+        )
+        .padStart(
+            2,
+            "0"
+        );
+
 
     const dd =
         String(
             today.getDate()
-        ).padStart(2,"0");
+        )
+        .padStart(
+            2,
+            "0"
+        );
 
 
-    $("movementDate").value =
+    $("movementDate")
+        .value =
         `${yyyy}-${mm}-${dd}`;
 
 }
@@ -3741,7 +4682,7 @@ function setMovementDate(){
 
 /* =========================================================
    EVENTOS
-   ========================================================= */
+========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -3890,10 +4831,13 @@ document.addEventListener(
                     currentUser =
                         session.user;
 
+
                     if(
-                        $("app").classList.contains(
-                            "hidden"
-                        )
+                        $("app")
+                            .classList
+                            .contains(
+                                "hidden"
+                            )
                     ){
 
                         await enterApp();
@@ -3902,7 +4846,8 @@ document.addEventListener(
 
                 }else{
 
-                    currentUser = null;
+                    currentUser =
+                        null;
 
                 }
 
