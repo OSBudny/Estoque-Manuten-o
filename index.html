@@ -350,10 +350,12 @@ th{
 
 .err{
   background:#4b211f;
+  color:#fff;
 }
 
 .okmsg{
   background:#163b2b;
+  color:#fff;
 }
 
 .small-note{
@@ -408,8 +410,12 @@ th{
 
 <body>
 
-<!-- LOGIN -->
+<!-- =====================================================
+     LOGIN
+===================================================== -->
+
 <div id="login" class="login">
+
   <div class="loginbox">
 
     <div class="brand">
@@ -417,77 +423,131 @@ th{
     </div>
 
     <p class="muted">
-      Controle de peças, saldo e reposição
+      Sistema online de estoque.
     </p>
 
     <div class="field">
+
       <label>E-mail</label>
-      <input id="email" type="email" autocomplete="username">
+
+      <input
+        id="email"
+        type="email"
+        autocomplete="username"
+        placeholder="seu e-mail">
+
     </div>
 
     <div class="field">
+
       <label>Senha</label>
-      <input id="pass" type="password" autocomplete="current-password">
+
+      <input
+        id="pass"
+        type="password"
+        autocomplete="current-password"
+        placeholder="sua senha">
+
     </div>
 
     <button
+      id="btnLogin"
       class="primary"
-      style="width:100%"
-      onclick="login()">
+      style="width:100%">
+
       Entrar
+
     </button>
 
+    <!--
+      SOMENTE KELVIN VISUALIZA ESTE BOTÃO
+    -->
+
     <button
-      style="width:100%;margin-top:8px"
-      onclick="signup()">
+      id="btnSignup"
+      style="width:100%;margin-top:8px;display:none">
+
       Criar acesso
+
     </button>
+
+    <div
+      id="signupInfo"
+      class="small-note"
+      style="display:none">
+
+      Cadastro de novos acessos disponível somente
+      para o administrador.
+
+    </div>
 
     <div id="msg"></div>
 
   </div>
+
 </div>
 
 
-<!-- SISTEMA -->
+<!-- =====================================================
+     SISTEMA
+===================================================== -->
+
 <div id="app" class="hidden">
 
 <header>
 
   <div>
+
     <div class="brand">
       Estoque <span>Manutenção</span>
     </div>
 
-    <div id="who" class="muted"></div>
+    <div
+      id="who"
+      class="muted">
+    </div>
+
   </div>
+
 
   <nav>
 
     <button
       class="active"
       data-tab="dash">
+
       📊 Painel de Estoque
+
     </button>
 
     <button data-tab="parts">
+
       🔩 Peças
+
     </button>
 
     <button data-tab="moves">
+
       📦 Movimentações
+
     </button>
 
     <button data-tab="replen">
+
       🚨 Reposição
+
     </button>
 
     <button data-tab="ind">
+
       📈 Indicadores
+
     </button>
 
     <button onclick="logout()">
+
       Sair
+
     </button>
 
   </nav>
@@ -497,22 +557,35 @@ th{
 
 <main>
 
-<!-- PAINEL -->
-<section id="dash" class="tab active">
+<!-- =====================================================
+     PAINEL
+===================================================== -->
+
+<section
+  id="dash"
+  class="tab active">
 
   <div class="head">
 
     <div>
-      <h1>📊 Painel de Estoque</h1>
+
+      <h1>
+        📊 Painel de Estoque
+      </h1>
+
       <p>
         Visão geral do estoque de manutenção.
       </p>
+
     </div>
+
 
     <button
       class="primary"
       onclick="partForm()">
+
       + Nova peça
+
     </button>
 
   </div>
@@ -521,46 +594,70 @@ th{
   <div class="cards">
 
     <div class="card">
+
       <div class="label">
         Valor do estoque
       </div>
 
-      <div class="kpi" id="kv">
+      <div
+        class="kpi"
+        id="kv">
+
         R$ 0,00
+
       </div>
+
     </div>
 
 
     <div class="card">
+
       <div class="label">
         Itens cadastrados
       </div>
 
-      <div class="kpi" id="ki">
+      <div
+        class="kpi"
+        id="ki">
+
         0
+
       </div>
+
     </div>
 
 
     <div class="card">
+
       <div class="label">
         Abaixo do mínimo
       </div>
 
-      <div class="kpi" id="kl">
+      <div
+        class="kpi"
+        id="kl">
+
         0
+
       </div>
+
     </div>
 
 
     <div class="card">
+
       <div class="label">
         Em ruptura
       </div>
 
-      <div class="kpi" id="kz">
+      <div
+        class="kpi"
+        id="kz">
+
         0
+
       </div>
+
     </div>
 
   </div>
@@ -569,20 +666,24 @@ th{
   <div class="grid2">
 
     <div class="panel">
+
       <h2>
         Estoque que exige atenção
       </h2>
 
       <div id="attention"></div>
+
     </div>
 
 
     <div class="panel">
+
       <h2>
         Últimas movimentações
       </h2>
 
       <div id="recent"></div>
+
     </div>
 
   </div>
@@ -601,17 +702,26 @@ th{
 </section>
 
 
-<!-- PEÇAS -->
-<section id="parts" class="tab">
+<!-- =====================================================
+     PEÇAS
+===================================================== -->
+
+<section
+  id="parts"
+  class="tab">
 
   <div class="head">
 
     <div>
-      <h1>🔩 Peças</h1>
+
+      <h1>
+        🔩 Peças
+      </h1>
 
       <p>
         Cadastro mestre do estoque.
       </p>
+
     </div>
 
 
@@ -620,13 +730,18 @@ th{
       <button
         onclick="toggleInactive()"
         id="inactiveBtn">
+
         Ver desativadas
+
       </button>
+
 
       <button
         class="primary"
         onclick="partForm()">
+
         + Nova peça
+
       </button>
 
     </div>
@@ -680,24 +795,35 @@ th{
 </section>
 
 
-<!-- MOVIMENTAÇÕES -->
-<section id="moves" class="tab">
+<!-- =====================================================
+     MOVIMENTAÇÕES
+===================================================== -->
+
+<section
+  id="moves"
+  class="tab">
 
   <div class="head">
 
     <div>
-      <h1>📦 Movimentações</h1>
+
+      <h1>
+        📦 Movimentações
+      </h1>
 
       <p>
         Entrada, saída, devolução e ajuste.
-        O saldo é atualizado pelo banco.
       </p>
+
     </div>
+
 
     <button
       class="primary"
       onclick="moveForm()">
+
       + Registrar movimentação
+
     </button>
 
   </div>
@@ -712,17 +838,26 @@ th{
 </section>
 
 
-<!-- REPOSIÇÃO -->
-<section id="replen" class="tab">
+<!-- =====================================================
+     REPOSIÇÃO
+===================================================== -->
+
+<section
+  id="replen"
+  class="tab">
 
   <div class="head">
 
     <div>
-      <h1>🚨 Reposição</h1>
+
+      <h1>
+        🚨 Reposição
+      </h1>
 
       <p>
         Peças no ponto de reposição ou abaixo.
       </p>
+
     </div>
 
   </div>
@@ -737,18 +872,27 @@ th{
 </section>
 
 
-<!-- INDICADORES -->
-<section id="ind" class="tab">
+<!-- =====================================================
+     INDICADORES
+===================================================== -->
+
+<section
+  id="ind"
+  class="tab">
 
   <div class="head">
 
     <div>
-      <h1>📈 Indicadores</h1>
+
+      <h1>
+        📈 Indicadores
+      </h1>
 
       <p>
-        Indicadores calculados a partir das movimentações
-        e do saldo atual.
+        Indicadores calculados a partir das
+        movimentações e do saldo atual.
       </p>
+
     </div>
 
   </div>
@@ -757,46 +901,70 @@ th{
   <div class="cards">
 
     <div class="card">
+
       <div class="label">
         Saídas
       </div>
 
-      <div class="kpi" id="io">
+      <div
+        class="kpi"
+        id="io">
+
         0
+
       </div>
+
     </div>
 
 
     <div class="card">
+
       <div class="label">
         Quantidade consumida
       </div>
 
-      <div class="kpi" id="iq">
+      <div
+        class="kpi"
+        id="iq">
+
         0
+
       </div>
+
     </div>
 
 
     <div class="card">
+
       <div class="label">
         Valor consumido
       </div>
 
-      <div class="kpi" id="iv">
+      <div
+        class="kpi"
+        id="iv">
+
         R$ 0,00
+
       </div>
+
     </div>
 
 
     <div class="card">
+
       <div class="label">
         Valor parado
       </div>
 
-      <div class="kpi" id="ii">
+      <div
+        class="kpi"
+        id="ii">
+
         R$ 0,00
+
       </div>
+
     </div>
 
   </div>
@@ -830,11 +998,17 @@ th{
 </section>
 
 </main>
+
 </div>
 
 
-<!-- MODAL -->
-<div id="modal" class="modal">
+<!-- =====================================================
+     MODAL
+===================================================== -->
+
+<div
+  id="modal"
+  class="modal">
 
   <div class="modalbox">
 
@@ -845,7 +1019,9 @@ th{
       <button
         class="close"
         onclick="closeModal()">
+
         ×
+
       </button>
 
     </div>
@@ -859,9 +1035,9 @@ th{
 
 <script>
 
-/* =========================================================
+/* =====================================================
    SUPABASE
-========================================================= */
+===================================================== */
 
 const URL =
 'https://uhtmkrlouzbdirkaolet.supabase.co';
@@ -870,12 +1046,23 @@ const KEY =
 'sb_publishable_MefMlR2RVIdGv-j9pPqGgw_X72XOvdS';
 
 const S =
-supabase.createClient(URL,KEY);
+supabase.createClient(
+  URL,
+  KEY
+);
 
 
-/* =========================================================
+/* =====================================================
+   ADMINISTRADOR
+===================================================== */
+
+const ADMIN_EMAIL =
+'kelvin.batista@budny.com.br';
+
+
+/* =====================================================
    VARIÁVEIS
-========================================================= */
+===================================================== */
 
 let P = [];
 let M = [];
@@ -886,43 +1073,48 @@ let I = [];
 let showInactive = false;
 
 
-/* =========================================================
-   FUNÇÕES AUXILIARES
-========================================================= */
+/* =====================================================
+   AUXILIARES
+===================================================== */
 
 const $ =
-id => document.getElementById(id);
+id =>
+document.getElementById(id);
 
 
 const money =
 v =>
 (+v || 0).toLocaleString(
-'pt-BR',
-{
-  style:'currency',
-  currency:'BRL'
-});
+  'pt-BR',
+  {
+    style:'currency',
+    currency:'BRL'
+  }
+);
 
 
 const esc =
 s =>
 String(s ?? '')
 .replace(
-/[&<>"']/g,
-x =>
-({
-  '&':'&amp;',
-  '<':'&lt;',
-  '>':'&gt;',
-  '"':'&quot;',
-  "'":'&#039;'
-}[x])
+  /[&<>"']/g,
+  x =>
+  ({
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;',
+    "'":'&#039;'
+  }[x])
 );
 
 
 const part =
 id =>
-P.find(p => p.id === id);
+P.find(
+  p =>
+  p.id === id
+);
 
 
 const date =
@@ -934,9 +1126,9 @@ new Date(x).toLocaleDateString('pt-BR')
 '—';
 
 
-/* =========================================================
-   STATUS DA PEÇA
-========================================================= */
+/* =====================================================
+   STATUS
+===================================================== */
 
 function status(p){
 
@@ -947,43 +1139,121 @@ function status(p){
     return ['baixo','Abaixo do mínimo'];
 
   return ['normal','Normal'];
+
 }
 
 
-/* =========================================================
-   MENSAGEM LOGIN
-========================================================= */
+/* =====================================================
+   MENSAGEM
+===================================================== */
 
-function msg(t,e=false){
+function msg(t,error=false){
 
-  $('msg').className =
-    'msg ' + (e ? 'err' : 'okmsg');
+  const el =
+    $('msg');
 
-  $('msg').textContent = t;
+  el.className =
+    'msg ' +
+    (error ? 'err' : 'okmsg');
+
+  el.textContent =
+    t;
+
 }
 
 
-/* =========================================================
+/* =====================================================
+   MOSTRAR CRIAR ACESSO SOMENTE PARA KELVIN
+===================================================== */
+
+function updateSignupVisibility(){
+
+  const email =
+    $('email')
+    .value
+    .trim()
+    .toLowerCase();
+
+
+  const isAdmin =
+    email ===
+    ADMIN_EMAIL;
+
+
+  $('btnSignup').style.display =
+    isAdmin
+    ? 'block'
+    : 'none';
+
+
+  $('signupInfo').style.display =
+    isAdmin
+    ? 'block'
+    : 'none';
+
+}
+
+
+/* =====================================================
    LOGIN
-========================================================= */
+===================================================== */
 
 async function login(){
 
   const email =
-    $('email').value.trim();
+    $('email')
+    .value
+    .trim();
+
 
   const password =
-    $('pass').value;
+    $('pass')
+    .value;
 
-  if(!email || !password){
+
+  if(!email){
 
     msg(
-      'Informe e-mail e senha.',
+      'Informe o e-mail.',
       true
     );
 
+    $('email').focus();
+
     return;
+
   }
+
+
+  if(!password){
+
+    msg(
+      'Informe a senha.',
+      true
+    );
+
+    $('pass').focus();
+
+    return;
+
+  }
+
+
+  const btn =
+    $('btnLogin');
+
+
+  btn.disabled =
+    true;
+
+  btn.textContent =
+    'Entrando...';
+
+
+  msg(
+    'Conectando ao sistema...'
+  );
+
 
   try{
 
@@ -993,51 +1263,117 @@ async function login(){
         password
       });
 
+
     if(r.error){
 
       msg(
-        'Erro ao entrar: ' +
+        'Não foi possível entrar: ' +
         r.error.message,
         true
       );
 
       return;
+
     }
+
+
+    if(!r.data || !r.data.session){
+
+      msg(
+        'Login realizado, mas a sessão não foi criada. Tente novamente.',
+        true
+      );
+
+      return;
+
+    }
+
+
+    msg(
+      'Login realizado. Carregando sistema...'
+    );
+
+
+    await show(
+      r.data.session
+    );
+
 
   }catch(err){
 
+    console.error(
+      'ERRO LOGIN:',
+      err
+    );
+
+
     msg(
-      'Erro ao entrar: ' +
-      (err.message || err),
+      'Erro de conexão com o sistema: ' +
+      (
+        err?.message ||
+        'erro desconhecido'
+      ),
       true
     );
+
+
+  }finally{
+
+    btn.disabled =
+      false;
+
+    btn.textContent =
+      'Entrar';
 
   }
 
 }
 
 
-/* =========================================================
+/* =====================================================
    CRIAR ACESSO
-========================================================= */
+   SOMENTE KELVIN
+===================================================== */
 
 async function signup(){
 
   const email =
-    $('email').value.trim();
+    $('email')
+    .value
+    .trim()
+    .toLowerCase();
 
-  const password =
-    $('pass').value;
 
-  if(!email || !password){
+  if(email !== ADMIN_EMAIL){
 
     msg(
-      'Informe e-mail e senha.',
+      'Somente o administrador pode criar novos acessos.',
       true
     );
 
     return;
+
   }
+
+
+  const password =
+    $('pass')
+    .value;
+
+
+  if(!password){
+
+    msg(
+      'Informe a senha que será usada para o novo acesso.',
+      true
+    );
+
+    $('pass').focus();
+
+    return;
+
+  }
+
 
   if(password.length < 6){
 
@@ -1047,7 +1383,9 @@ async function signup(){
     );
 
     return;
+
   }
+
 
   try{
 
@@ -1056,6 +1394,7 @@ async function signup(){
         email,
         password
       });
+
 
     if(r.error){
 
@@ -1066,7 +1405,9 @@ async function signup(){
       );
 
       return;
+
     }
+
 
     if(r.data.session){
 
@@ -1077,7 +1418,7 @@ async function signup(){
     }else{
 
       msg(
-        'Acesso criado. Se a confirmação estiver ativa, confirme o e-mail antes de entrar.'
+        'Acesso criado. Se a confirmação de e-mail estiver ativa no Supabase, confirme o e-mail antes de entrar.'
       );
 
     }
@@ -1086,7 +1427,10 @@ async function signup(){
 
     msg(
       'Erro ao criar acesso: ' +
-      (err.message || err),
+      (
+        err?.message ||
+        err
+      ),
       true
     );
 
@@ -1095,128 +1439,143 @@ async function signup(){
 }
 
 
-/* =========================================================
+/* =====================================================
    LOGOUT
-========================================================= */
+===================================================== */
 
 async function logout(){
 
-  await S.auth.signOut();
+  try{
+
+    await S.auth.signOut();
+
+  }catch(err){
+
+    console.error(err);
+
+  }
 
 }
 
 
-/* =========================================================
-   AUTENTICAÇÃO
-========================================================= */
-
-S.auth.onAuthStateChange(
-(e,s) => {
-
-  if(s){
-
-    show(s);
-
-  }else{
-
-    $('app').classList.add('hidden');
-
-    $('login').classList.remove('hidden');
-
-  }
-
-});
-
-
-/* =========================================================
+/* =====================================================
    MOSTRAR SISTEMA
-========================================================= */
+===================================================== */
 
-async function show(s){
+async function show(session){
 
-  $('login').classList.add('hidden');
+  $('login')
+    .classList
+    .add('hidden');
 
-  $('app').classList.remove('hidden');
+
+  $('app')
+    .classList
+    .remove('hidden');
+
 
   $('who').textContent =
-    s.user.email;
+    session.user.email;
+
 
   await load();
 
 }
 
 
-/* =========================================================
-   CARREGAR DADOS
-========================================================= */
+/* =====================================================
+   CARREGAR
+===================================================== */
 
 async function load(){
 
   try{
 
-    const [
-      p,
-      m,
-      c,
-      l
-    ] =
-    await Promise.all([
-
-      S
+    const p =
+      await S
       .from('parts')
       .select('*')
       .eq('active',true)
-      .order('code'),
-
-      S
-      .from('stock_movements')
-      .select('*')
-      .order(
-        'movement_date',
-        {ascending:false}
-      ),
-
-      S
-      .from('categories')
-      .select('*')
-      .eq('active',true)
-      .order('name'),
-
-      S
-      .from('locations')
-      .select('*')
-      .eq('active',true)
-      .order('name')
-
-    ]);
+      .order('code');
 
 
-    for(
-      const r of [p,m,c,l]
-    ){
+    if(p.error){
 
-      if(r.error){
+      alert(
+        'Erro ao carregar peças: ' +
+        p.error.message
+      );
 
-        alert(
-          'Erro ao carregar os dados: ' +
-          r.error.message
-        );
-
-        return;
-      }
+      return;
 
     }
 
 
-    P = p.data || [];
-    M = m.data || [];
-    C = c.data || [];
-    L = l.data || [];
+    const m =
+      await S
+      .from('stock_movements')
+      .select('*')
+      .order(
+        'movement_date',
+        {
+          ascending:false
+        }
+      );
 
 
-    /* peças desativadas */
+    if(m.error){
 
-    const ir =
+      alert(
+        'Erro ao carregar movimentações: ' +
+        m.error.message
+      );
+
+      return;
+
+    }
+
+
+    const c =
+      await S
+      .from('categories')
+      .select('*')
+      .eq('active',true)
+      .order('name');
+
+
+    if(c.error){
+
+      alert(
+        'Erro ao carregar categorias: ' +
+        c.error.message
+      );
+
+      return;
+
+    }
+
+
+    const l =
+      await S
+      .from('locations')
+      .select('*')
+      .eq('active',true)
+      .order('name');
+
+
+    if(l.error){
+
+      alert(
+        'Erro ao carregar localizações: ' +
+        l.error.message
+      );
+
+      return;
+
+    }
+
+
+    const i =
       await S
       .from('parts')
       .select('*')
@@ -1224,27 +1583,52 @@ async function load(){
       .order('code');
 
 
-    if(ir.error){
+    if(i.error){
 
       alert(
         'Erro ao carregar peças desativadas: ' +
-        ir.error.message
+        i.error.message
       );
 
       return;
+
     }
 
 
-    I = ir.data || [];
+    P =
+      p.data || [];
+
+
+    M =
+      m.data || [];
+
+
+    C =
+      c.data || [];
+
+
+    L =
+      l.data || [];
+
+
+    I =
+      i.data || [];
 
 
     render();
 
+
   }catch(err){
+
+    console.error(err);
+
 
     alert(
       'Erro ao carregar os dados: ' +
-      (err.message || err)
+      (
+        err?.message ||
+        err
+      )
     );
 
   }
@@ -1252,9 +1636,9 @@ async function load(){
 }
 
 
-/* =========================================================
-   RENDER GERAL
-========================================================= */
+/* =====================================================
+   RENDER
+===================================================== */
 
 function render(){
 
@@ -1279,7 +1663,8 @@ function render(){
   $('kl').textContent =
     P.filter(
       p =>
-        +p.current_stock < +p.min_stock &&
+        +p.current_stock <
+        +p.min_stock &&
         +p.current_stock > 0
     ).length;
 
@@ -1291,9 +1676,7 @@ function render(){
     ).length;
 
 
-  /* atenção */
-
-  const a =
+  const attention =
     P
     .filter(
       p =>
@@ -1301,20 +1684,24 @@ function render(){
         +p.reorder_point
     )
     .sort(
-      (x,y) =>
-        +x.current_stock -
-        +y.current_stock
+      (a,b) =>
+        +a.current_stock -
+        +b.current_stock
     );
 
 
   $('attention').innerHTML =
-    a.length
+    attention.length
+
     ?
-    a.map(
+
+    attention
+    .map(
       p => {
 
         const [c,t] =
           status(p);
+
 
         return `
         <div class="alert">
@@ -1329,10 +1716,17 @@ function render(){
             ${esc(p.description)}
 
             <div class="muted">
-              Saldo ${p.current_stock}
+
+              Saldo
+              ${p.current_stock}
               ${esc(p.unit)}
-              · mínimo ${p.min_stock}
-              · reposição ${p.reorder_point}
+
+              · mínimo
+              ${p.min_stock}
+
+              · reposição
+              ${p.reorder_point}
+
             </div>
 
           </div>
@@ -1342,21 +1736,22 @@ function render(){
             ? 'danger'
             : 'warn'
           }">
+
             ${t}
+
           </span>
 
         </div>
         `;
 
       }
-    ).join('')
+    )
+    .join('')
 
     :
 
     '<div class="empty">Nenhuma peça exige atenção.</div>';
 
-
-  /* últimas movimentações */
 
   $('recent').innerHTML =
     M
@@ -1366,6 +1761,7 @@ function render(){
 
         const p =
           part(m.part_id);
+
 
         return `
         <div
@@ -1384,6 +1780,7 @@ function render(){
 
           ·
           ${m.quantity}
+
           ${esc(p?.unit || '')}
 
           <div class="muted">
@@ -1413,8 +1810,6 @@ function render(){
     '<div class="empty">Nenhuma movimentação.</div>';
 
 
-  /* posição atual */
-
   const rows =
     P
     .map(
@@ -1422,6 +1817,7 @@ function render(){
 
         const [c,t] =
           status(p);
+
 
         return `
         <tr>
@@ -1453,8 +1849,8 @@ function render(){
 
           <td>
             ${money(
-              +p.current_stock *
-              +p.unit_cost
+              (+p.current_stock || 0) *
+              (+p.unit_cost || 0)
             )}
           </td>
 
@@ -1504,11 +1900,11 @@ function render(){
 }
 
 
-/* =========================================================
+/* =====================================================
    TABELA
-========================================================= */
+===================================================== */
 
-function tbl(h,r){
+function tbl(headers,rows){
 
   return `
   <table>
@@ -1517,10 +1913,11 @@ function tbl(h,r){
 
       <tr>
 
-        ${h
+        ${
+          headers
           .map(
-            x =>
-              `<th>${x}</th>`
+            h =>
+              `<th>${h}</th>`
           )
           .join('')
         }
@@ -1532,15 +1929,17 @@ function tbl(h,r){
     <tbody>
 
       ${
-        r ||
+        rows ||
+
         `
         <tr>
 
           <td
-            colspan="${h.length}"
-            class="empty"
-          >
+            colspan="${headers.length}"
+            class="empty">
+
             Nenhum registro.
+
           </td>
 
         </tr>
@@ -1555,15 +1954,16 @@ function tbl(h,r){
 }
 
 
-/* =========================================================
+/* =====================================================
    PEÇAS
-========================================================= */
+===================================================== */
 
 function renderParts(){
 
   const q =
     ($('search')?.value || '')
     .toLowerCase();
+
 
   const f =
     $('filter')?.value || '';
@@ -1577,31 +1977,39 @@ function renderParts(){
 
   const filtered =
     src.filter(
-      p =>
-        (
-          !q ||
+      p => {
+
+        const text =
           [
             p.code,
             p.description
           ]
           .join(' ')
-          .toLowerCase()
-          .includes(q)
-        )
-        &&
-        (
-          !f ||
-          status(p)[0] === f
-        )
+          .toLowerCase();
+
+
+        return (
+
+          (!q || text.includes(q))
+
+          &&
+
+          (
+            showInactive ||
+            !f ||
+            status(p)[0] === f
+          )
+
+        );
+
+      }
     );
 
 
-  const r =
+  const rows =
     filtered
     .map(
       p => {
-
-        /* DESATIVADAS */
 
         if(showInactive){
 
@@ -1665,8 +2073,6 @@ function renderParts(){
         }
 
 
-        /* ATIVAS */
-
         const [c,t] =
           status(p);
 
@@ -1678,23 +2084,23 @@ function renderParts(){
           );
 
 
-        let action;
+        const action =
+          hasHistory
 
+          ?
 
-        if(hasHistory){
-
-          action = `
+          `
           <button
             onclick="deactivatePart('${p.id}')">
 
             Desativar
 
           </button>
-          `;
+          `
 
-        }else{
+          :
 
-          action = `
+          `
           <button
             onclick="deletePart('${p.id}')">
 
@@ -1702,8 +2108,6 @@ function renderParts(){
 
           </button>
           `;
-
-        }
 
 
         return `
@@ -1796,47 +2200,49 @@ function renderParts(){
         'Status',
         'Ações'
       ],
-      r
+      rows
     );
 
 
-  if($('inactiveBtn')){
+  $('inactiveBtn').textContent =
+    showInactive
 
-    $('inactiveBtn').textContent =
-      showInactive
-      ?
-      `Voltar às ativas (${P.length})`
-      :
-      `Ver desativadas (${I.length})`;
+    ?
 
-  }
+    `Voltar às ativas (${P.length})`
+
+    :
+
+    `Ver desativadas (${I.length})`;
 
 }
 
 
-/* =========================================================
-   MOSTRAR / ESCONDER DESATIVADAS
-========================================================= */
+/* =====================================================
+   MOSTRAR DESATIVADAS
+===================================================== */
 
 function toggleInactive(){
 
   showInactive =
     !showInactive;
 
+
   renderParts();
 
 }
 
 
-/* =========================================================
-   EXCLUIR DEFINITIVAMENTE
-========================================================= */
+/* =====================================================
+   EXCLUIR
+===================================================== */
 
 async function deletePart(id){
 
   const p =
     P.find(
-      x => x.id === id
+      x =>
+        x.id === id
     );
 
 
@@ -1844,16 +2250,17 @@ async function deletePart(id){
     return;
 
 
-  /* segurança extra */
-
-  if(
+  const hasHistory =
     M.some(
-      m => m.part_id === id
-    )
-  ){
+      m =>
+        m.part_id === id
+    );
+
+
+  if(hasHistory){
 
     alert(
-      'Esta peça possui movimentações e não pode ser excluída. Ela deve ser desativada para preservar o histórico.'
+      'Esta peça possui movimentações e não pode ser excluída. Use Desativar para preservar o histórico.'
     );
 
     return;
@@ -1888,6 +2295,7 @@ async function deletePart(id){
       );
 
       return;
+
     }
 
 
@@ -1898,11 +2306,15 @@ async function deletePart(id){
       'Peça excluída definitivamente.'
     );
 
+
   }catch(err){
 
     alert(
       'Erro ao excluir: ' +
-      (err.message || err)
+      (
+        err?.message ||
+        err
+      )
     );
 
   }
@@ -1910,15 +2322,16 @@ async function deletePart(id){
 }
 
 
-/* =========================================================
+/* =====================================================
    DESATIVAR
-========================================================= */
+===================================================== */
 
 async function deactivatePart(id){
 
   const p =
     P.find(
-      x => x.id === id
+      x =>
+        x.id === id
     );
 
 
@@ -1928,12 +2341,10 @@ async function deactivatePart(id){
 
   const hasHistory =
     M.some(
-      m => m.part_id === id
+      m =>
+        m.part_id === id
     );
 
-
-  /* se não tiver histórico,
-     pode excluir */
 
   if(!hasHistory){
 
@@ -1973,6 +2384,7 @@ async function deactivatePart(id){
       );
 
       return;
+
     }
 
 
@@ -1983,11 +2395,15 @@ async function deactivatePart(id){
       'Peça desativada. O histórico foi preservado.'
     );
 
+
   }catch(err){
 
     alert(
       'Erro ao desativar: ' +
-      (err.message || err)
+      (
+        err?.message ||
+        err
+      )
     );
 
   }
@@ -1995,15 +2411,16 @@ async function deactivatePart(id){
 }
 
 
-/* =========================================================
+/* =====================================================
    REATIVAR
-========================================================= */
+===================================================== */
 
 async function reactivatePart(id){
 
   const p =
     I.find(
-      x => x.id === id
+      x =>
+        x.id === id
     );
 
 
@@ -2040,10 +2457,13 @@ async function reactivatePart(id){
       );
 
       return;
+
     }
 
 
-    showInactive = false;
+    showInactive =
+      false;
+
 
     await load();
 
@@ -2052,11 +2472,15 @@ async function reactivatePart(id){
       'Peça reativada com sucesso.'
     );
 
+
   }catch(err){
 
     alert(
       'Erro ao reativar: ' +
-      (err.message || err)
+      (
+        err?.message ||
+        err
+      )
     );
 
   }
@@ -2064,15 +2488,19 @@ async function reactivatePart(id){
 }
 
 
-/* =========================================================
+/* =====================================================
    MODAL
-========================================================= */
+===================================================== */
 
-function openModal(t,b){
+function openModal(title,body){
 
-  $('mt').textContent = t;
+  $('mt').textContent =
+    title;
 
-  $('mb').innerHTML = b;
+
+  $('mb').innerHTML =
+    body;
+
 
   $('modal')
     .classList
@@ -2090,9 +2518,9 @@ function closeModal(){
 }
 
 
-/* =========================================================
-   FORMULÁRIO DE PEÇA
-========================================================= */
+/* =====================================================
+   FORM PEÇA
+===================================================== */
 
 function partForm(id){
 
@@ -2103,12 +2531,14 @@ function partForm(id){
 
     p =
       P.find(
-        x => x.id === id
+        x =>
+          x.id === id
       );
 
   }else{
 
     p = {
+
       code:'',
       description:'',
       category_id:'',
@@ -2120,6 +2550,7 @@ function partForm(id){
       unit_cost:0,
       criticality:'Média',
       current_stock:0
+
     };
 
   }
@@ -2138,7 +2569,6 @@ function partForm(id){
     'Nova peça',
 
     `
-
     <form
       onsubmit="savePart(event,'${id || ''}')">
 
@@ -2197,22 +2627,24 @@ function partForm(id){
               Selecione
             </option>
 
-            ${C.map(
-              c =>
-              `
-              <option
-                value="${c.id}"
-                ${
-                  c.id === p.category_id
-                  ? 'selected'
-                  : ''
-                }>
+            ${
+              C.map(
+                c =>
+                `
+                <option
+                  value="${c.id}"
+                  ${
+                    c.id === p.category_id
+                    ? 'selected'
+                    : ''
+                  }>
 
-                ${esc(c.name)}
+                  ${esc(c.name)}
 
-              </option>
-              `
-            ).join('')}
+                </option>
+                `
+              ).join('')
+            }
 
           </select>
 
@@ -2231,22 +2663,24 @@ function partForm(id){
               Selecione
             </option>
 
-            ${L.map(
-              l =>
-              `
-              <option
-                value="${l.id}"
-                ${
-                  l.id === p.location_id
-                  ? 'selected'
-                  : ''
-                }>
+            ${
+              L.map(
+                l =>
+                `
+                <option
+                  value="${l.id}"
+                  ${
+                    l.id === p.location_id
+                    ? 'selected'
+                    : ''
+                  }>
 
-                ${esc(l.name)}
+                  ${esc(l.name)}
 
-              </option>
-              `
-            ).join('')}
+                </option>
+                `
+              ).join('')
+            }
 
           </select>
 
@@ -2402,17 +2836,15 @@ function partForm(id){
       </div>
 
     </form>
-
     `
-
   );
 
 }
 
 
-/* =========================================================
+/* =====================================================
    SALVAR PEÇA
-========================================================= */
+===================================================== */
 
 async function savePart(e,id){
 
@@ -2434,28 +2866,35 @@ async function savePart(e,id){
         f.get('description').trim(),
 
       unit:
-        f.get('unit') || 'UN',
+        f.get('unit') ||
+        'UN',
 
       category_id:
-        f.get('category_id') || null,
+        f.get('category_id') ||
+        null,
 
       location_id:
-        f.get('location_id') || null,
+        f.get('location_id') ||
+        null,
 
       criticality:
         f.get('criticality'),
 
       min_stock:
-        +f.get('min_stock') || 0,
+        +f.get('min_stock') ||
+        0,
 
       max_stock:
-        +f.get('max_stock') || 0,
+        +f.get('max_stock') ||
+        0,
 
       reorder_point:
-        +f.get('reorder_point') || 0,
+        +f.get('reorder_point') ||
+        0,
 
       unit_cost:
-        +f.get('unit_cost') || 0
+        +f.get('unit_cost') ||
+        0
 
     };
 
@@ -2477,9 +2916,15 @@ async function savePart(e,id){
         await S
         .from('parts')
         .insert({
+
           ...d,
+
           current_stock:
-            +f.get('current_stock') || 0
+            +f.get('current_stock') ||
+            0,
+
+          active:true
+
         });
 
     }
@@ -2493,6 +2938,7 @@ async function savePart(e,id){
       );
 
       return;
+
     }
 
 
@@ -2510,7 +2956,10 @@ async function savePart(e,id){
 
     alert(
       'Erro ao salvar: ' +
-      (err.message || err)
+      (
+        err?.message ||
+        err
+      )
     );
 
   }
@@ -2518,9 +2967,9 @@ async function savePart(e,id){
 }
 
 
-/* =========================================================
-   FORMULÁRIO DE MOVIMENTAÇÃO
-========================================================= */
+/* =====================================================
+   FORM MOVIMENTAÇÃO
+===================================================== */
 
 function moveForm(){
 
@@ -2531,6 +2980,7 @@ function moveForm(){
     );
 
     return;
+
   }
 
 
@@ -2539,7 +2989,6 @@ function moveForm(){
     'Registrar movimentação',
 
     `
-
     <form
       onsubmit="saveMove(event)">
 
@@ -2605,20 +3054,23 @@ function moveForm(){
 
           <select name="part_id">
 
-            ${P.map(
-              p =>
-              `
-              <option
-                value="${p.id}">
+            ${
+              P.map(
+                p =>
+                `
+                <option value="${p.id}">
 
-                ${esc(p.code)}
-                —
-                ${esc(p.description)}
-                (saldo ${p.current_stock})
+                  ${esc(p.code)}
+                  —
+                  ${esc(p.description)}
 
-              </option>
-              `
-            ).join('')}
+                  (saldo
+                  ${p.current_stock})
+
+                </option>
+                `
+              ).join('')
+            }
 
           </select>
 
@@ -2689,7 +3141,6 @@ function moveForm(){
 
         </div>
 
-
       </div>
 
 
@@ -2714,17 +3165,15 @@ function moveForm(){
       </div>
 
     </form>
-
     `
-
   );
 
 }
 
 
-/* =========================================================
+/* =====================================================
    SALVAR MOVIMENTAÇÃO
-========================================================= */
+===================================================== */
 
 async function saveMove(e){
 
@@ -2750,6 +3199,7 @@ async function saveMove(e){
       );
 
       return;
+
     }
 
 
@@ -2768,6 +3218,7 @@ async function saveMove(e){
       );
 
       return;
+
     }
 
 
@@ -2781,6 +3232,7 @@ async function saveMove(e){
       );
 
       return;
+
     }
 
 
@@ -2796,19 +3248,24 @@ async function saveMove(e){
         q,
 
       unit_cost:
-        +p.unit_cost || 0,
+        +p.unit_cost ||
+        0,
 
       maintenance_order:
-        f.get('maintenance_order') || null,
+        f.get('maintenance_order') ||
+        null,
 
       equipment:
-        f.get('equipment') || null,
+        f.get('equipment') ||
+        null,
 
       document_number:
-        f.get('document_number') || null,
+        f.get('document_number') ||
+        null,
 
       reason:
-        f.get('reason') || null,
+        f.get('reason') ||
+        null,
 
       movement_date:
         new Date(
@@ -2832,6 +3289,7 @@ async function saveMove(e){
       );
 
       return;
+
     }
 
 
@@ -2849,7 +3307,10 @@ async function saveMove(e){
 
     alert(
       'Erro ao registrar movimentação: ' +
-      (err.message || err)
+      (
+        err?.message ||
+        err
+      )
     );
 
   }
@@ -2857,13 +3318,13 @@ async function saveMove(e){
 }
 
 
-/* =========================================================
-   RENDER MOVIMENTAÇÕES
-========================================================= */
+/* =====================================================
+   MOVIMENTAÇÕES
+===================================================== */
 
 function renderMoves(){
 
-  const r =
+  const rows =
     M
     .map(
       m => {
@@ -2874,15 +3335,25 @@ function renderMoves(){
 
         const cl =
           m.movement_type === 'Saída'
+
           ?
+
           'danger'
+
           :
-          m.movement_type === 'Entrada' ||
-          m.movement_type === 'Devolução'
-          ?
-          'ok'
-          :
-          'info';
+
+          (
+            m.movement_type === 'Entrada' ||
+            m.movement_type === 'Devolução'
+
+            ?
+
+            'ok'
+
+            :
+
+            'info'
+          );
 
 
         return `
@@ -2895,7 +3366,9 @@ function renderMoves(){
           <td>
 
             <span class="tag ${cl}">
+
               ${esc(m.movement_type)}
+
             </span>
 
           </td>
@@ -2907,7 +3380,11 @@ function renderMoves(){
             </b>
 
             <div class="muted">
-              ${esc(p?.description || '')}
+
+              ${esc(
+                p?.description || ''
+              )}
+
             </div>
 
           </td>
@@ -2917,25 +3394,33 @@ function renderMoves(){
           </td>
 
           <td>
+
             ${m.stock_before ?? '—'}
             →
             ${m.stock_after ?? '—'}
+
           </td>
 
           <td>
-            ${esc(m.maintenance_order || '')}
+            ${esc(
+              m.maintenance_order || ''
+            )}
           </td>
 
           <td>
-            ${esc(m.equipment || '')}
+            ${esc(
+              m.equipment || ''
+            )}
           </td>
 
           <td>
+
             ${esc(
               m.document_number ||
               m.reason ||
               ''
             )}
+
           </td>
 
         </tr>
@@ -2958,19 +3443,19 @@ function renderMoves(){
         'Equipamento',
         'Documento/Motivo'
       ],
-      r
+      rows
     );
 
 }
 
 
-/* =========================================================
-   RENDER REPOSIÇÃO
-========================================================= */
+/* =====================================================
+   REPOSIÇÃO
+===================================================== */
 
 function renderRep(){
 
-  const r =
+  const rows =
     P
     .filter(
       p =>
@@ -3016,15 +3501,19 @@ function renderRep(){
           </td>
 
           <td>
+
             <b>
               ${n}
             </b>
+
           </td>
 
           <td>
+
             ${money(
               n * +p.unit_cost
             )}
+
           </td>
 
         </tr>
@@ -3047,47 +3536,51 @@ function renderRep(){
         'Sugestão',
         'Valor'
       ],
-      r
+      rows
     );
 
 }
 
 
-/* =========================================================
+/* =====================================================
    INDICADORES
-========================================================= */
+===================================================== */
 
 function renderInd(){
 
-  const o =
+  const exits =
     M.filter(
       m =>
         m.movement_type === 'Saída'
     );
 
 
-  const q =
-    o.reduce(
+  const qty =
+    exits.reduce(
       (s,m) =>
-        s + +m.quantity,
+        s +
+        (+m.quantity || 0),
       0
     );
 
 
-  const v =
-    o.reduce(
+  const value =
+    exits.reduce(
       (s,m) =>
         s +
-        (+m.quantity || 0) *
-        (+m.unit_cost || 0),
+        (
+          (+m.quantity || 0) *
+          (+m.unit_cost || 0)
+        ),
       0
     );
 
 
   const used =
     new Set(
-      o.map(
-        m => m.part_id
+      exits.map(
+        m =>
+          m.part_id
       )
     );
 
@@ -3101,31 +3594,34 @@ function renderInd(){
     .reduce(
       (s,p) =>
         s +
-        (+p.current_stock || 0) *
-        (+p.unit_cost || 0),
+        (
+          (+p.current_stock || 0) *
+          (+p.unit_cost || 0)
+        ),
       0
     );
 
 
   $('io').textContent =
-    o.length;
+    exits.length;
+
 
   $('iq').textContent =
-    q;
+    qty;
+
 
   $('iv').textContent =
-    money(v);
+    money(value);
+
 
   $('ii').textContent =
     money(idle);
 
 
-  /* mais consumidas */
-
-  let top = {};
+  const top = {};
 
 
-  o.forEach(
+  exits.forEach(
     m => {
 
       top[m.part_id] =
@@ -3141,7 +3637,8 @@ function renderInd(){
     .entries(top)
     .sort(
       (a,b) =>
-        b[1] - a[1]
+        b[1] -
+        a[1]
     )
     .slice(0,7);
 
@@ -3154,6 +3651,7 @@ function renderInd(){
         const p =
           part(id);
 
+
         return `
         <div
           style="
@@ -3164,12 +3662,18 @@ function renderInd(){
         >
 
           <b>
-            ${esc(p?.code || '—')}
+            ${esc(
+              p?.code || '—'
+            )}
           </b>
 
           <span>
+
             ${n}
-            ${esc(p?.unit || '')}
+            ${esc(
+              p?.unit || ''
+            )}
+
           </span>
 
         </div>
@@ -3184,21 +3688,21 @@ function renderInd(){
     '<div class="empty">Sem saídas.</div>';
 
 
-  /* criticidade */
+  const crit = {
 
-  const c = {
-    Crítica:0,
-    Alta:0,
-    Média:0,
-    Baixa:0
+    'Crítica':0,
+    'Alta':0,
+    'Média':0,
+    'Baixa':0
+
   };
 
 
   P.forEach(
     p => {
 
-      c[p.criticality] =
-        (c[p.criticality] || 0) +
+      crit[p.criticality] =
+        (crit[p.criticality] || 0) +
         1;
 
     }
@@ -3207,7 +3711,7 @@ function renderInd(){
 
   $('crit').innerHTML =
     Object
-    .entries(c)
+    .entries(crit)
     .map(
       ([k,n]) =>
       `
@@ -3235,9 +3739,9 @@ function renderInd(){
 }
 
 
-/* =========================================================
+/* =====================================================
    NAVEGAÇÃO
-========================================================= */
+===================================================== */
 
 document
 .querySelectorAll(
@@ -3246,57 +3750,162 @@ document
 .forEach(
   b => {
 
-    b.onclick = () => {
+    b.addEventListener(
+      'click',
+      () => {
 
-      document
-      .querySelectorAll(
-        'nav button[data-tab]'
-      )
-      .forEach(
-        x =>
-          x.classList.remove('active')
-      );
-
-
-      b.classList.add('active');
-
-
-      document
-      .querySelectorAll('.tab')
-      .forEach(
-        x =>
-          x.classList.remove('active')
-      );
+        document
+        .querySelectorAll(
+          'nav button[data-tab]'
+        )
+        .forEach(
+          x =>
+            x.classList
+             .remove('active')
+        );
 
 
-      $(b.dataset.tab)
+        b.classList
+         .add('active');
+
+
+        document
+        .querySelectorAll('.tab')
+        .forEach(
+          x =>
+            x.classList
+             .remove('active')
+        );
+
+
+        $(b.dataset.tab)
         .classList
         .add('active');
 
 
-      render();
+        render();
 
-    };
+      }
+    );
 
   }
 );
 
 
-/* =========================================================
-   INICIAR
-========================================================= */
+/* =====================================================
+   LOGIN — EVENTOS
+===================================================== */
+
+$('btnLogin')
+.addEventListener(
+  'click',
+  login
+);
+
+
+$('btnSignup')
+.addEventListener(
+  'click',
+  signup
+);
+
+
+$('email')
+.addEventListener(
+  'input',
+  updateSignupVisibility
+);
+
+
+$('email')
+.addEventListener(
+  'change',
+  updateSignupVisibility
+);
+
+
+$('email')
+.addEventListener(
+  'keydown',
+  e => {
+
+    if(e.key === 'Enter'){
+
+      login();
+
+    }
+
+  }
+);
+
+
+$('pass')
+.addEventListener(
+  'keydown',
+  e => {
+
+    if(e.key === 'Enter'){
+
+      login();
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   AUTENTICAÇÃO
+===================================================== */
+
+S.auth.onAuthStateChange(
+  async (
+    event,
+    session
+  ) => {
+
+    if(session){
+
+      await show(session);
+
+    }else{
+
+      $('app')
+      .classList
+      .add('hidden');
+
+
+      $('login')
+      .classList
+      .remove('hidden');
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   INICIALIZAÇÃO
+===================================================== */
 
 (async()=>{
 
   try{
 
+    updateSignupVisibility();
+
+
     const r =
       await S.auth.getSession();
 
 
-    if(r.data.session){
+    if(
+      r.data &&
+      r.data.session
+    ){
 
-      show(
+      await show(
         r.data.session
       );
 
@@ -3304,7 +3913,10 @@ document
 
   }catch(err){
 
-    console.error(err);
+    console.error(
+      'Inicialização:',
+      err
+    );
 
   }
 
