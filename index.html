@@ -9,59 +9,67 @@
 
 <style>
 :root{
-  --b:#0b1016;
-  --p:#141b24;
-  --l:#2a3542;
-  --t:#f4f7fa;
-  --m:#9aa8b7;
-  --a:#f28c28;
-  --g:#42c883;
-  --w:#f5b942;
-  --d:#ef5350;
+  --bg:#0b1016;
+  --panel:#141b24;
+  --panel2:#10161d;
+  --line:#2a3542;
+  --text:#f4f7fa;
+  --muted:#9aa8b7;
+  --orange:#f28c28;
+  --green:#42c883;
+  --yellow:#f5b942;
+  --red:#ef5350;
+  --blue:#4da3ff
 }
 
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box
+}
 
-body{
+html,body{
   margin:0;
-  background:var(--b);
-  color:var(--t);
-  font:14px Segoe UI,Arial,sans-serif;
+  min-height:100%;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Segoe UI,Arial,sans-serif;
+  font-size:14px
 }
 
-.hidden{display:none!important}
+.hidden{
+  display:none!important
+}
 
 header{
   padding:14px 24px;
-  background:#10161d;
-  border-bottom:1px solid var(--l);
+  background:var(--panel2);
+  border-bottom:1px solid var(--line);
   display:flex;
   justify-content:space-between;
   align-items:center;
   gap:20px;
   position:sticky;
   top:0;
-  z-index:5;
+  z-index:5
 }
 
 .brand{
   font-size:21px;
-  font-weight:800;
+  font-weight:800
 }
 
 .brand span{
-  color:var(--a);
+  color:var(--orange)
 }
 
 .muted{
-  color:var(--m);
-  font-size:12px;
+  color:var(--muted);
+  font-size:12px
 }
 
 nav{
   display:flex;
   gap:6px;
-  flex-wrap:wrap;
+  flex-wrap:wrap
 }
 
 button{
@@ -70,145 +78,160 @@ button{
   border-radius:8px;
   padding:10px 14px;
   background:transparent;
-  color:var(--m);
-  border:1px solid var(--l);
-  font-weight:700;
+  color:var(--muted);
+  border:1px solid var(--line);
+  font-weight:700
 }
 
-button:hover,
-nav button.active{
+button:hover{
   background:#1b2531;
-  color:#fff;
+  color:#fff
+}
+
+button:disabled{
+  opacity:.55;
+  cursor:not-allowed
 }
 
 button.primary{
-  background:var(--a);
+  background:var(--orange);
   color:#111;
-  border-color:var(--a);
+  border-color:var(--orange)
+}
+
+nav button.active{
+  background:#1b2531;
+  color:#fff
 }
 
 main{
   max-width:1500px;
   margin:auto;
-  padding:24px;
+  padding:24px
 }
 
-.tab{display:none}
-.tab.active{display:block}
+.tab{
+  display:none
+}
+
+.tab.active{
+  display:block
+}
 
 .head{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:18px;
   gap:15px;
+  margin-bottom:18px
 }
 
 .head h1{
   margin:0;
-  font-size:25px;
+  font-size:25px
 }
 
 .head p{
-  color:var(--m);
-  margin:5px 0;
+  color:var(--muted);
+  margin:5px 0
 }
 
 .cards{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:14px;
-  margin-bottom:18px;
+  margin-bottom:18px
 }
 
-.card,
-.panel{
-  background:var(--p);
-  border:1px solid var(--l);
-  border-radius:13px;
+.card,.panel{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:13px
 }
 
 .card{
-  padding:18px;
+  padding:18px
 }
 
 .label{
   font-size:11px;
-  color:var(--m);
+  color:var(--muted);
   font-weight:800;
-  text-transform:uppercase;
+  text-transform:uppercase
 }
 
 .kpi{
   font-size:28px;
   font-weight:850;
-  margin-top:8px;
+  margin-top:8px
 }
 
 .panel{
   padding:18px;
-  margin-bottom:18px;
+  margin-bottom:18px
 }
 
 .panel h2{
   font-size:16px;
-  margin:0 0 14px;
+  margin:0 0 14px
 }
 
 .grid2{
   display:grid;
   grid-template-columns:1.2fr .8fr;
-  gap:18px;
+  gap:18px
 }
 
 .toolbar{
   display:flex;
   gap:9px;
   flex-wrap:wrap;
-  margin-bottom:14px;
+  margin-bottom:14px
 }
 
-input,
-select{
+input,select{
   background:#0f151c;
-  border:1px solid var(--l);
+  border:1px solid var(--line);
   color:#fff;
   border-radius:8px;
   padding:10px;
-  outline:0;
+  outline:0
 }
 
-input:focus,
-select:focus{
-  border-color:var(--a);
+input:focus,select:focus{
+  border-color:var(--orange)
+}
+
+input::placeholder{
+  color:#687585
 }
 
 .input{
-  min-width:260px;
+  min-width:260px
 }
 
 table{
   width:100%;
   border-collapse:collapse;
-  font-size:13px;
+  font-size:13px
 }
 
-th,
-td{
+th,td{
   padding:10px 9px;
-  border-bottom:1px solid var(--l);
+  border-bottom:1px solid var(--line);
   text-align:left;
-  white-space:nowrap;
+  vertical-align:middle
 }
 
 th{
   font-size:11px;
-  color:var(--m);
+  color:var(--muted);
   text-transform:uppercase;
+  white-space:nowrap
 }
 
 .tablewrap{
-  overflow:auto;
+  overflow:auto
 }
 
 .tag{
@@ -217,43 +240,45 @@ th{
   border-radius:20px;
   font-size:11px;
   font-weight:800;
+  white-space:nowrap
 }
 
 .ok{
   background:#163b2b;
-  color:#6ee7a8;
+  color:#6ee7a8
 }
 
 .warn{
   background:#493717;
-  color:#ffd36b;
+  color:#ffd36b
 }
 
 .danger{
   background:#48201f;
-  color:#ff8b87;
+  color:#ff8b87
 }
 
 .info{
   background:#18334f;
-  color:#82baff;
+  color:#82baff
 }
 
 .alert{
   padding:12px;
-  border:1px solid var(--l);
+  border:1px solid var(--line);
   border-radius:9px;
   background:#111820;
   margin-bottom:9px;
   display:flex;
   justify-content:space-between;
-  gap:10px;
+  align-items:center;
+  gap:10px
 }
 
 .empty{
   text-align:center;
   padding:28px;
-  color:var(--m);
+  color:var(--muted)
 }
 
 .modal{
@@ -263,59 +288,63 @@ th{
   display:none;
   align-items:center;
   justify-content:center;
-  z-index:20;
+  z-index:20
 }
 
 .modal.show{
-  display:flex;
+  display:flex
 }
 
 .modalbox{
-  width:min(800px,94vw);
+  width:min(850px,94vw);
   max-height:90vh;
   overflow:auto;
-  background:var(--p);
-  border:1px solid var(--l);
+  background:var(--panel);
+  border:1px solid var(--line);
   border-radius:14px;
-  padding:20px;
+  padding:20px
 }
 
 .mh{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:15px;
+  margin-bottom:15px
+}
+
+.mh h2{
+  margin:0
 }
 
 .close{
   font-size:24px;
-  border:0;
+  border:0
 }
 
 .formgrid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:12px;
+  gap:12px
 }
 
 .field label{
   display:block;
-  color:var(--m);
+  color:var(--muted);
   font-size:11px;
   font-weight:800;
-  margin-bottom:5px;
+  margin-bottom:5px
 }
 
 .field input,
 .field select{
-  width:100%;
+  width:100%
 }
 
 .actions{
   display:flex;
   justify-content:flex-end;
   gap:8px;
-  margin-top:15px;
+  margin-top:15px
 }
 
 .login{
@@ -323,22 +352,23 @@ th{
   display:flex;
   align-items:center;
   justify-content:center;
+  padding:20px
 }
 
 .loginbox{
   width:min(430px,94vw);
-  background:var(--p);
-  border:1px solid var(--l);
+  background:var(--panel);
+  border:1px solid var(--line);
   border-radius:16px;
-  padding:26px;
+  padding:26px
 }
 
 .loginbox .field{
-  margin:12px 0;
+  margin:12px 0
 }
 
 .loginbox input{
-  width:100%;
+  width:100%
 }
 
 .msg{
@@ -346,73 +376,75 @@ th{
   padding:10px;
   border-radius:8px;
   font-size:12px;
+  display:none
+}
+
+.msg.show{
+  display:block
 }
 
 .err{
-  background:#4b211f;
-  color:#fff;
+  background:#4b211f
 }
 
 .okmsg{
-  background:#163b2b;
-  color:#fff;
+  background:#163b2b
 }
 
-.small-note{
-  color:var(--m);
+.smallnote{
+  margin-top:9px;
+  color:var(--muted);
   font-size:11px;
-  margin-top:6px;
-}
-
-.action-group{
-  display:flex;
-  gap:6px;
-  flex-wrap:wrap;
+  line-height:1.4
 }
 
 @media(max-width:1000px){
+
   .cards{
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:repeat(2,1fr)
   }
 
   .grid2{
-    grid-template-columns:1fr;
+    grid-template-columns:1fr
   }
+
 }
 
 @media(max-width:700px){
+
   header{
     flex-direction:column;
-    align-items:flex-start;
+    align-items:flex-start
   }
 
   .cards,
   .formgrid{
-    grid-template-columns:1fr;
+    grid-template-columns:1fr
   }
 
   main{
-    padding:14px;
+    padding:14px
   }
 
   .input{
     min-width:0;
-    width:100%;
+    width:100%
   }
 
   .head{
     align-items:flex-start;
-    flex-direction:column;
+    flex-direction:column
   }
+
 }
 </style>
 </head>
 
 <body>
 
-<!-- =====================================================
+<!-- =========================
      LOGIN
-===================================================== -->
+========================= -->
 
 <div id="login" class="login">
 
@@ -428,69 +460,70 @@ th{
 
     <div class="field">
 
-      <label>E-mail</label>
+      <label for="email">
+        E-mail
+      </label>
 
       <input
         id="email"
         type="email"
         autocomplete="username"
-        placeholder="seu e-mail">
+        placeholder="seu e-mail"
+      >
 
     </div>
 
     <div class="field">
 
-      <label>Senha</label>
+      <label for="pass">
+        Senha
+      </label>
 
       <input
         id="pass"
         type="password"
         autocomplete="current-password"
-        placeholder="sua senha">
+        placeholder="sua senha"
+      >
 
     </div>
 
     <button
       id="btnLogin"
       class="primary"
-      style="width:100%">
-
+      style="width:100%"
+    >
       Entrar
-
     </button>
-
-    <!--
-      SOMENTE KELVIN VISUALIZA ESTE BOTÃO
-    -->
 
     <button
       id="btnSignup"
-      style="width:100%;margin-top:8px;display:none">
-
+      style="width:100%;margin-top:8px;display:none"
+    >
       Criar acesso
-
     </button>
 
     <div
       id="signupInfo"
-      class="small-note"
-      style="display:none">
-
-      Cadastro de novos acessos disponível somente
-      para o administrador.
-
+      class="smallnote"
+      style="display:none"
+    >
+      A opção de criar acesso fica disponível somente para o e-mail autorizado.
     </div>
 
-    <div id="msg"></div>
+    <div
+      id="msg"
+      class="msg"
+    ></div>
 
   </div>
 
 </div>
 
 
-<!-- =====================================================
+<!-- =========================
      SISTEMA
-===================================================== -->
+========================= -->
 
 <div id="app" class="hidden">
 
@@ -504,50 +537,38 @@ th{
 
     <div
       id="who"
-      class="muted">
-    </div>
+      class="muted"
+    ></div>
 
   </div>
-
 
   <nav>
 
     <button
       class="active"
-      data-tab="dash">
-
+      data-tab="dash"
+    >
       📊 Painel de Estoque
-
     </button>
 
     <button data-tab="parts">
-
       🔩 Peças
-
     </button>
 
     <button data-tab="moves">
-
       📦 Movimentações
-
     </button>
 
     <button data-tab="replen">
-
       🚨 Reposição
-
     </button>
 
     <button data-tab="ind">
-
       📈 Indicadores
-
     </button>
 
-    <button onclick="logout()">
-
+    <button id="btnLogout">
       Sair
-
     </button>
 
   </nav>
@@ -557,35 +578,34 @@ th{
 
 <main>
 
-<!-- =====================================================
-     PAINEL
-===================================================== -->
+<!-- =========================
+     DASHBOARD
+========================= -->
 
 <section
   id="dash"
-  class="tab active">
+  class="tab active"
+>
 
   <div class="head">
 
     <div>
 
       <h1>
-        📊 Painel de Estoque
+        Visão geral
       </h1>
 
       <p>
-        Visão geral do estoque de manutenção.
+        Posição atual do estoque.
       </p>
 
     </div>
 
-
     <button
       class="primary"
-      onclick="partForm()">
-
+      id="btnNewPart"
+    >
       + Nova peça
-
     </button>
 
   </div>
@@ -601,10 +621,9 @@ th{
 
       <div
         class="kpi"
-        id="kv">
-
+        id="kv"
+      >
         R$ 0,00
-
       </div>
 
     </div>
@@ -618,10 +637,9 @@ th{
 
       <div
         class="kpi"
-        id="ki">
-
+        id="ki"
+      >
         0
-
       </div>
 
     </div>
@@ -635,10 +653,9 @@ th{
 
       <div
         class="kpi"
-        id="kl">
-
+        id="kl"
+      >
         0
-
       </div>
 
     </div>
@@ -652,10 +669,9 @@ th{
 
       <div
         class="kpi"
-        id="kz">
-
+        id="kz"
+      >
         0
-
       </div>
 
     </div>
@@ -702,46 +718,42 @@ th{
 </section>
 
 
-<!-- =====================================================
+<!-- =========================
      PEÇAS
-===================================================== -->
+========================= -->
 
 <section
   id="parts"
-  class="tab">
+  class="tab"
+>
 
   <div class="head">
 
     <div>
 
       <h1>
-        🔩 Peças
+        Peças
       </h1>
 
       <p>
-        Cadastro mestre do estoque.
+        Cadastro mestre conectado ao Supabase.
       </p>
 
     </div>
 
+    <div
+      style="display:flex;gap:8px;flex-wrap:wrap"
+    >
 
-    <div class="action-group">
-
-      <button
-        onclick="toggleInactive()"
-        id="inactiveBtn">
-
+      <button id="inactiveBtn">
         Ver desativadas
-
       </button>
-
 
       <button
         class="primary"
-        onclick="partForm()">
-
+        id="btnNewPart2"
+      >
         + Nova peça
-
       </button>
 
     </div>
@@ -757,12 +769,9 @@ th{
         id="search"
         class="input"
         placeholder="Buscar código ou descrição"
-        oninput="renderParts()">
+      >
 
-
-      <select
-        id="filter"
-        onchange="renderParts()">
+      <select id="filter">
 
         <option value="">
           Todos
@@ -787,71 +796,71 @@ th{
 
     <div
       class="tablewrap"
-      id="partsTable">
-    </div>
+      id="partsTable"
+    ></div>
 
   </div>
 
 </section>
 
 
-<!-- =====================================================
+<!-- =========================
      MOVIMENTAÇÕES
-===================================================== -->
+========================= -->
 
 <section
   id="moves"
-  class="tab">
+  class="tab"
+>
 
   <div class="head">
 
     <div>
 
       <h1>
-        📦 Movimentações
+        Movimentações
       </h1>
 
       <p>
         Entrada, saída, devolução e ajuste.
+        O saldo é atualizado pelo banco.
       </p>
 
     </div>
 
-
     <button
       class="primary"
-      onclick="moveForm()">
-
+      id="btnNewMove"
+    >
       + Registrar movimentação
-
     </button>
 
   </div>
 
 
-  <div class="panel tablewrap">
-
-    <div id="moveTable"></div>
-
-  </div>
+  <div
+    class="panel tablewrap"
+    id="moveTable"
+  ></div>
 
 </section>
 
 
-<!-- =====================================================
+<!-- =========================
      REPOSIÇÃO
-===================================================== -->
+========================= -->
 
 <section
   id="replen"
-  class="tab">
+  class="tab"
+>
 
   <div class="head">
 
     <div>
 
       <h1>
-        🚨 Reposição
+        Reposição
       </h1>
 
       <p>
@@ -863,34 +872,33 @@ th{
   </div>
 
 
-  <div class="panel tablewrap">
-
-    <div id="repTable"></div>
-
-  </div>
+  <div
+    class="panel tablewrap"
+    id="repTable"
+  ></div>
 
 </section>
 
 
-<!-- =====================================================
+<!-- =========================
      INDICADORES
-===================================================== -->
+========================= -->
 
 <section
   id="ind"
-  class="tab">
+  class="tab"
+>
 
   <div class="head">
 
     <div>
 
       <h1>
-        📈 Indicadores
+        Indicadores
       </h1>
 
       <p>
-        Indicadores calculados a partir das
-        movimentações e do saldo atual.
+        Calculados a partir das movimentações e do saldo atual.
       </p>
 
     </div>
@@ -908,10 +916,9 @@ th{
 
       <div
         class="kpi"
-        id="io">
-
+        id="io"
+      >
         0
-
       </div>
 
     </div>
@@ -925,10 +932,9 @@ th{
 
       <div
         class="kpi"
-        id="iq">
-
+        id="iq"
+      >
         0
-
       </div>
 
     </div>
@@ -942,10 +948,9 @@ th{
 
       <div
         class="kpi"
-        id="iv">
-
+        id="iv"
+      >
         R$ 0,00
-
       </div>
 
     </div>
@@ -959,10 +964,9 @@ th{
 
       <div
         class="kpi"
-        id="ii">
-
+        id="ii"
+      >
         R$ 0,00
-
       </div>
 
     </div>
@@ -1002,13 +1006,14 @@ th{
 </div>
 
 
-<!-- =====================================================
+<!-- =========================
      MODAL
-===================================================== -->
+========================= -->
 
 <div
   id="modal"
-  class="modal">
+  class="modal"
+>
 
   <div class="modalbox">
 
@@ -1018,10 +1023,9 @@ th{
 
       <button
         class="close"
-        onclick="closeModal()">
-
+        id="btnClose"
+      >
         ×
-
       </button>
 
     </div>
@@ -1035,34 +1039,32 @@ th{
 
 <script>
 
-/* =====================================================
-   SUPABASE
-===================================================== */
-
-const URL =
-'https://uhtmkrlouzbdirkaolet.supabase.co';
-
-const KEY =
-'sb_publishable_MefMlR2RVIdGv-j9pPqGgw_X72XOvdS';
-
-const S =
-supabase.createClient(
-  URL,
-  KEY
-);
+'use strict';
 
 
-/* =====================================================
-   ADMINISTRADOR
-===================================================== */
+/* =========================================================
+   CONFIGURAÇÃO SUPABASE
+========================================================= */
+
+const SUPABASE_URL =
+  'https://uhtmkrlouzbdirkaolet.supabase.co';
+
+const SUPABASE_KEY =
+  'sb_publishable_MefMlR2RVIdGv-j9pPqGgw_X72XOvdS';
 
 const ADMIN_EMAIL =
-'kelvin.batista@budny.com.br';
+  'kelvin.batista@budny.com.br';
+
+const S =
+  supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
 
-/* =====================================================
+/* =========================================================
    VARIÁVEIS
-===================================================== */
+========================================================= */
 
 let P = [];
 let M = [];
@@ -1071,149 +1073,174 @@ let L = [];
 let I = [];
 
 let showInactive = false;
+let currentSession = null;
+let loading = false;
 
 
-/* =====================================================
-   AUXILIARES
-===================================================== */
+/* =========================================================
+   FUNÇÕES AUXILIARES
+========================================================= */
 
-const $ =
-id =>
-document.getElementById(id);
-
-
-const money =
-v =>
-(+v || 0).toLocaleString(
-  'pt-BR',
-  {
-    style:'currency',
-    currency:'BRL'
-  }
-);
+const $ = id =>
+  document.getElementById(id);
 
 
-const esc =
-s =>
-String(s ?? '')
-.replace(
-  /[&<>"']/g,
-  x =>
-  ({
-    '&':'&amp;',
-    '<':'&lt;',
-    '>':'&gt;',
-    '"':'&quot;',
-    "'":'&#039;'
-  }[x])
-);
+const money = v =>
+  (+v || 0).toLocaleString(
+    'pt-BR',
+    {
+      style:'currency',
+      currency:'BRL'
+    }
+  );
 
 
-const part =
-id =>
-P.find(
-  p =>
-  p.id === id
-);
+const esc = s =>
+  String(s ?? '').replace(
+    /[&<>"']/g,
+    x => ({
+      '&':'&amp;',
+      '<':'&lt;',
+      '>':'&gt;',
+      '"':'&quot;',
+      "'":'&#039;'
+    }[x])
+  );
 
 
-const date =
-x =>
-x
-?
-new Date(x).toLocaleDateString('pt-BR')
-:
-'—';
+const part = id =>
+  P.find(
+    p => String(p.id) === String(id)
+  ) ||
+  I.find(
+    p => String(p.id) === String(id)
+  );
 
 
-/* =====================================================
-   STATUS
-===================================================== */
+const date = x =>
+  x
+    ? new Date(x).toLocaleDateString('pt-BR')
+    : '—';
+
 
 function status(p){
 
-  if(+p.current_stock <= 0)
-    return ['ruptura','Ruptura'];
+  const stock =
+    +p.current_stock || 0;
 
-  if(+p.current_stock < +p.min_stock)
-    return ['baixo','Abaixo do mínimo'];
+  const min =
+    +p.min_stock || 0;
 
-  return ['normal','Normal'];
+  if(stock <= 0){
+
+    return [
+      'ruptura',
+      'Ruptura'
+    ];
+
+  }
+
+  if(stock < min){
+
+    return [
+      'baixo',
+      'Abaixo do mínimo'
+    ];
+
+  }
+
+  return [
+    'normal',
+    'Normal'
+  ];
 
 }
 
 
-/* =====================================================
-   MENSAGEM
-===================================================== */
-
-function msg(t,error=false){
+function showMessage(
+  text,
+  error=false
+){
 
   const el =
     $('msg');
 
-  el.className =
-    'msg ' +
-    (error ? 'err' : 'okmsg');
-
   el.textContent =
-    t;
+    text || '';
+
+  el.className =
+    'msg show ' +
+    (
+      error
+        ? 'err'
+        : 'okmsg'
+    );
 
 }
 
 
-/* =====================================================
-   MOSTRAR CRIAR ACESSO SOMENTE PARA KELVIN
-===================================================== */
+function clearMessage(){
+
+  $('msg').textContent =
+    '';
+
+  $('msg').className =
+    'msg';
+
+}
+
+
+/* =========================================================
+   MOSTRAR / ESCONDER CRIAR ACESSO
+========================================================= */
 
 function updateSignupVisibility(){
 
   const email =
     $('email')
-    .value
-    .trim()
-    .toLowerCase();
+      .value
+      .trim()
+      .toLowerCase();
 
+  const allowed =
+    email === ADMIN_EMAIL;
 
-  const isAdmin =
-    email ===
-    ADMIN_EMAIL;
+  $('btnSignup')
+    .style
+    .display =
+    allowed
+      ? 'block'
+      : 'none';
 
-
-  $('btnSignup').style.display =
-    isAdmin
-    ? 'block'
-    : 'none';
-
-
-  $('signupInfo').style.display =
-    isAdmin
-    ? 'block'
-    : 'none';
+  $('signupInfo')
+    .style
+    .display =
+    allowed
+      ? 'block'
+      : 'none';
 
 }
 
 
-/* =====================================================
+/* =========================================================
    LOGIN
-===================================================== */
+========================================================= */
 
 async function login(){
 
   const email =
     $('email')
-    .value
-    .trim();
-
+      .value
+      .trim();
 
   const password =
     $('pass')
-    .value;
+      .value;
 
 
   if(!email){
 
-    msg(
+    showMessage(
       'Informe o e-mail.',
       true
     );
@@ -1221,13 +1248,12 @@ async function login(){
     $('email').focus();
 
     return;
-
   }
 
 
   if(!password){
 
-    msg(
+    showMessage(
       'Informe a senha.',
       true
     );
@@ -1235,13 +1261,11 @@ async function login(){
     $('pass').focus();
 
     return;
-
   }
 
 
   const btn =
     $('btnLogin');
-
 
   btn.disabled =
     true;
@@ -1250,7 +1274,7 @@ async function login(){
     'Entrando...';
 
 
-  msg(
+  showMessage(
     'Conectando ao sistema...'
   );
 
@@ -1258,43 +1282,51 @@ async function login(){
   try{
 
     const r =
-      await S.auth.signInWithPassword({
-        email,
-        password
-      });
+      await S.auth.signInWithPassword(
+        {
+          email,
+          password
+        }
+      );
 
 
     if(r.error){
 
-      msg(
+      console.error(
+        'LOGIN:',
+        r.error
+      );
+
+      showMessage(
         'Não foi possível entrar: ' +
         r.error.message,
         true
       );
 
       return;
-
     }
 
 
-    if(!r.data || !r.data.session){
+    if(
+      !r.data ||
+      !r.data.session
+    ){
 
-      msg(
+      showMessage(
         'Login realizado, mas a sessão não foi criada. Tente novamente.',
         true
       );
 
       return;
-
     }
 
 
-    msg(
+    showMessage(
       'Login realizado. Carregando sistema...'
     );
 
 
-    await show(
+    await showApp(
       r.data.session
     );
 
@@ -1306,8 +1338,7 @@ async function login(){
       err
     );
 
-
-    msg(
+    showMessage(
       'Erro de conexão com o sistema: ' +
       (
         err?.message ||
@@ -1330,118 +1361,141 @@ async function login(){
 }
 
 
-/* =====================================================
+/* =========================================================
    CRIAR ACESSO
-   SOMENTE KELVIN
-===================================================== */
+========================================================= */
 
 async function signup(){
 
   const email =
     $('email')
-    .value
-    .trim()
-    .toLowerCase();
+      .value
+      .trim()
+      .toLowerCase();
+
+  const password =
+    $('pass')
+      .value;
 
 
   if(email !== ADMIN_EMAIL){
 
-    msg(
-      'Somente o administrador pode criar novos acessos.',
+    showMessage(
+      'A criação de acesso está liberada somente para o e-mail autorizado.',
       true
     );
 
     return;
-
   }
-
-
-  const password =
-    $('pass')
-    .value;
 
 
   if(!password){
 
-    msg(
-      'Informe a senha que será usada para o novo acesso.',
+    showMessage(
+      'Informe a senha para criar o acesso.',
       true
     );
 
     $('pass').focus();
 
     return;
-
   }
 
 
   if(password.length < 6){
 
-    msg(
-      'A senha deve ter pelo menos 6 caracteres.',
+    showMessage(
+      'A senha precisa ter pelo menos 6 caracteres.',
       true
     );
 
-    return;
+    $('pass').focus();
 
+    return;
   }
+
+
+  const btn =
+    $('btnSignup');
+
+  btn.disabled =
+    true;
+
+  btn.textContent =
+    'Criando...';
 
 
   try{
 
     const r =
-      await S.auth.signUp({
-        email,
-        password
-      });
+      await S.auth.signUp(
+        {
+          email,
+          password
+        }
+      );
 
 
     if(r.error){
 
-      msg(
-        'Erro ao criar acesso: ' +
+      showMessage(
+        'Não foi possível criar o acesso: ' +
         r.error.message,
         true
       );
 
       return;
-
     }
 
 
-    if(r.data.session){
+    if(r.data?.session){
 
-      msg(
-        'Acesso criado com sucesso.'
+      showMessage(
+        'Acesso criado e login realizado.'
       );
 
     }else{
 
-      msg(
+      showMessage(
         'Acesso criado. Se a confirmação de e-mail estiver ativa no Supabase, confirme o e-mail antes de entrar.'
       );
 
     }
 
+
   }catch(err){
 
-    msg(
+    console.error(
+      'SIGNUP:',
+      err
+    );
+
+    showMessage(
       'Erro ao criar acesso: ' +
       (
         err?.message ||
-        err
+        'erro desconhecido'
       ),
       true
     );
+
+
+  }finally{
+
+    btn.disabled =
+      false;
+
+    btn.textContent =
+      'Criar acesso';
 
   }
 
 }
 
 
-/* =====================================================
+/* =========================================================
    LOGOUT
-===================================================== */
+========================================================= */
 
 async function logout(){
 
@@ -1451,555 +1505,751 @@ async function logout(){
 
   }catch(err){
 
-    console.error(err);
+    console.error(
+      'LOGOUT:',
+      err
+    );
 
   }
 
 }
 
 
-/* =====================================================
-   MOSTRAR SISTEMA
-===================================================== */
+/* =========================================================
+   CONTROLE DA AUTENTICAÇÃO
+========================================================= */
 
-async function show(session){
+S.auth.onAuthStateChange(
+  async (
+    event,
+    session
+  ) => {
+
+    currentSession =
+      session;
+
+    if(session){
+
+      await showApp(
+        session
+      );
+
+    }else{
+
+      $('app')
+        .classList
+        .add('hidden');
+
+      $('login')
+        .classList
+        .remove('hidden');
+
+      clearMessage();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   MOSTRAR SISTEMA
+========================================================= */
+
+async function showApp(
+  session
+){
+
+  currentSession =
+    session;
 
   $('login')
     .classList
     .add('hidden');
 
-
   $('app')
     .classList
     .remove('hidden');
 
-
   $('who').textContent =
-    session.user.email;
-
+    session?.user?.email || '';
 
   await load();
 
 }
 
 
-/* =====================================================
-   CARREGAR
-===================================================== */
+/* =========================================================
+   CARREGAR DADOS
+========================================================= */
 
 async function load(){
 
+  if(loading)
+    return;
+
+  loading =
+    true;
+
+
   try{
 
-    const p =
-      await S
-      .from('parts')
-      .select('*')
-      .eq('active',true)
-      .order('code');
+    const [
+      p,
+      m,
+      c,
+      l,
+      allInactive
+    ] = await Promise.all([
+
+      S.from('parts')
+        .select('*')
+        .eq('active',true)
+        .order('code'),
+
+      S.from('stock_movements')
+        .select('*')
+        .order(
+          'movement_date',
+          {
+            ascending:false
+          }
+        ),
+
+      S.from('categories')
+        .select('*')
+        .eq('active',true)
+        .order('name'),
+
+      S.from('locations')
+        .select('*')
+        .eq('active',true)
+        .order('name'),
+
+      S.from('parts')
+        .select('*')
+        .eq('active',false)
+        .order('code')
+
+    ]);
 
 
-    if(p.error){
+    const responses = [
+      p,
+      m,
+      c,
+      l,
+      allInactive
+    ];
+
+
+    const failed =
+      responses.find(
+        x => x.error
+      );
+
+
+    if(failed){
+
+      console.error(
+        'SUPABASE:',
+        failed.error
+      );
 
       alert(
-        'Erro ao carregar peças: ' +
-        p.error.message
+        'Erro ao carregar os dados: ' +
+        failed.error.message
       );
 
       return;
-
-    }
-
-
-    const m =
-      await S
-      .from('stock_movements')
-      .select('*')
-      .order(
-        'movement_date',
-        {
-          ascending:false
-        }
-      );
-
-
-    if(m.error){
-
-      alert(
-        'Erro ao carregar movimentações: ' +
-        m.error.message
-      );
-
-      return;
-
-    }
-
-
-    const c =
-      await S
-      .from('categories')
-      .select('*')
-      .eq('active',true)
-      .order('name');
-
-
-    if(c.error){
-
-      alert(
-        'Erro ao carregar categorias: ' +
-        c.error.message
-      );
-
-      return;
-
-    }
-
-
-    const l =
-      await S
-      .from('locations')
-      .select('*')
-      .eq('active',true)
-      .order('name');
-
-
-    if(l.error){
-
-      alert(
-        'Erro ao carregar localizações: ' +
-        l.error.message
-      );
-
-      return;
-
-    }
-
-
-    const i =
-      await S
-      .from('parts')
-      .select('*')
-      .eq('active',false)
-      .order('code');
-
-
-    if(i.error){
-
-      alert(
-        'Erro ao carregar peças desativadas: ' +
-        i.error.message
-      );
-
-      return;
-
     }
 
 
     P =
       p.data || [];
 
-
     M =
       m.data || [];
-
 
     C =
       c.data || [];
 
-
     L =
       l.data || [];
 
-
     I =
-      i.data || [];
+      allInactive.data || [];
 
 
-    render();
+    renderAll();
 
 
   }catch(err){
 
-    console.error(err);
-
+    console.error(
+      'LOAD:',
+      err
+    );
 
     alert(
-      'Erro ao carregar os dados: ' +
+      'Erro de conexão ao carregar o estoque: ' +
       (
         err?.message ||
-        err
+        'erro desconhecido'
       )
     );
+
+
+  }finally{
+
+    loading =
+      false;
 
   }
 
 }
 
 
-/* =====================================================
-   RENDER
-===================================================== */
+/* =========================================================
+   RENDER GERAL
+========================================================= */
 
-function render(){
+function renderAll(){
 
-  const value =
-    P.reduce(
-      (s,p) =>
-        s +
-        (+p.current_stock || 0) *
-        (+p.unit_cost || 0),
-      0
-    );
-
-
-  $('kv').textContent =
-    money(value);
-
-
-  $('ki').textContent =
-    P.length;
-
-
-  $('kl').textContent =
-    P.filter(
-      p =>
-        +p.current_stock <
-        +p.min_stock &&
-        +p.current_stock > 0
-    ).length;
-
-
-  $('kz').textContent =
-    P.filter(
-      p =>
-        +p.current_stock <= 0
-    ).length;
-
-
-  const attention =
-    P
-    .filter(
-      p =>
-        +p.current_stock <=
-        +p.reorder_point
-    )
-    .sort(
-      (a,b) =>
-        +a.current_stock -
-        +b.current_stock
-    );
-
-
-  $('attention').innerHTML =
-    attention.length
-
-    ?
-
-    attention
-    .map(
-      p => {
-
-        const [c,t] =
-          status(p);
-
-
-        return `
-        <div class="alert">
-
-          <div>
-
-            <b>
-              ${esc(p.code)}
-            </b>
-
-            —
-            ${esc(p.description)}
-
-            <div class="muted">
-
-              Saldo
-              ${p.current_stock}
-              ${esc(p.unit)}
-
-              · mínimo
-              ${p.min_stock}
-
-              · reposição
-              ${p.reorder_point}
-
-            </div>
-
-          </div>
-
-          <span class="tag ${
-            c === 'ruptura'
-            ? 'danger'
-            : 'warn'
-          }">
-
-            ${t}
-
-          </span>
-
-        </div>
-        `;
-
-      }
-    )
-    .join('')
-
-    :
-
-    '<div class="empty">Nenhuma peça exige atenção.</div>';
-
-
-  $('recent').innerHTML =
-    M
-    .slice(0,8)
-    .map(
-      m => {
-
-        const p =
-          part(m.part_id);
-
-
-        return `
-        <div
-          style="
-            padding:8px 0;
-            border-bottom:1px solid var(--l)
-          "
-        >
-
-          <b>
-            ${esc(p?.code || '—')}
-          </b>
-
-          ·
-          ${esc(m.movement_type)}
-
-          ·
-          ${m.quantity}
-
-          ${esc(p?.unit || '')}
-
-          <div class="muted">
-
-            ${date(m.movement_date)}
-
-            ·
-
-            ${esc(
-              m.maintenance_order ||
-              m.document_number ||
-              m.reason ||
-              ''
-            )}
-
-          </div>
-
-        </div>
-        `;
-
-      }
-    )
-    .join('')
-
-    ||
-
-    '<div class="empty">Nenhuma movimentação.</div>';
-
-
-  const rows =
-    P
-    .map(
-      p => {
-
-        const [c,t] =
-          status(p);
-
-
-        return `
-        <tr>
-
-          <td>
-
-            <b>
-              ${esc(p.code)}
-            </b>
-
-            <div class="muted">
-              ${esc(p.description)}
-            </div>
-
-          </td>
-
-          <td>
-            ${p.current_stock}
-            ${esc(p.unit)}
-          </td>
-
-          <td>
-            ${p.min_stock}
-          </td>
-
-          <td>
-            ${money(p.unit_cost)}
-          </td>
-
-          <td>
-            ${money(
-              (+p.current_stock || 0) *
-              (+p.unit_cost || 0)
-            )}
-          </td>
-
-          <td>
-
-            <span class="tag ${
-              c === 'normal'
-              ? 'ok'
-              : c === 'baixo'
-              ? 'warn'
-              : 'danger'
-            }">
-
-              ${t}
-
-            </span>
-
-          </td>
-
-        </tr>
-        `;
-
-      }
-    )
-    .join('');
-
-
-  $('dashTable').innerHTML =
-    tbl(
-      [
-        'Peça',
-        'Saldo',
-        'Mín.',
-        'Custo',
-        'Valor',
-        'Status'
-      ],
-      rows
-    );
-
+  renderDash();
 
   renderParts();
+
   renderMoves();
+
   renderRep();
+
   renderInd();
 
 }
 
 
-/* =====================================================
-   TABELA
-===================================================== */
+/* =========================================================
+   TABELAS
+========================================================= */
 
-function tbl(headers,rows){
+function table(
+  headers,
+  rows
+){
+
+  if(!rows){
+
+    return `
+      <div class="empty">
+        Nenhum registro encontrado.
+      </div>
+    `;
+
+  }
+
 
   return `
-  <table>
+    <table>
 
-    <thead>
+      <thead>
 
-      <tr>
-
-        ${
-          headers
-          .map(
-            h =>
-              `<th>${h}</th>`
-          )
-          .join('')
-        }
-
-      </tr>
-
-    </thead>
-
-    <tbody>
-
-      ${
-        rows ||
-
-        `
         <tr>
 
-          <td
-            colspan="${headers.length}"
-            class="empty">
-
-            Nenhum registro.
-
-          </td>
+          ${
+            headers
+              .map(
+                h =>
+                '<th>' +
+                esc(h) +
+                '</th>'
+              )
+              .join('')
+          }
 
         </tr>
-        `
-      }
 
-    </tbody>
+      </thead>
 
-  </table>
+      <tbody>
+
+        ${rows}
+
+      </tbody>
+
+    </table>
   `;
 
 }
 
 
-/* =====================================================
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+function renderDash(){
+
+  const totalValue =
+    P.reduce(
+      (s,p) =>
+        s +
+        (
+          (+p.current_stock || 0) *
+          (+p.unit_cost || 0)
+        ),
+      0
+    );
+
+
+  const low =
+    P.filter(
+      p =>
+        status(p)[0] === 'baixo'
+    ).length;
+
+
+  const zero =
+    P.filter(
+      p =>
+        status(p)[0] === 'ruptura'
+    ).length;
+
+
+  $('kv').textContent =
+    money(totalValue);
+
+  $('ki').textContent =
+    P.length;
+
+  $('kl').textContent =
+    low;
+
+  $('kz').textContent =
+    zero;
+
+
+  const attention =
+    P
+      .filter(
+        p =>
+          status(p)[0] !== 'normal'
+      )
+      .sort(
+        (a,b) =>
+          (+a.current_stock) -
+          (+b.current_stock)
+      )
+      .slice(0,8);
+
+
+  $('attention').innerHTML =
+
+    attention
+      .map(
+        p => {
+
+          const [
+            cl,
+            t
+          ] =
+            status(p);
+
+
+          const need =
+            Math.max(
+              0,
+              (+p.max_stock || 0) -
+              (+p.current_stock || 0)
+            );
+
+
+          return `
+            <div class="alert">
+
+              <div>
+
+                <b>
+                  ${esc(p.code)}
+                </b>
+
+                <div class="muted">
+                  ${esc(p.description)}
+                </div>
+
+              </div>
+
+              <div style="text-align:right">
+
+                <span class="tag ${
+                  cl === 'baixo'
+                    ? 'warn'
+                    : 'danger'
+                }">
+
+                  ${t}
+
+                </span>
+
+                <div class="muted">
+
+                  Saldo:
+                  ${esc(p.current_stock)}
+
+                  ·
+
+                  Repor:
+                  ${need}
+
+                </div>
+
+              </div>
+
+            </div>
+          `;
+
+        }
+      )
+      .join('')
+
+    ||
+
+    `
+      <div class="empty">
+        Nenhuma peça exige atenção.
+      </div>
+    `;
+
+
+  $('recent').innerHTML =
+
+    M
+      .slice(0,8)
+      .map(
+        m => {
+
+          const p =
+            part(m.part_id);
+
+
+          const cl =
+            m.movement_type === 'Saída'
+              ? 'danger'
+              :
+              (
+                m.movement_type === 'Entrada' ||
+                m.movement_type === 'Devolução'
+              )
+                ? 'ok'
+                : 'info';
+
+
+          return `
+            <div class="alert">
+
+              <div>
+
+                <b>
+                  ${esc(p?.code || '—')}
+                </b>
+
+                <div class="muted">
+                  ${esc(p?.description || '')}
+                </div>
+
+              </div>
+
+              <div style="text-align:right">
+
+                <span class="tag ${cl}">
+                  ${esc(m.movement_type)}
+                </span>
+
+                <div class="muted">
+
+                  ${esc(m.quantity)}
+                  ·
+                  ${date(m.movement_date)}
+
+                </div>
+
+              </div>
+
+            </div>
+          `;
+
+        }
+      )
+      .join('')
+
+    ||
+
+    `
+      <div class="empty">
+        Nenhuma movimentação.
+      </div>
+    `;
+
+
+  const rows =
+    P
+      .map(
+        p => {
+
+          const [
+            cl,
+            t
+          ] =
+            status(p);
+
+
+          const total =
+            (
+              +p.current_stock || 0
+            ) *
+            (
+              +p.unit_cost || 0
+            );
+
+
+          return `
+            <tr>
+
+              <td>
+                ${esc(p.code)}
+              </td>
+
+              <td>
+                ${esc(p.description)}
+              </td>
+
+              <td>
+                ${esc(p.unit)}
+              </td>
+
+              <td>
+                <b>
+                  ${esc(p.current_stock)}
+                </b>
+              </td>
+
+              <td>
+                ${esc(p.min_stock)}
+              </td>
+
+              <td>
+                ${esc(p.max_stock)}
+              </td>
+
+              <td>
+                ${money(p.unit_cost)}
+              </td>
+
+              <td>
+                ${money(total)}
+              </td>
+
+              <td>
+
+                <span class="tag ${
+                  cl === 'normal'
+                    ? 'ok'
+                    :
+                    cl === 'baixo'
+                      ? 'warn'
+                      : 'danger'
+                }">
+
+                  ${t}
+
+                </span>
+
+              </td>
+
+            </tr>
+          `;
+
+        }
+      )
+      .join('');
+
+
+  $('dashTable').innerHTML =
+    table(
+      [
+        'Código',
+        'Descrição',
+        'Un.',
+        'Saldo',
+        'Mín.',
+        'Máx.',
+        'Valor unit.',
+        'Valor total',
+        'Status'
+      ],
+      rows
+    );
+
+}
+
+
+/* =========================================================
    PEÇAS
-===================================================== */
+========================================================= */
 
 function renderParts(){
 
   const q =
-    ($('search')?.value || '')
-    .toLowerCase();
+    (
+      $('search')?.value ||
+      ''
+    )
+      .trim()
+      .toLowerCase();
 
 
-  const f =
-    $('filter')?.value || '';
+  const filter =
+    $('filter')?.value ||
+    '';
 
 
-  const src =
-    showInactive
-    ? I
-    : P;
+  /* DESATIVADAS */
+
+  if(showInactive){
+
+    const rows =
+      I
+        .filter(
+          p =>
+
+            !q ||
+
+            String(p.code || '')
+              .toLowerCase()
+              .includes(q) ||
+
+            String(p.description || '')
+              .toLowerCase()
+              .includes(q)
+        )
+        .map(
+          p => `
+
+            <tr>
+
+              <td>
+                ${esc(p.code)}
+              </td>
+
+              <td>
+                ${esc(p.description)}
+              </td>
+
+              <td>
+                ${esc(p.unit)}
+              </td>
+
+              <td>
+                ${esc(p.current_stock)}
+              </td>
+
+              <td>
+                ${esc(p.min_stock)}
+              </td>
+
+              <td>
+                ${esc(p.max_stock)}
+              </td>
+
+              <td>
+                ${esc(p.reorder_point)}
+              </td>
+
+              <td>
+                ${money(p.unit_cost)}
+              </td>
+
+              <td>
+
+                <span class="tag info">
+                  Desativada
+                </span>
+
+              </td>
+
+              <td>
+
+                <button
+                  onclick="reactivatePart('${p.id}')"
+                >
+                  Reativar
+                </button>
+
+              </td>
+
+            </tr>
+
+          `
+        )
+        .join('');
 
 
-  const filtered =
-    src.filter(
+    $('partsTable').innerHTML =
+      table(
+        [
+          'Código',
+          'Descrição',
+          'Un.',
+          'Saldo',
+          'Mín.',
+          'Máx.',
+          'Repos.',
+          'Custo',
+          'Status',
+          'Ações'
+        ],
+        rows
+      );
+
+
+    $('inactiveBtn').textContent =
+      'Voltar às ativas (' +
+      P.length +
+      ')';
+
+
+    return;
+
+  }
+
+
+  /* ATIVAS */
+
+  let list =
+    P.filter(
       p => {
 
         const text =
-          [
-            p.code,
-            p.description
-          ]
-          .join(' ')
-          .toLowerCase();
+          (
+            String(p.code || '') +
+            ' ' +
+            String(p.description || '')
+          )
+            .toLowerCase();
+
+
+        const okSearch =
+          !q ||
+          text.includes(q);
+
+
+        const okFilter =
+          !filter ||
+          status(p)[0] === filter;
 
 
         return (
-
-          (!q || text.includes(q))
-
-          &&
-
-          (
-            showInactive ||
-            !f ||
-            status(p)[0] === f
-          )
-
+          okSearch &&
+          okFilter
         );
 
       }
@@ -2007,187 +2257,125 @@ function renderParts(){
 
 
   const rows =
-    filtered
-    .map(
-      p => {
+    list
+      .map(
+        p => {
 
-        if(showInactive){
+          const [
+            cl,
+            t
+          ] =
+            status(p);
+
+
+          const hasHistory =
+            M.some(
+              m =>
+                String(m.part_id) ===
+                String(p.id)
+            );
+
+
+          const action =
+            hasHistory
+
+              ?
+
+              `
+                <button
+                  onclick="deactivatePart('${p.id}')"
+                >
+                  Desativar
+                </button>
+              `
+
+              :
+
+              `
+                <button
+                  onclick="deletePart('${p.id}')"
+                >
+                  Excluir
+                </button>
+              `;
+
 
           return `
-          <tr>
 
-            <td>
-              ${esc(p.code)}
-            </td>
+            <tr>
 
-            <td>
-              ${esc(p.description)}
-            </td>
+              <td>
+                ${esc(p.code)}
+              </td>
 
-            <td>
-              ${esc(p.unit)}
-            </td>
+              <td>
+                ${esc(p.description)}
+              </td>
 
-            <td>
-              ${p.current_stock}
-            </td>
+              <td>
+                ${esc(p.unit)}
+              </td>
 
-            <td>
-              ${p.min_stock}
-            </td>
+              <td>
+                ${esc(p.current_stock)}
+              </td>
 
-            <td>
-              ${p.max_stock}
-            </td>
+              <td>
+                ${esc(p.min_stock)}
+              </td>
 
-            <td>
-              ${p.reorder_point}
-            </td>
+              <td>
+                ${esc(p.max_stock)}
+              </td>
 
-            <td>
-              ${money(p.unit_cost)}
-            </td>
+              <td>
+                ${esc(p.reorder_point)}
+              </td>
 
-            <td>
+              <td>
+                ${money(p.unit_cost)}
+              </td>
 
-              <span class="tag info">
-                Desativada
-              </span>
+              <td>
 
-            </td>
+                <span class="tag ${
+                  cl === 'normal'
+                    ? 'ok'
+                    :
+                    cl === 'baixo'
+                      ? 'warn'
+                      : 'danger'
+                }">
 
-            <td>
+                  ${t}
 
-              <button
-                onclick="reactivatePart('${p.id}')">
+                </span>
 
-                Reativar
+              </td>
 
-              </button>
+              <td>
 
-            </td>
+                <button
+                  onclick="partForm('${p.id}')"
+                >
+                  Editar
+                </button>
 
-          </tr>
+                ${action}
+
+              </td>
+
+            </tr>
+
           `;
 
         }
-
-
-        const [c,t] =
-          status(p);
-
-
-        const hasHistory =
-          M.some(
-            m =>
-              m.part_id === p.id
-          );
-
-
-        const action =
-          hasHistory
-
-          ?
-
-          `
-          <button
-            onclick="deactivatePart('${p.id}')">
-
-            Desativar
-
-          </button>
-          `
-
-          :
-
-          `
-          <button
-            onclick="deletePart('${p.id}')">
-
-            Excluir
-
-          </button>
-          `;
-
-
-        return `
-        <tr>
-
-          <td>
-            ${esc(p.code)}
-          </td>
-
-          <td>
-            ${esc(p.description)}
-          </td>
-
-          <td>
-            ${esc(p.unit)}
-          </td>
-
-          <td>
-            ${p.current_stock}
-          </td>
-
-          <td>
-            ${p.min_stock}
-          </td>
-
-          <td>
-            ${p.max_stock}
-          </td>
-
-          <td>
-            ${p.reorder_point}
-          </td>
-
-          <td>
-            ${money(p.unit_cost)}
-          </td>
-
-          <td>
-
-            <span class="tag ${
-              c === 'normal'
-              ? 'ok'
-              : c === 'baixo'
-              ? 'warn'
-              : 'danger'
-            }">
-
-              ${t}
-
-            </span>
-
-          </td>
-
-          <td>
-
-            <div class="action-group">
-
-              <button
-                onclick="partForm('${p.id}')">
-
-                Editar
-
-              </button>
-
-              ${action}
-
-            </div>
-
-          </td>
-
-        </tr>
-        `;
-
-      }
-    )
-    .join('');
+      )
+      .join('');
 
 
   $('partsTable').innerHTML =
-    tbl(
+    table(
       [
         'Código',
         'Descrição',
@@ -2205,1234 +2393,107 @@ function renderParts(){
 
 
   $('inactiveBtn').textContent =
-    showInactive
-
-    ?
-
-    `Voltar às ativas (${P.length})`
-
-    :
-
-    `Ver desativadas (${I.length})`;
+    'Ver desativadas (' +
+    I.length +
+    ')';
 
 }
 
 
-/* =====================================================
-   MOSTRAR DESATIVADAS
-===================================================== */
-
-function toggleInactive(){
-
-  showInactive =
-    !showInactive;
-
-
-  renderParts();
-
-}
-
-
-/* =====================================================
-   EXCLUIR
-===================================================== */
-
-async function deletePart(id){
-
-  const p =
-    P.find(
-      x =>
-        x.id === id
-    );
-
-
-  if(!p)
-    return;
-
-
-  const hasHistory =
-    M.some(
-      m =>
-        m.part_id === id
-    );
-
-
-  if(hasHistory){
-
-    alert(
-      'Esta peça possui movimentações e não pode ser excluída. Use Desativar para preservar o histórico.'
-    );
-
-    return;
-
-  }
-
-
-  const ok =
-    confirm(
-      `Excluir definitivamente a peça ${p.code} — ${p.description}?`
-    );
-
-
-  if(!ok)
-    return;
-
-
-  try{
-
-    const r =
-      await S
-      .from('parts')
-      .delete()
-      .eq('id',id);
-
-
-    if(r.error){
-
-      alert(
-        'Erro ao excluir: ' +
-        r.error.message
-      );
-
-      return;
-
-    }
-
-
-    await load();
-
-
-    alert(
-      'Peça excluída definitivamente.'
-    );
-
-
-  }catch(err){
-
-    alert(
-      'Erro ao excluir: ' +
-      (
-        err?.message ||
-        err
-      )
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   DESATIVAR
-===================================================== */
-
-async function deactivatePart(id){
-
-  const p =
-    P.find(
-      x =>
-        x.id === id
-    );
-
-
-  if(!p)
-    return;
-
-
-  const hasHistory =
-    M.some(
-      m =>
-        m.part_id === id
-    );
-
-
-  if(!hasHistory){
-
-    await deletePart(id);
-
-    return;
-
-  }
-
-
-  const ok =
-    confirm(
-      `Desativar a peça ${p.code} — ${p.description}?\n\nO histórico de movimentações será preservado.`
-    );
-
-
-  if(!ok)
-    return;
-
-
-  try{
-
-    const r =
-      await S
-      .from('parts')
-      .update({
-        active:false
-      })
-      .eq('id',id);
-
-
-    if(r.error){
-
-      alert(
-        'Erro ao desativar: ' +
-        r.error.message
-      );
-
-      return;
-
-    }
-
-
-    await load();
-
-
-    alert(
-      'Peça desativada. O histórico foi preservado.'
-    );
-
-
-  }catch(err){
-
-    alert(
-      'Erro ao desativar: ' +
-      (
-        err?.message ||
-        err
-      )
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   REATIVAR
-===================================================== */
-
-async function reactivatePart(id){
-
-  const p =
-    I.find(
-      x =>
-        x.id === id
-    );
-
-
-  if(!p)
-    return;
-
-
-  const ok =
-    confirm(
-      `Reativar a peça ${p.code} — ${p.description}?`
-    );
-
-
-  if(!ok)
-    return;
-
-
-  try{
-
-    const r =
-      await S
-      .from('parts')
-      .update({
-        active:true
-      })
-      .eq('id',id);
-
-
-    if(r.error){
-
-      alert(
-        'Erro ao reativar: ' +
-        r.error.message
-      );
-
-      return;
-
-    }
-
-
-    showInactive =
-      false;
-
-
-    await load();
-
-
-    alert(
-      'Peça reativada com sucesso.'
-    );
-
-
-  }catch(err){
-
-    alert(
-      'Erro ao reativar: ' +
-      (
-        err?.message ||
-        err
-      )
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   MODAL
-===================================================== */
-
-function openModal(title,body){
-
-  $('mt').textContent =
-    title;
-
-
-  $('mb').innerHTML =
-    body;
-
-
-  $('modal')
-    .classList
-    .add('show');
-
-}
-
-
-function closeModal(){
-
-  $('modal')
-    .classList
-    .remove('show');
-
-}
-
-
-/* =====================================================
-   FORM PEÇA
-===================================================== */
-
-function partForm(id){
-
-  let p;
-
-
-  if(id){
-
-    p =
-      P.find(
-        x =>
-          x.id === id
-      );
-
-  }else{
-
-    p = {
-
-      code:'',
-      description:'',
-      category_id:'',
-      location_id:'',
-      unit:'UN',
-      min_stock:0,
-      max_stock:0,
-      reorder_point:0,
-      unit_cost:0,
-      criticality:'Média',
-      current_stock:0
-
-    };
-
-  }
-
-
-  if(!p)
-    return;
-
-
-  openModal(
-
-    id
-    ?
-    'Editar peça'
-    :
-    'Nova peça',
-
-    `
-    <form
-      onsubmit="savePart(event,'${id || ''}')">
-
-      <div class="formgrid">
-
-        <div class="field">
-
-          <label>
-            Código
-          </label>
-
-          <input
-            name="code"
-            required
-            value="${esc(p.code)}">
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Descrição
-          </label>
-
-          <input
-            name="description"
-            required
-            value="${esc(p.description)}">
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Unidade
-          </label>
-
-          <input
-            name="unit"
-            value="${esc(p.unit)}">
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Categoria
-          </label>
-
-          <select name="category_id">
-
-            <option value="">
-              Selecione
-            </option>
-
-            ${
-              C.map(
-                c =>
-                `
-                <option
-                  value="${c.id}"
-                  ${
-                    c.id === p.category_id
-                    ? 'selected'
-                    : ''
-                  }>
-
-                  ${esc(c.name)}
-
-                </option>
-                `
-              ).join('')
-            }
-
-          </select>
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Localização
-          </label>
-
-          <select name="location_id">
-
-            <option value="">
-              Selecione
-            </option>
-
-            ${
-              L.map(
-                l =>
-                `
-                <option
-                  value="${l.id}"
-                  ${
-                    l.id === p.location_id
-                    ? 'selected'
-                    : ''
-                  }>
-
-                  ${esc(l.name)}
-
-                </option>
-                `
-              ).join('')
-            }
-
-          </select>
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Criticidade
-          </label>
-
-          <select name="criticality">
-
-            ${
-              [
-                'Crítica',
-                'Alta',
-                'Média',
-                'Baixa'
-              ]
-              .map(
-                x =>
-                `
-                <option
-                  ${
-                    x === p.criticality
-                    ? 'selected'
-                    : ''
-                  }>
-
-                  ${x}
-
-                </option>
-                `
-              )
-              .join('')
-            }
-
-          </select>
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Mínimo
-          </label>
-
-          <input
-            type="number"
-            min="0"
-            step=".001"
-            name="min_stock"
-            value="${p.min_stock}">
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Máximo
-          </label>
-
-          <input
-            type="number"
-            min="0"
-            step=".001"
-            name="max_stock"
-            value="${p.max_stock}">
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Ponto de reposição
-          </label>
-
-          <input
-            type="number"
-            min="0"
-            step=".001"
-            name="reorder_point"
-            value="${p.reorder_point}">
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Custo unitário
-          </label>
-
-          <input
-            type="number"
-            min="0"
-            step=".01"
-            name="unit_cost"
-            value="${p.unit_cost}">
-
-        </div>
-
-
-        ${
-          id
-          ?
-          ''
-          :
-          `
-          <div class="field">
-
-            <label>
-              Saldo inicial
-            </label>
-
-            <input
-              type="number"
-              min="0"
-              step=".001"
-              name="current_stock"
-              value="0">
-
-          </div>
-          `
-        }
-
-      </div>
-
-
-      <div class="actions">
-
-        <button
-          type="button"
-          onclick="closeModal()">
-
-          Cancelar
-
-        </button>
-
-
-        <button
-          class="primary">
-
-          Salvar peça
-
-        </button>
-
-      </div>
-
-    </form>
-    `
-  );
-
-}
-
-
-/* =====================================================
-   SALVAR PEÇA
-===================================================== */
-
-async function savePart(e,id){
-
-  e.preventDefault();
-
-
-  try{
-
-    const f =
-      new FormData(e.target);
-
-
-    const d = {
-
-      code:
-        f.get('code').trim(),
-
-      description:
-        f.get('description').trim(),
-
-      unit:
-        f.get('unit') ||
-        'UN',
-
-      category_id:
-        f.get('category_id') ||
-        null,
-
-      location_id:
-        f.get('location_id') ||
-        null,
-
-      criticality:
-        f.get('criticality'),
-
-      min_stock:
-        +f.get('min_stock') ||
-        0,
-
-      max_stock:
-        +f.get('max_stock') ||
-        0,
-
-      reorder_point:
-        +f.get('reorder_point') ||
-        0,
-
-      unit_cost:
-        +f.get('unit_cost') ||
-        0
-
-    };
-
-
-    let r;
-
-
-    if(id){
-
-      r =
-        await S
-        .from('parts')
-        .update(d)
-        .eq('id',id);
-
-    }else{
-
-      r =
-        await S
-        .from('parts')
-        .insert({
-
-          ...d,
-
-          current_stock:
-            +f.get('current_stock') ||
-            0,
-
-          active:true
-
-        });
-
-    }
-
-
-    if(r.error){
-
-      alert(
-        'Erro ao salvar: ' +
-        r.error.message
-      );
-
-      return;
-
-    }
-
-
-    closeModal();
-
-    await load();
-
-
-    alert(
-      'Peça salva com sucesso.'
-    );
-
-
-  }catch(err){
-
-    alert(
-      'Erro ao salvar: ' +
-      (
-        err?.message ||
-        err
-      )
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   FORM MOVIMENTAÇÃO
-===================================================== */
-
-function moveForm(){
-
-  if(!P.length){
-
-    alert(
-      'Cadastre uma peça primeiro.'
-    );
-
-    return;
-
-  }
-
-
-  openModal(
-
-    'Registrar movimentação',
-
-    `
-    <form
-      onsubmit="saveMove(event)">
-
-      <div class="formgrid">
-
-
-        <div class="field">
-
-          <label>
-            Data
-          </label>
-
-          <input
-            type="datetime-local"
-            name="movement_date"
-            required
-            value="${
-              new Date(
-                Date.now() -
-                new Date().getTimezoneOffset()*60000
-              )
-              .toISOString()
-              .slice(0,16)
-            }">
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Tipo
-          </label>
-
-          <select name="movement_type">
-
-            <option>
-              Entrada
-            </option>
-
-            <option>
-              Saída
-            </option>
-
-            <option>
-              Devolução
-            </option>
-
-            <option>
-              Ajuste
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Peça
-          </label>
-
-          <select name="part_id">
-
-            ${
-              P.map(
-                p =>
-                `
-                <option value="${p.id}">
-
-                  ${esc(p.code)}
-                  —
-                  ${esc(p.description)}
-
-                  (saldo
-                  ${p.current_stock})
-
-                </option>
-                `
-              ).join('')
-            }
-
-          </select>
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Quantidade
-          </label>
-
-          <input
-            type="number"
-            min=".001"
-            step=".001"
-            name="quantity"
-            required>
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Ordem de manutenção
-          </label>
-
-          <input
-            name="maintenance_order"
-            placeholder="Ex.: OS-1050">
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Equipamento
-          </label>
-
-          <input
-            name="equipment">
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Documento / NF
-          </label>
-
-          <input
-            name="document_number">
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Motivo
-          </label>
-
-          <input
-            name="reason">
-
-        </div>
-
-      </div>
-
-
-      <div class="actions">
-
-        <button
-          type="button"
-          onclick="closeModal()">
-
-          Cancelar
-
-        </button>
-
-
-        <button
-          class="primary">
-
-          Registrar movimentação
-
-        </button>
-
-      </div>
-
-    </form>
-    `
-  );
-
-}
-
-
-/* =====================================================
-   SALVAR MOVIMENTAÇÃO
-===================================================== */
-
-async function saveMove(e){
-
-  e.preventDefault();
-
-
-  try{
-
-    const f =
-      new FormData(e.target);
-
-
-    const p =
-      part(
-        f.get('part_id')
-      );
-
-
-    if(!p){
-
-      alert(
-        'Peça não encontrada.'
-      );
-
-      return;
-
-    }
-
-
-    const q =
-      +f.get('quantity');
-
-
-    const type =
-      f.get('movement_type');
-
-
-    if(q <= 0){
-
-      alert(
-        'Informe uma quantidade válida.'
-      );
-
-      return;
-
-    }
-
-
-    if(
-      type === 'Saída' &&
-      +p.current_stock < q
-    ){
-
-      alert(
-        `Saldo insuficiente.\n\nSaldo atual: ${p.current_stock} ${p.unit}.`
-      );
-
-      return;
-
-    }
-
-
-    const d = {
-
-      part_id:
-        f.get('part_id'),
-
-      movement_type:
-        type,
-
-      quantity:
-        q,
-
-      unit_cost:
-        +p.unit_cost ||
-        0,
-
-      maintenance_order:
-        f.get('maintenance_order') ||
-        null,
-
-      equipment:
-        f.get('equipment') ||
-        null,
-
-      document_number:
-        f.get('document_number') ||
-        null,
-
-      reason:
-        f.get('reason') ||
-        null,
-
-      movement_date:
-        new Date(
-          f.get('movement_date')
-        ).toISOString()
-
-    };
-
-
-    const r =
-      await S
-      .from('stock_movements')
-      .insert(d);
-
-
-    if(r.error){
-
-      alert(
-        'Erro ao registrar movimentação: ' +
-        r.error.message
-      );
-
-      return;
-
-    }
-
-
-    closeModal();
-
-    await load();
-
-
-    alert(
-      'Movimentação registrada com sucesso.'
-    );
-
-
-  }catch(err){
-
-    alert(
-      'Erro ao registrar movimentação: ' +
-      (
-        err?.message ||
-        err
-      )
-    );
-
-  }
-
-}
-
-
-/* =====================================================
+/* =========================================================
    MOVIMENTAÇÕES
-===================================================== */
+========================================================= */
 
 function renderMoves(){
 
   const rows =
     M
-    .map(
-      m => {
+      .map(
+        m => {
 
-        const p =
-          part(m.part_id);
-
-
-        const cl =
-          m.movement_type === 'Saída'
-
-          ?
-
-          'danger'
-
-          :
-
-          (
-            m.movement_type === 'Entrada' ||
-            m.movement_type === 'Devolução'
-
-            ?
-
-            'ok'
-
-            :
-
-            'info'
-          );
+          const p =
+            part(m.part_id);
 
 
-        return `
-        <tr>
+          const cl =
+            m.movement_type === 'Saída'
+              ? 'danger'
+              :
+              (
+                m.movement_type === 'Entrada' ||
+                m.movement_type === 'Devolução'
+              )
+                ? 'ok'
+                : 'info';
 
-          <td>
-            ${date(m.movement_date)}
-          </td>
 
-          <td>
+          return `
 
-            <span class="tag ${cl}">
+            <tr>
 
-              ${esc(m.movement_type)}
+              <td>
+                ${date(m.movement_date)}
+              </td>
 
-            </span>
+              <td>
 
-          </td>
+                <span class="tag ${cl}">
+                  ${esc(m.movement_type)}
+                </span>
 
-          <td>
+              </td>
 
-            <b>
-              ${esc(p?.code || '—')}
-            </b>
+              <td>
 
-            <div class="muted">
+                <b>
+                  ${esc(p?.code || '—')}
+                </b>
 
-              ${esc(
-                p?.description || ''
-              )}
+                <div class="muted">
+                  ${esc(p?.description || '')}
+                </div>
 
-            </div>
+              </td>
 
-          </td>
+              <td>
+                ${esc(m.quantity)}
+              </td>
 
-          <td>
-            ${m.quantity}
-          </td>
+              <td>
 
-          <td>
+                ${esc(m.stock_before)}
+                →
+                ${esc(m.stock_after)}
 
-            ${m.stock_before ?? '—'}
-            →
-            ${m.stock_after ?? '—'}
+              </td>
 
-          </td>
+              <td>
+                ${esc(m.maintenance_order || '')}
+              </td>
 
-          <td>
-            ${esc(
-              m.maintenance_order || ''
-            )}
-          </td>
+              <td>
+                ${esc(m.equipment || '')}
+              </td>
 
-          <td>
-            ${esc(
-              m.equipment || ''
-            )}
-          </td>
+              <td>
+                ${esc(
+                  m.document_number ||
+                  m.reason ||
+                  ''
+                )}
+              </td>
 
-          <td>
+            </tr>
 
-            ${esc(
-              m.document_number ||
-              m.reason ||
-              ''
-            )}
+          `;
 
-          </td>
-
-        </tr>
-        `;
-
-      }
-    )
-    .join('');
+        }
+      )
+      .join('');
 
 
   $('moveTable').innerHTML =
-    tbl(
+    table(
       [
         'Data',
         'Tipo',
@@ -3449,83 +2510,87 @@ function renderMoves(){
 }
 
 
-/* =====================================================
+/* =========================================================
    REPOSIÇÃO
-===================================================== */
+========================================================= */
 
 function renderRep(){
 
   const rows =
     P
-    .filter(
-      p =>
-        +p.current_stock <=
-        +p.reorder_point
-    )
-    .map(
-      p => {
+      .filter(
+        p =>
+          (+p.current_stock || 0) <=
+          (+p.reorder_point || 0)
+      )
+      .sort(
+        (a,b) =>
+          (+a.current_stock) -
+          (+b.current_stock)
+      )
+      .map(
+        p => {
 
-        const n =
-          Math.max(
-            0,
-            +p.max_stock -
-            +p.current_stock
-          );
+          const need =
+            Math.max(
+              0,
+              (+p.max_stock || 0) -
+              (+p.current_stock || 0)
+            );
 
 
-        return `
-        <tr>
+          return `
 
-          <td>
-            ${esc(p.code)}
-          </td>
+            <tr>
 
-          <td>
-            ${esc(p.description)}
-          </td>
+              <td>
+                ${esc(p.code)}
+              </td>
 
-          <td>
-            ${esc(p.criticality)}
-          </td>
+              <td>
+                ${esc(p.description)}
+              </td>
 
-          <td>
-            ${p.current_stock}
-          </td>
+              <td>
+                ${esc(p.criticality)}
+              </td>
 
-          <td>
-            ${p.reorder_point}
-          </td>
+              <td>
+                ${esc(p.current_stock)}
+              </td>
 
-          <td>
-            ${p.max_stock}
-          </td>
+              <td>
+                ${esc(p.reorder_point)}
+              </td>
 
-          <td>
+              <td>
+                ${esc(p.max_stock)}
+              </td>
 
-            <b>
-              ${n}
-            </b>
+              <td>
+                <b>
+                  ${need}
+                </b>
+              </td>
 
-          </td>
+              <td>
+                ${money(
+                  need *
+                  (+p.unit_cost || 0)
+                )}
+              </td>
 
-          <td>
+            </tr>
 
-            ${money(
-              n * +p.unit_cost
-            )}
+          `;
 
-          </td>
-
-        </tr>
-        `;
-
-      }
-    )
-    .join('');
+        }
+      )
+      .join('');
 
 
   $('repTable').innerHTML =
-    tbl(
+    table(
       [
         'Código',
         'Descrição',
@@ -3542,9 +2607,9 @@ function renderRep(){
 }
 
 
-/* =====================================================
+/* =========================================================
    INDICADORES
-===================================================== */
+========================================================= */
 
 function renderInd(){
 
@@ -3580,39 +2645,38 @@ function renderInd(){
     new Set(
       exits.map(
         m =>
-          m.part_id
+          String(m.part_id)
       )
     );
 
 
   const idle =
     P
-    .filter(
-      p =>
-        !used.has(p.id)
-    )
-    .reduce(
-      (s,p) =>
-        s +
-        (
-          (+p.current_stock || 0) *
-          (+p.unit_cost || 0)
-        ),
-      0
-    );
+      .filter(
+        p =>
+          !used.has(
+            String(p.id)
+          )
+      )
+      .reduce(
+        (s,p) =>
+          s +
+          (
+            (+p.current_stock || 0) *
+            (+p.unit_cost || 0)
+          ),
+        0
+      );
 
 
   $('io').textContent =
     exits.length;
 
-
   $('iq').textContent =
     qty;
 
-
   $('iv').textContent =
     money(value);
-
 
   $('ii').textContent =
     money(idle);
@@ -3625,76 +2689,78 @@ function renderInd(){
     m => {
 
       top[m.part_id] =
-        (top[m.part_id] || 0) +
-        +m.quantity;
+        (
+          top[m.part_id] ||
+          0
+        ) +
+        (+m.quantity || 0);
 
     }
   );
 
 
-  const ar =
-    Object
-    .entries(top)
-    .sort(
-      (a,b) =>
-        b[1] -
-        a[1]
-    )
-    .slice(0,7);
+  const arr =
+    Object.entries(top)
+      .sort(
+        (a,b) =>
+          b[1] -
+          a[1]
+      )
+      .slice(0,7);
 
 
   $('top').innerHTML =
-    ar
-    .map(
-      ([id,n]) => {
 
-        const p =
-          part(id);
+    arr
+      .map(
+        ([id,n]) => {
+
+          const p =
+            part(id);
 
 
-        return `
-        <div
-          style="
-            margin:11px 0;
-            display:flex;
-            justify-content:space-between
-          "
-        >
+          return `
 
-          <b>
-            ${esc(
-              p?.code || '—'
-            )}
-          </b>
+            <div
+              style="
+                margin:11px 0;
+                display:flex;
+                justify-content:space-between;
+                gap:10px
+              "
+            >
 
-          <span>
+              <b>
+                ${esc(p?.code || '—')}
+              </b>
 
-            ${n}
-            ${esc(
-              p?.unit || ''
-            )}
+              <span>
+                ${esc(n)}
+                ${esc(p?.unit || '')}
+              </span>
 
-          </span>
+            </div>
 
-        </div>
-        `;
+          `;
 
-      }
-    )
-    .join('')
+        }
+      )
+      .join('')
 
     ||
 
-    '<div class="empty">Sem saídas.</div>';
+    `
+      <div class="empty">
+        Sem saídas.
+      </div>
+    `;
 
 
   const crit = {
-
     'Crítica':0,
     'Alta':0,
     'Média':0,
     'Baixa':0
-
   };
 
 
@@ -3702,192 +2768,1405 @@ function renderInd(){
     p => {
 
       crit[p.criticality] =
-        (crit[p.criticality] || 0) +
-        1;
+        (
+          crit[p.criticality] ||
+          0
+        ) + 1;
 
     }
   );
 
 
   $('crit').innerHTML =
-    Object
-    .entries(crit)
-    .map(
-      ([k,n]) =>
-      `
-      <div
-        style="
-          margin:11px 0;
-          display:flex;
-          justify-content:space-between
-        "
-      >
 
-        <b>
-          ${k}
-        </b>
+    Object.entries(crit)
+      .map(
+        ([k,n]) => `
 
-        <span>
-          ${n}
-        </span>
+          <div
+            style="
+              margin:11px 0;
+              display:flex;
+              justify-content:space-between
+            "
+          >
 
-      </div>
-      `
-    )
-    .join('');
+            <b>
+              ${esc(k)}
+            </b>
+
+            <span>
+              ${n}
+            </span>
+
+          </div>
+
+        `
+      )
+      .join('');
 
 }
 
 
-/* =====================================================
-   NAVEGAÇÃO
-===================================================== */
+/* =========================================================
+   ATIVAR / DESATIVAR
+========================================================= */
 
-document
-.querySelectorAll(
-  'nav button[data-tab]'
-)
-.forEach(
-  b => {
+function toggleInactive(){
 
-    b.addEventListener(
-      'click',
-      () => {
+  showInactive =
+    !showInactive;
 
-        document
-        .querySelectorAll(
-          'nav button[data-tab]'
+  renderParts();
+
+}
+
+
+/* =========================================================
+   EXCLUIR PEÇA
+========================================================= */
+
+async function deletePart(id){
+
+  const p =
+    P.find(
+      x =>
+        String(x.id) ===
+        String(id)
+    );
+
+
+  if(!p)
+    return;
+
+
+  if(
+    M.some(
+      m =>
+        String(m.part_id) ===
+        String(id)
+    )
+  ){
+
+    alert(
+      'Esta peça possui movimentações e não pode ser excluída. Ela deve ser desativada para preservar o histórico.'
+    );
+
+    return;
+  }
+
+
+  if(
+    !confirm(
+      'Excluir definitivamente a peça ' +
+      p.code +
+      ' — ' +
+      p.description +
+      '?'
+    )
+  )
+    return;
+
+
+  const r =
+    await S
+      .from('parts')
+      .delete()
+      .eq('id',id);
+
+
+  if(r.error){
+
+    alert(
+      'Erro ao excluir: ' +
+      r.error.message
+    );
+
+    return;
+  }
+
+
+  await load();
+
+
+  alert(
+    'Peça excluída definitivamente.'
+  );
+
+}
+
+
+/* =========================================================
+   DESATIVAR PEÇA
+========================================================= */
+
+async function deactivatePart(id){
+
+  const p =
+    P.find(
+      x =>
+        String(x.id) ===
+        String(id)
+    );
+
+
+  if(!p)
+    return;
+
+
+  if(
+    !M.some(
+      m =>
+        String(m.part_id) ===
+        String(id)
+    )
+  ){
+
+    await deletePart(id);
+
+    return;
+  }
+
+
+  if(
+    !confirm(
+      'Desativar a peça ' +
+      p.code +
+      ' — ' +
+      p.description +
+      '? O histórico será preservado.'
+    )
+  )
+    return;
+
+
+  const r =
+    await S
+      .from('parts')
+      .update({
+        active:false
+      })
+      .eq('id',id);
+
+
+  if(r.error){
+
+    alert(
+      'Erro ao desativar: ' +
+      r.error.message
+    );
+
+    return;
+  }
+
+
+  await load();
+
+
+  alert(
+    'Peça desativada. O histórico foi preservado.'
+  );
+
+}
+
+
+/* =========================================================
+   REATIVAR PEÇA
+========================================================= */
+
+async function reactivatePart(id){
+
+  const p =
+    I.find(
+      x =>
+        String(x.id) ===
+        String(id)
+    );
+
+
+  if(!p)
+    return;
+
+
+  if(
+    !confirm(
+      'Reativar a peça ' +
+      p.code +
+      ' — ' +
+      p.description +
+      '?'
+    )
+  )
+    return;
+
+
+  const r =
+    await S
+      .from('parts')
+      .update({
+        active:true
+      })
+      .eq('id',id);
+
+
+  if(r.error){
+
+    alert(
+      'Erro ao reativar: ' +
+      r.error.message
+    );
+
+    return;
+  }
+
+
+  showInactive =
+    false;
+
+
+  await load();
+
+
+  alert(
+    'Peça reativada com sucesso.'
+  );
+
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function openModal(
+  title,
+  body
+){
+
+  $('mt').textContent =
+    title;
+
+  $('mb').innerHTML =
+    body;
+
+  $('modal')
+    .classList
+    .add('show');
+
+}
+
+
+function closeModal(){
+
+  $('modal')
+    .classList
+    .remove('show');
+
+}
+
+
+/* =========================================================
+   FORMULÁRIO DE PEÇA
+========================================================= */
+
+function partForm(id){
+
+  const p =
+    id
+
+      ?
+
+      P.find(
+        x =>
+          String(x.id) ===
+          String(id)
+      )
+
+      :
+
+      {
+        code:'',
+        description:'',
+        category_id:'',
+        location_id:'',
+        unit:'UN',
+        min_stock:0,
+        max_stock:0,
+        reorder_point:0,
+        unit_cost:0,
+        criticality:'Média',
+        current_stock:0
+      };
+
+
+  if(!p)
+    return;
+
+
+  const categories =
+    C
+      .map(
+        c => `
+
+          <option
+            value="${c.id}"
+            ${
+              String(c.id) ===
+              String(p.category_id || '')
+                ? 'selected'
+                : ''
+            }
+          >
+            ${esc(c.name)}
+          </option>
+
+        `
+      )
+      .join('');
+
+
+  const locations =
+    L
+      .map(
+        l => `
+
+          <option
+            value="${l.id}"
+            ${
+              String(l.id) ===
+              String(p.location_id || '')
+                ? 'selected'
+                : ''
+            }
+          >
+            ${esc(l.name)}
+          </option>
+
+        `
+      )
+      .join('');
+
+
+  const criticalities =
+    [
+      'Crítica',
+      'Alta',
+      'Média',
+      'Baixa'
+    ]
+      .map(
+        x => `
+
+          <option
+            ${
+              x === p.criticality
+                ? 'selected'
+                : ''
+            }
+          >
+            ${x}
+          </option>
+
+        `
+      )
+      .join('');
+
+
+  openModal(
+
+    id
+      ? 'Editar peça'
+      : 'Nova peça',
+
+    `
+
+      <form id="partFormElement">
+
+        <div class="formgrid">
+
+          <div class="field">
+
+            <label>
+              Código
+            </label>
+
+            <input
+              name="code"
+              required
+              value="${esc(p.code)}"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              Descrição
+            </label>
+
+            <input
+              name="description"
+              required
+              value="${esc(p.description)}"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              Unidade
+            </label>
+
+            <input
+              name="unit"
+              value="${esc(p.unit || 'UN')}"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              Categoria
+            </label>
+
+            <select name="category_id">
+
+              <option value="">
+                Selecione
+              </option>
+
+              ${categories}
+
+            </select>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              Localização
+            </label>
+
+            <select name="location_id">
+
+              <option value="">
+                Selecione
+              </option>
+
+              ${locations}
+
+            </select>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              Criticidade
+            </label>
+
+            <select name="criticality">
+
+              ${criticalities}
+
+            </select>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              Mínimo
+            </label>
+
+            <input
+              type="number"
+              min="0"
+              step=".001"
+              name="min_stock"
+              value="${+p.min_stock || 0}"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              Máximo
+            </label>
+
+            <input
+              type="number"
+              min="0"
+              step=".001"
+              name="max_stock"
+              value="${+p.max_stock || 0}"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              Ponto de reposição
+            </label>
+
+            <input
+              type="number"
+              min="0"
+              step=".001"
+              name="reorder_point"
+              value="${+p.reorder_point || 0}"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              Custo unitário
+            </label>
+
+            <input
+              type="number"
+              min="0"
+              step=".01"
+              name="unit_cost"
+              value="${+p.unit_cost || 0}"
+            >
+
+          </div>
+
+
+          ${
+            id
+
+              ?
+
+              ''
+
+              :
+
+              `
+
+                <div class="field">
+
+                  <label>
+                    Saldo inicial
+                  </label>
+
+                  <input
+                    type="number"
+                    min="0"
+                    step=".001"
+                    name="current_stock"
+                    value="0"
+                  >
+
+                </div>
+
+              `
+          }
+
+        </div>
+
+
+        <div class="actions">
+
+          <button
+            type="button"
+            id="cancelPart"
+          >
+            Cancelar
+          </button>
+
+          <button
+            class="primary"
+            type="submit"
+          >
+            Salvar peça
+          </button>
+
+        </div>
+
+      </form>
+
+    `
+  );
+
+
+  $('cancelPart').onclick =
+    closeModal;
+
+
+  $('partFormElement').onsubmit =
+    e =>
+      savePart(
+        e,
+        id
+      );
+
+}
+
+
+/* =========================================================
+   SALVAR PEÇA
+========================================================= */
+
+async function savePart(
+  e,
+  id
+){
+
+  e.preventDefault();
+
+
+  const f =
+    new FormData(
+      e.target
+    );
+
+
+  const d = {
+
+    code:
+      String(
+        f.get('code') || ''
+      ).trim(),
+
+    description:
+      String(
+        f.get('description') || ''
+      ).trim(),
+
+    unit:
+      String(
+        f.get('unit') || 'UN'
+      ).trim() ||
+      'UN',
+
+    category_id:
+      f.get('category_id') ||
+      null,
+
+    location_id:
+      f.get('location_id') ||
+      null,
+
+    criticality:
+      f.get('criticality') ||
+      'Média',
+
+    min_stock:
+      +f.get('min_stock') ||
+      0,
+
+    max_stock:
+      +f.get('max_stock') ||
+      0,
+
+    reorder_point:
+      +f.get('reorder_point') ||
+      0,
+
+    unit_cost:
+      +f.get('unit_cost') ||
+      0
+
+  };
+
+
+  if(
+    !d.code ||
+    !d.description
+  ){
+
+    alert(
+      'Informe código e descrição.'
+    );
+
+    return;
+  }
+
+
+  if(
+    d.max_stock <
+    d.min_stock
+  ){
+
+    alert(
+      'O estoque máximo não pode ser menor que o mínimo.'
+    );
+
+    return;
+  }
+
+
+  const r =
+
+    id
+
+      ?
+
+      await S
+        .from('parts')
+        .update(d)
+        .eq('id',id)
+
+      :
+
+      await S
+        .from('parts')
+        .insert(
+          {
+            ...d,
+            current_stock:
+              +f.get('current_stock') ||
+              0
+          }
+        );
+
+
+  if(r.error){
+
+    alert(
+      'Erro ao salvar a peça: ' +
+      r.error.message
+    );
+
+    return;
+  }
+
+
+  closeModal();
+
+  await load();
+
+}
+
+
+/* =========================================================
+   DATA LOCAL PARA MOVIMENTAÇÃO
+========================================================= */
+
+function localDateTimeValue(){
+
+  const d =
+    new Date(
+      Date.now() -
+      new Date()
+        .getTimezoneOffset() *
+      60000
+    );
+
+
+  return d
+    .toISOString()
+    .slice(0,16);
+
+}
+
+
+/* =========================================================
+   FORMULÁRIO DE MOVIMENTAÇÃO
+========================================================= */
+
+function moveForm(){
+
+  if(!P.length){
+
+    alert(
+      'Cadastre uma peça primeiro.'
+    );
+
+    return;
+  }
+
+
+  const options =
+    P
+      .map(
+        p => `
+
+          <option
+            value="${p.id}"
+          >
+            ${esc(p.code)}
+            —
+            ${esc(p.description)}
+            (saldo ${esc(p.current_stock)})
+          </option>
+
+        `
+      )
+      .join('');
+
+
+  openModal(
+
+    'Registrar movimentação',
+
+    `
+
+      <form id="moveFormElement">
+
+        <div class="formgrid">
+
+
+          <div class="field">
+
+            <label>
+              Data
+            </label>
+
+            <input
+              type="datetime-local"
+              name="movement_date"
+              required
+              value="${localDateTimeValue()}"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              Tipo
+            </label>
+
+            <select name="movement_type">
+
+              <option>
+                Entrada
+              </option>
+
+              <option>
+                Saída
+              </option>
+
+              <option>
+                Devolução
+              </option>
+
+              <option>
+                Ajuste
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              Peça
+            </label>
+
+            <select name="part_id">
+
+              ${options}
+
+            </select>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              Quantidade
+            </label>
+
+            <input
+              type="number"
+              min=".001"
+              step=".001"
+              name="quantity"
+              required
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              Ordem de manutenção
+            </label>
+
+            <input
+              name="maintenance_order"
+              placeholder="Ex.: OS-1050"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              Equipamento
+            </label>
+
+            <input
+              name="equipment"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              Documento / NF
+            </label>
+
+            <input
+              name="document_number"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              Motivo
+            </label>
+
+            <input
+              name="reason"
+            >
+
+          </div>
+
+
+        </div>
+
+
+        <div class="actions">
+
+          <button
+            type="button"
+            id="cancelMove"
+          >
+            Cancelar
+          </button>
+
+          <button
+            class="primary"
+            type="submit"
+          >
+            Registrar movimentação
+          </button>
+
+        </div>
+
+      </form>
+
+    `
+  );
+
+
+  $('cancelMove').onclick =
+    closeModal;
+
+
+  $('moveFormElement').onsubmit =
+    saveMove;
+
+}
+
+
+/* =========================================================
+   SALVAR MOVIMENTAÇÃO
+========================================================= */
+
+async function saveMove(e){
+
+  e.preventDefault();
+
+
+  const f =
+    new FormData(
+      e.target
+    );
+
+
+  const p =
+    P.find(
+      x =>
+        String(x.id) ===
+        String(
+          f.get('part_id')
         )
-        .forEach(
-          x =>
-            x.classList
-             .remove('active')
-        );
+    );
 
 
-        b.classList
-         .add('active');
+  const q =
+    +f.get('quantity') ||
+    0;
 
 
-        document
-        .querySelectorAll('.tab')
-        .forEach(
-          x =>
-            x.classList
-             .remove('active')
-        );
+  const type =
+    f.get('movement_type');
 
 
-        $(b.dataset.tab)
-        .classList
-        .add('active');
+  if(!p){
+
+    alert(
+      'Peça não encontrada.'
+    );
+
+    return;
+  }
 
 
-        render();
+  if(q <= 0){
 
-      }
+    alert(
+      'Informe uma quantidade maior que zero.'
+    );
+
+    return;
+  }
+
+
+  if(
+    type === 'Saída' &&
+    (+p.current_stock || 0) < q
+  ){
+
+    alert(
+      'Saldo insuficiente. Saldo atual: ' +
+      p.current_stock +
+      '.'
+    );
+
+    return;
+  }
+
+
+  const d = {
+
+    part_id:
+      f.get('part_id'),
+
+    movement_type:
+      type,
+
+    quantity:
+      q,
+
+    unit_cost:
+      +p.unit_cost ||
+      0,
+
+    maintenance_order:
+      String(
+        f.get('maintenance_order') ||
+        ''
+      ).trim() ||
+      null,
+
+    equipment:
+      String(
+        f.get('equipment') ||
+        ''
+      ).trim() ||
+      null,
+
+    document_number:
+      String(
+        f.get('document_number') ||
+        ''
+      ).trim() ||
+      null,
+
+    reason:
+      String(
+        f.get('reason') ||
+        ''
+      ).trim() ||
+      null,
+
+    movement_date:
+      new Date(
+        f.get('movement_date')
+      ).toISOString()
+
+  };
+
+
+  const r =
+    await S
+      .from('stock_movements')
+      .insert(d);
+
+
+  if(r.error){
+
+    alert(
+      'Erro ao registrar movimentação: ' +
+      r.error.message
+    );
+
+    return;
+  }
+
+
+  closeModal();
+
+  await load();
+
+}
+
+
+/* =========================================================
+   TROCA DE ABA
+========================================================= */
+
+function switchTab(
+  id,
+  button
+){
+
+  document
+    .querySelectorAll(
+      'nav button[data-tab]'
+    )
+    .forEach(
+      x =>
+        x.classList.remove(
+          'active'
+        )
+    );
+
+
+  if(button){
+
+    button.classList.add(
+      'active'
     );
 
   }
-);
 
 
-/* =====================================================
-   LOGIN — EVENTOS
-===================================================== */
+  document
+    .querySelectorAll(
+      '.tab'
+    )
+    .forEach(
+      x =>
+        x.classList.remove(
+          'active'
+        )
+    );
+
+
+  $(id)
+    .classList
+    .add('active');
+
+
+  renderAll();
+
+}
+
+
+/* =========================================================
+   EVENTOS
+========================================================= */
+
+document
+  .querySelectorAll(
+    'nav button[data-tab]'
+  )
+  .forEach(
+    b =>
+      b.addEventListener(
+        'click',
+        () =>
+          switchTab(
+            b.dataset.tab,
+            b
+          )
+      )
+  );
+
 
 $('btnLogin')
-.addEventListener(
-  'click',
-  login
-);
+  .addEventListener(
+    'click',
+    login
+  );
 
 
 $('btnSignup')
-.addEventListener(
-  'click',
-  signup
-);
+  .addEventListener(
+    'click',
+    signup
+  );
+
+
+$('btnLogout')
+  .addEventListener(
+    'click',
+    logout
+  );
+
+
+$('btnNewPart')
+  .addEventListener(
+    'click',
+    () =>
+      partForm()
+  );
+
+
+$('btnNewPart2')
+  .addEventListener(
+    'click',
+    () =>
+      partForm()
+  );
+
+
+$('btnNewMove')
+  .addEventListener(
+    'click',
+    moveForm
+  );
+
+
+$('inactiveBtn')
+  .addEventListener(
+    'click',
+    toggleInactive
+  );
+
+
+$('btnClose')
+  .addEventListener(
+    'click',
+    closeModal
+  );
+
+
+$('search')
+  .addEventListener(
+    'input',
+    renderParts
+  );
+
+
+$('filter')
+  .addEventListener(
+    'change',
+    renderParts
+  );
 
 
 $('email')
-.addEventListener(
-  'input',
-  updateSignupVisibility
-);
+  .addEventListener(
+    'input',
+    updateSignupVisibility
+  );
 
 
-$('email')
-.addEventListener(
-  'change',
-  updateSignupVisibility
-);
-
+/* =========================================================
+   CORREÇÃO DO ENTER NO LOGIN
+========================================================= */
 
 $('email')
-.addEventListener(
-  'keydown',
-  e => {
+  .addEventListener(
+    'keydown',
+    e => {
 
-    if(e.key === 'Enter'){
+      if(e.key === 'Enter'){
 
-      login();
+        e.preventDefault();
+
+        login();
+
+      }
 
     }
-
-  }
-);
+  );
 
 
 $('pass')
-.addEventListener(
-  'keydown',
-  e => {
+  .addEventListener(
+    'keydown',
+    e => {
 
-    if(e.key === 'Enter'){
+      if(e.key === 'Enter'){
 
-      login();
+        e.preventDefault();
 
-    }
+        login();
 
-  }
-);
-
-
-/* =====================================================
-   AUTENTICAÇÃO
-===================================================== */
-
-S.auth.onAuthStateChange(
-  async (
-    event,
-    session
-  ) => {
-
-    if(session){
-
-      await show(session);
-
-    }else{
-
-      $('app')
-      .classList
-      .add('hidden');
-
-
-      $('login')
-      .classList
-      .remove('hidden');
+      }
 
     }
-
-  }
-);
+  );
 
 
-/* =====================================================
+/* =========================================================
+   FECHAR MODAL
+========================================================= */
+
+$('modal')
+  .addEventListener(
+    'click',
+    e => {
+
+      if(
+        e.target ===
+        $('modal')
+      ){
+
+        closeModal();
+
+      }
+
+    }
+  );
+
+
+document
+  .addEventListener(
+    'keydown',
+    e => {
+
+      if(
+        e.key === 'Escape'
+      ){
+
+        closeModal();
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
    INICIALIZAÇÃO
-===================================================== */
+========================================================= */
 
 (async()=>{
 
@@ -3900,21 +4179,32 @@ S.auth.onAuthStateChange(
       await S.auth.getSession();
 
 
+    if(r.error){
+
+      console.error(
+        'GET SESSION:',
+        r.error
+      );
+
+      return;
+    }
+
+
     if(
-      r.data &&
-      r.data.session
+      r.data?.session
     ){
 
-      await show(
+      await showApp(
         r.data.session
       );
 
     }
 
+
   }catch(err){
 
     console.error(
-      'Inicialização:',
+      'INICIALIZAÇÃO:',
       err
     );
 
