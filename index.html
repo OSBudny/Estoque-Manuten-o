@@ -1,4716 +1,3093 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Estoque Manutenção</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-
 :root{
-    --bg:#0b1016;
-    --panel:#141b24;
-    --panel2:#10161d;
-    --line:#2a3542;
-    --text:#f4f7fa;
-    --muted:#9aa8b7;
-    --orange:#f28c28;
-    --green:#42c883;
-    --yellow:#f5b942;
-    --red:#ef5350;
-    --blue:#4da3ff;
+  --bg:#0b0f14;
+  --panel:#151b22;
+  --panel2:#10151b;
+  --border:#2a333e;
+  --text:#f2f4f6;
+  --muted:#98a4b1;
+  --orange:#f28c28;
+  --green:#35c77a;
+  --yellow:#f5b942;
+  --red:#ef5350;
+  --blue:#4d9fff;
 }
 
-*{
-    box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
-    margin:0;
-    background:var(--bg);
-    color:var(--text);
-    font-family:Segoe UI,Arial,sans-serif;
-    font-size:14px;
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Segoe UI,Arial,sans-serif;
+  font-size:14px;
 }
 
-.hidden{
-    display:none!important;
-}
+.hidden{display:none!important}
 
-
-/* ==============================
-   HEADER
-============================== */
-
-header{
-    padding:14px 24px;
-    background:#10161d;
-    border-bottom:1px solid var(--line);
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:20px;
-    position:sticky;
-    top:0;
-    z-index:5;
-}
-
-.brand{
-    font-size:21px;
-    font-weight:800;
-}
-
-.brand span{
-    color:var(--orange);
-}
-
-.muted{
-    color:var(--muted);
-    font-size:12px;
-}
-
-nav{
-    display:flex;
-    gap:6px;
-    flex-wrap:wrap;
+button,
+input,
+select{
+  font:inherit;
 }
 
 button{
-    cursor:pointer;
-    font:inherit;
-    border-radius:8px;
-    padding:10px 14px;
-    background:transparent;
-    color:var(--muted);
-    border:1px solid var(--line);
-    font-weight:700;
+  cursor:pointer;
+  border:1px solid var(--border);
+  background:#111820;
+  color:var(--text);
+  border-radius:8px;
+  padding:10px 14px;
+  font-weight:700;
 }
 
-button:hover,
-nav button.active{
-    background:#1b2531;
-    color:#fff;
+button:hover{
+  border-color:#53606d;
+  background:#1a222c;
 }
 
 button.primary{
-    background:var(--orange);
-    color:#111;
-    border-color:var(--orange);
+  background:var(--orange);
+  border-color:var(--orange);
+  color:#111;
 }
 
-button:disabled{
-    opacity:.6;
-    cursor:not-allowed;
+button.primary:hover{
+  background:#ff9d3c;
 }
 
+header{
+  position:sticky;
+  top:0;
+  z-index:10;
+  background:#10151b;
+  border-bottom:1px solid var(--border);
+  padding:14px 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
 
-/* ==============================
-   MAIN
-============================== */
+.brand{
+  font-size:21px;
+  font-weight:900;
+}
+
+.brand span{
+  color:var(--orange);
+}
+
+.subtitle{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:3px;
+}
+
+nav{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+}
+
+nav button.active{
+  background:#222c37;
+  color:#fff;
+  border-color:#465362;
+}
+
+.userbox{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.useremail{
+  color:var(--muted);
+  font-size:12px;
+}
 
 main{
-    max-width:1500px;
-    margin:auto;
-    padding:24px;
+  max-width:1500px;
+  margin:auto;
+  padding:24px;
 }
 
 .tab{
-    display:none;
+  display:none;
 }
 
 .tab.active{
-    display:block;
+  display:block;
 }
 
 .head{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:18px;
-    gap:15px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:20px;
 }
 
 .head h1{
-    margin:0;
-    font-size:25px;
+  margin:0;
+  font-size:26px;
 }
 
 .head p{
-    color:var(--muted);
-    margin:5px 0;
+  margin:5px 0 0;
+  color:var(--muted);
 }
-
-
-/* ==============================
-   CARDS
-============================== */
 
 .cards{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:14px;
-    margin-bottom:18px;
-}
-
-.card,
-.panel{
-    background:var(--panel);
-    border:1px solid var(--line);
-    border-radius:13px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-bottom:18px;
 }
 
 .card{
-    padding:18px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:18px;
 }
 
 .label{
-    font-size:11px;
-    color:var(--muted);
-    font-weight:800;
-    text-transform:uppercase;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:800;
+  text-transform:uppercase;
 }
 
 .kpi{
-    font-size:28px;
-    font-weight:850;
-    margin-top:8px;
+  margin-top:8px;
+  font-size:28px;
+  font-weight:900;
 }
 
 .panel{
-    padding:18px;
-    margin-bottom:18px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:18px;
+  margin-bottom:18px;
 }
 
 .panel h2{
-    font-size:16px;
-    margin:0 0 14px;
+  margin:0 0 15px;
+  font-size:16px;
 }
-
-
-/* ==============================
-   GRID
-============================== */
 
 .grid2{
-    display:grid;
-    grid-template-columns:1.2fr .8fr;
-    gap:18px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
 }
 
-
-/* ==============================
-   FORM
-============================== */
-
 .toolbar{
-    display:flex;
-    gap:9px;
-    flex-wrap:wrap;
-    margin-bottom:14px;
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-bottom:15px;
 }
 
 input,
 select{
-    background:#0f151c;
-    border:1px solid var(--line);
-    color:#fff;
-    border-radius:8px;
-    padding:10px;
-    outline:0;
+  width:100%;
+  background:#0e141a;
+  border:1px solid var(--border);
+  color:#fff;
+  border-radius:8px;
+  padding:10px;
+  outline:none;
 }
 
 input:focus,
 select:focus{
-    border-color:var(--orange);
+  border-color:var(--orange);
 }
 
-.input{
-    min-width:260px;
-}
-
-.field label{
-    display:block;
-    color:var(--muted);
-    font-size:11px;
-    font-weight:800;
-    margin-bottom:5px;
-}
-
-.field input,
-.field select{
-    width:100%;
+.input-search{
+  min-width:280px;
+  flex:1;
 }
 
 .formgrid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.field label{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:800;
+  margin-bottom:5px;
+  text-transform:uppercase;
 }
 
 .actions{
-    display:flex;
-    justify-content:flex-end;
-    gap:8px;
-    margin-top:15px;
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:18px;
 }
 
-
-/* ==============================
-   TABLE
-============================== */
+.tablewrap{
+  overflow:auto;
+}
 
 table{
-    width:100%;
-    border-collapse:collapse;
-    font-size:13px;
+  width:100%;
+  border-collapse:collapse;
+  min-width:850px;
 }
 
 th,
 td{
-    padding:10px 9px;
-    border-bottom:1px solid var(--line);
-    text-align:left;
+  padding:11px 9px;
+  border-bottom:1px solid var(--border);
+  text-align:left;
+  white-space:nowrap;
 }
 
 th{
-    font-size:11px;
-    color:var(--muted);
-    text-transform:uppercase;
+  color:var(--muted);
+  font-size:11px;
+  text-transform:uppercase;
 }
 
-.tablewrap{
-    overflow:auto;
+tr:hover td{
+  background:#171e26;
 }
-
-
-/* ==============================
-   STATUS
-============================== */
 
 .tag{
-    display:inline-block;
-    padding:4px 8px;
-    border-radius:20px;
-    font-size:11px;
-    font-weight:800;
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:800;
 }
 
 .ok{
-    background:#163b2b;
-    color:#6ee7a8;
+  background:#153b29;
+  color:#70e6a3;
 }
 
 .warn{
-    background:#493717;
-    color:#ffd36b;
+  background:#493816;
+  color:#ffd36b;
 }
 
 .danger{
-    background:#48201f;
-    color:#ff8b87;
+  background:#49201f;
+  color:#ff8e8a;
 }
 
 .info{
-    background:#18334f;
-    color:#82baff;
-}
-
-
-/* ==============================
-   ALERTAS
-============================== */
-
-.alert{
-    padding:12px;
-    border:1px solid var(--line);
-    border-radius:9px;
-    background:#111820;
-    margin-bottom:9px;
-    display:flex;
-    justify-content:space-between;
-    gap:10px;
+  background:#18344f;
+  color:#84baff;
 }
 
 .empty{
-    text-align:center;
-    padding:28px;
-    color:var(--muted);
+  text-align:center;
+  padding:28px;
+  color:var(--muted);
 }
 
-
-/* ==============================
-   MODAL
-============================== */
-
-.modal{
-    position:fixed;
-    inset:0;
-    background:#0009;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    z-index:20;
+.alert{
+  padding:13px;
+  background:#111820;
+  border:1px solid var(--border);
+  border-radius:9px;
+  margin-bottom:9px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
 }
 
-.modal.show{
-    display:flex;
+.muted{
+  color:var(--muted);
+  font-size:12px;
 }
-
-.modalbox{
-    width:min(800px,94vw);
-    max-height:90vh;
-    overflow:auto;
-    background:var(--panel);
-    border:1px solid var(--line);
-    border-radius:14px;
-    padding:20px;
-}
-
-.mh{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:15px;
-}
-
-.close{
-    font-size:24px;
-    border:0;
-}
-
-
-/* ==============================
-   LOGIN
-============================== */
 
 .login{
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
 }
 
 .loginbox{
-    width:min(430px,94vw);
-    background:var(--panel);
-    border:1px solid var(--line);
-    border-top:2px solid var(--orange);
-    border-radius:16px;
-    padding:26px;
-    box-shadow:0 15px 50px #0008;
+  width:min(430px,94vw);
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:28px;
 }
 
 .loginbox .field{
-    margin:12px 0;
+  margin:13px 0;
 }
 
 .loginbox input{
-    width:100%;
+  width:100%;
+}
+
+.loginbox button{
+  width:100%;
 }
 
 .msg{
-    margin-top:12px;
-    padding:11px;
-    border-radius:8px;
-    font-size:12px;
-    line-height:1.5;
-    display:none;
+  margin-top:12px;
+  padding:10px;
+  border-radius:8px;
+  font-size:12px;
 }
 
-.msg.show{
-    display:block;
+.err{
+  background:#4b211f;
+  color:#ffb4b0;
 }
 
-.msg.err{
-    background:#4b211f;
-    color:#ffb1ae;
-    border:1px solid #7b302c;
+.okmsg{
+  background:#163b2b;
+  color:#8bf0b5;
 }
 
-.msg.okmsg{
-    background:#163b2b;
-    color:#8bf0b8;
-    border:1px solid #276447;
+.modal{
+  position:fixed;
+  inset:0;
+  background:#000b;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:30;
+  padding:20px;
 }
 
-.login-status{
-    margin-top:12px;
-    color:var(--muted);
-    font-size:11px;
-    text-align:center;
+.modal.show{
+  display:flex;
 }
 
-
-/* ==============================
-   INDICADORES MENSAIS
-============================== */
-
-.monthly-summary{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-    margin-bottom:14px;
+.modalbox{
+  width:min(800px,95vw);
+  max-height:90vh;
+  overflow:auto;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:20px;
 }
 
-.mini{
-    background:#10161d;
-    border:1px solid var(--line);
-    border-radius:9px;
-    padding:12px;
+.modalhead{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
 }
 
-.mini b{
-    display:block;
-    font-size:18px;
-    margin-top:5px;
+.modalhead h2{
+  margin:0;
 }
 
-
-/* ==============================
-   GRAFICO
-============================== */
-
-.chart{
-    height:330px;
-    display:flex;
-    align-items:flex-end;
-    gap:14px;
-    padding:20px 8px 30px;
-    border-top:1px solid var(--line);
-    overflow-x:auto;
+.close{
+  border:0;
+  background:transparent;
+  font-size:25px;
 }
 
-.month-group{
-    min-width:85px;
-    height:275px;
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-end;
-    align-items:center;
+.big-orange{
+  color:var(--orange);
 }
 
-.bars{
-    height:235px;
-    display:flex;
-    align-items:flex-end;
-    justify-content:center;
-    gap:5px;
-}
-
-.bar{
-    width:25px;
-    min-height:2px;
-    border-radius:5px 5px 0 0;
-}
-
-.bar.out{
-    background:var(--orange);
-}
-
-.bar.stock{
-    background:#59636f;
-}
-
-.barvalue{
-    font-size:9px;
-    color:#fff;
-    white-space:nowrap;
-    margin-bottom:3px;
-}
-
-.barlabel{
-    font-size:10px;
-    color:var(--muted);
-    white-space:nowrap;
-    margin-top:6px;
-}
-
-.legend{
-    display:flex;
-    gap:16px;
-    color:var(--muted);
-    font-size:11px;
-    margin-bottom:12px;
-}
-
-.legend span{
-    display:flex;
-    align-items:center;
-    gap:5px;
+.realtime{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  color:var(--green);
+  font-size:11px;
+  font-weight:800;
 }
 
 .dot{
-    width:9px;
-    height:9px;
-    border-radius:2px;
-    background:var(--orange);
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--green);
 }
 
-.dot.stock{
-    background:#59636f;
-}
+@media(max-width:1100px){
+  .cards{
+    grid-template-columns:repeat(2,1fr);
+  }
 
-.section-note{
-    font-size:11px;
-    color:var(--muted);
-    margin-top:8px;
-}
+  .grid2{
+    grid-template-columns:1fr;
+  }
 
+  header{
+    flex-wrap:wrap;
+  }
 
-/* ==============================
-   RESPONSIVO
-============================== */
-
-@media(max-width:1000px){
-
-    .cards{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .grid2{
-        grid-template-columns:1fr;
-    }
-
+  nav{
+    width:100%;
+    order:3;
+    overflow:auto;
+  }
 }
 
 @media(max-width:700px){
+  main{
+    padding:14px;
+  }
 
-    header{
-        flex-direction:column;
-        align-items:flex-start;
-    }
+  .cards{
+    grid-template-columns:1fr;
+  }
 
-    .cards,
-    .formgrid,
-    .monthly-summary{
-        grid-template-columns:1fr;
-    }
+  .formgrid{
+    grid-template-columns:1fr;
+  }
 
-    main{
-        padding:14px;
-    }
+  .head{
+    align-items:flex-start;
+    flex-direction:column;
+  }
 
-    .input{
-        min-width:0;
-        width:100%;
-    }
+  .useremail{
+    display:none;
+  }
 
-    nav{
-        width:100%;
-    }
-
-    nav button{
-        flex:1;
-    }
-
+  .input-search{
+    min-width:0;
+  }
 }
-
 </style>
-
 </head>
 
 <body>
 
-
-<!-- ======================================================
-     LOGIN
-====================================================== -->
-
+<!-- LOGIN -->
 <div id="login" class="login">
 
-    <div class="loginbox">
+  <div class="loginbox">
 
-        <div class="brand">
-            Estoque <span>Manutenção</span>
-        </div>
-
-        <p class="muted">
-            Sistema online de estoque.
-        </p>
-
-        <div class="field">
-
-            <label for="email">
-                E-mail
-            </label>
-
-            <input
-                id="email"
-                type="email"
-                autocomplete="username"
-                placeholder="seu@email.com"
-            >
-
-        </div>
-
-
-        <div class="field">
-
-            <label for="pass">
-                Senha
-            </label>
-
-            <input
-                id="pass"
-                type="password"
-                autocomplete="current-password"
-                placeholder="Sua senha"
-            >
-
-        </div>
-
-
-        <button
-            id="btnLogin"
-            type="button"
-            class="primary"
-            style="width:100%"
-        >
-            Entrar
-        </button>
-
-
-        <button
-            id="btnSignup"
-            type="button"
-            style="width:100%;margin-top:8px"
-        >
-            Criar acesso
-        </button>
-
-
-        <div
-            id="msg"
-            class="msg"
-        ></div>
-
-
-        <div
-            id="loginStatus"
-            class="login-status"
-        >
-            Sistema pronto.
-        </div>
-
+    <div class="brand">
+      Estoque <span>Manutenção</span>
     </div>
+
+    <p class="subtitle">
+      Controle de estoque de peças da manutenção
+    </p>
+
+    <div class="field">
+      <label>E-mail</label>
+      <input id="email" type="email" autocomplete="email">
+    </div>
+
+    <div class="field">
+      <label>Senha</label>
+      <input id="pass" type="password" autocomplete="current-password">
+    </div>
+
+    <button id="btnLogin" class="primary">
+      Entrar
+    </button>
+
+    <button id="btnSignup" style="margin-top:8px">
+      Criar acesso
+    </button>
+
+    <div id="msg"></div>
+
+  </div>
 
 </div>
 
 
-<!-- ======================================================
-     SISTEMA
-====================================================== -->
-
+<!-- SISTEMA -->
 <div id="app" class="hidden">
-
 
 <header>
 
-    <div>
-
-        <div class="brand">
-            Estoque <span>Manutenção</span>
-        </div>
-
-        <div
-            id="who"
-            class="muted"
-        ></div>
-
+  <div>
+    <div class="brand">
+      Estoque <span>Manutenção</span>
     </div>
 
+    <div class="subtitle">
+      Controle atual de peças, saldo e reposição
+    </div>
+  </div>
 
-    <nav>
+  <nav>
 
-        <button
-            class="active"
-            data-tab="dash"
-            type="button"
-        >
-            📊 Painel de Estoque
-        </button>
+    <button class="active" data-tab="dash">
+      📊 Painel de Estoque
+    </button>
 
+    <button data-tab="parts">
+      🔩 Peças
+    </button>
 
-        <button
-            data-tab="parts"
-            type="button"
-        >
-            🔩 Peças
-        </button>
+    <button data-tab="moves">
+      📦 Entradas / Saídas
+    </button>
 
+    <button data-tab="replen">
+      🚨 Reposição
+    </button>
 
-        <button
-            data-tab="moves"
-            type="button"
-        >
-            📦 Movimentações
-        </button>
+    <button data-tab="ind">
+      📈 Indicadores
+    </button>
 
+  </nav>
 
-        <button
-            data-tab="replen"
-            type="button"
-        >
-            🚨 Reposição
-        </button>
+  <div class="userbox">
 
+    <span id="realtime" class="realtime">
+      <span class="dot"></span>
+      ONLINE
+    </span>
 
-        <button
-            data-tab="ind"
-            type="button"
-        >
-            📈 Indicadores
-        </button>
+    <span id="who" class="useremail"></span>
 
+    <button id="btnLogout">
+      Sair
+    </button>
 
-        <button
-            id="btnLogout"
-            type="button"
-        >
-            Sair
-        </button>
-
-    </nav>
+  </div>
 
 </header>
 
 
 <main>
 
+<!-- PAINEL -->
+<section id="dash" class="tab active">
 
-<!-- ======================================================
-     PAINEL
-====================================================== -->
+  <div class="head">
 
-<section
-    id="dash"
-    class="tab active"
->
+    <div>
+      <h1>📊 Painel de Estoque</h1>
 
-    <div class="head">
+      <p>
+        Saldo atual e necessidade de reposição.
+      </p>
+    </div>
 
-        <div>
+    <button id="btnNewPart" class="primary">
+      + Nova peça
+    </button>
 
-            <h1>
-                📊 Painel de Estoque
-            </h1>
-
-            <p>
-                Visão geral do estoque de manutenção.
-            </p>
-
-        </div>
+  </div>
 
 
-        <button
-            class="primary"
-            id="btnNewPartDash"
-            type="button"
-        >
-            + Nova peça
-        </button>
+  <div class="cards">
 
+    <div class="card">
+      <div class="label">
+        Valor atual do estoque
+      </div>
+
+      <div id="kv" class="kpi">
+        R$ 0,00
+      </div>
     </div>
 
 
-    <div class="cards">
+    <div class="card">
+      <div class="label">
+        Peças cadastradas
+      </div>
 
-
-        <div class="card">
-
-            <div class="label">
-                Valor do estoque
-            </div>
-
-            <div
-                class="kpi"
-                id="kv"
-            >
-                R$ 0,00
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="label">
-                Itens cadastrados
-            </div>
-
-            <div
-                class="kpi"
-                id="ki"
-            >
-                0
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="label">
-                Abaixo do mínimo
-            </div>
-
-            <div
-                class="kpi"
-                id="kl"
-            >
-                0
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="label">
-                Em ruptura
-            </div>
-
-            <div
-                class="kpi"
-                id="kz"
-            >
-                0
-            </div>
-
-        </div>
-
+      <div id="ki" class="kpi">
+        0
+      </div>
     </div>
 
 
-    <div class="grid2">
+    <div class="card">
+      <div class="label">
+        Abaixo do mínimo
+      </div>
 
-
-        <div class="panel">
-
-            <h2>
-                Estoque que exige atenção
-            </h2>
-
-            <div id="attention"></div>
-
-        </div>
-
-
-        <div class="panel">
-
-            <h2>
-                Últimas movimentações
-            </h2>
-
-            <div id="recent"></div>
-
-        </div>
-
+      <div id="kl" class="kpi">
+        0
+      </div>
     </div>
 
 
-    <div class="panel tablewrap">
+    <div class="card">
+      <div class="label">
+        Reposição necessária
+      </div>
 
-        <h2>
-            Posição atual
-        </h2>
-
-        <div id="dashTable"></div>
-
+      <div id="kr" class="kpi">
+        0
+      </div>
     </div>
 
-</section>
+  </div>
 
 
-<!-- ======================================================
-     PEÇAS
-====================================================== -->
+  <div class="grid2">
 
-<section
-    id="parts"
-    class="tab"
->
+    <div class="panel">
 
-    <div class="head">
+      <h2>
+        🚨 Estoque que precisa de atenção
+      </h2>
 
-        <div>
-
-            <h1>
-                Peças
-            </h1>
-
-            <p>
-                Cadastro mestre conectado ao Supabase.
-            </p>
-
-        </div>
-
-
-        <button
-            class="primary"
-            id="btnNewPart"
-            type="button"
-        >
-            + Nova peça
-        </button>
+      <div id="attention"></div>
 
     </div>
 
 
     <div class="panel">
 
+      <h2>
+        📦 Últimas movimentações
+      </h2>
 
-        <div class="toolbar">
-
-            <input
-                id="search"
-                class="input"
-                placeholder="Buscar código ou descrição"
-            >
-
-
-            <select id="filter">
-
-                <option value="">
-                    Todos
-                </option>
-
-                <option value="normal">
-                    Normal
-                </option>
-
-                <option value="baixo">
-                    Abaixo do mínimo
-                </option>
-
-                <option value="ruptura">
-                    Ruptura
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <div
-            class="tablewrap"
-            id="partsTable"
-        ></div>
+      <div id="recent"></div>
 
     </div>
+
+  </div>
+
+
+  <div class="panel">
+
+    <h2>
+      Posição atual do estoque
+    </h2>
+
+    <div id="dashTable" class="tablewrap"></div>
+
+  </div>
 
 </section>
 
 
-<!-- ======================================================
-     MOVIMENTAÇÕES
-====================================================== -->
+<!-- PEÇAS -->
+<section id="parts" class="tab">
 
-<section
-    id="moves"
-    class="tab"
->
+  <div class="head">
 
-    <div class="head">
+    <div>
+      <h1>🔩 Peças</h1>
 
-        <div>
+      <p>
+        Cadastro das peças e parâmetros de estoque.
+      </p>
+    </div>
 
-            <h1>
-                Movimentações
-            </h1>
+    <button id="btnNewPart2" class="primary">
+      + Nova peça
+    </button>
 
-            <p>
-                Entrada, saída, devolução e ajuste.
-            </p>
-
-        </div>
+  </div>
 
 
-        <button
-            class="primary"
-            id="btnNewMove"
-            type="button"
-        >
-            + Registrar movimentação
-        </button>
+  <div class="panel">
+
+    <div class="toolbar">
+
+      <input
+        id="search"
+        class="input-search"
+        placeholder="Buscar código ou descrição"
+      >
+
+      <select id="filter">
+
+        <option value="">
+          Todas
+        </option>
+
+        <option value="normal">
+          Normal
+        </option>
+
+        <option value="baixo">
+          Abaixo do mínimo
+        </option>
+
+        <option value="ruptura">
+          Sem estoque
+        </option>
+
+      </select>
+
+      <button id="btnRefresh">
+        Atualizar
+      </button>
 
     </div>
 
 
-    <div
-        class="panel tablewrap"
-        id="moveTable"
-    ></div>
+    <div id="partsTable" class="tablewrap"></div>
+
+  </div>
 
 </section>
 
 
-<!-- ======================================================
-     REPOSIÇÃO
-====================================================== -->
+<!-- MOVIMENTAÇÕES -->
+<section id="moves" class="tab">
 
-<section
-    id="replen"
-    class="tab"
->
+  <div class="head">
 
-    <div class="head">
+    <div>
+      <h1>📦 Entradas / Saídas</h1>
 
-        <div>
-
-            <h1>
-                Reposição
-            </h1>
-
-            <p>
-                Peças no ponto de reposição ou abaixo.
-            </p>
-
-        </div>
-
+      <p>
+        Atualize o saldo do estoque de forma simples.
+      </p>
     </div>
 
+    <button id="btnNewMove" class="primary">
+      + Registrar
+    </button>
 
-    <div
-        class="panel tablewrap"
-        id="repTable"
-    ></div>
+  </div>
+
+
+  <div class="panel">
+
+    <div id="moveTable" class="tablewrap"></div>
+
+  </div>
 
 </section>
 
 
-<!-- ======================================================
-     INDICADORES
-====================================================== -->
+<!-- REPOSIÇÃO -->
+<section id="replen" class="tab">
 
-<section
-    id="ind"
-    class="tab"
->
+  <div class="head">
+
+    <div>
+      <h1>🚨 Reposição</h1>
+
+      <p>
+        Veja quanto precisa ser reposto para atingir a cota.
+      </p>
+    </div>
+
+  </div>
 
 
-    <div class="head">
+  <div class="panel">
 
-        <div>
+    <div id="repTable" class="tablewrap"></div>
 
-            <h1>
-                Indicadores
-            </h1>
+  </div>
 
-            <p>
-                Consumo e evolução do estoque mês a mês.
-            </p>
+</section>
 
-        </div>
 
+<!-- INDICADORES -->
+<section id="ind" class="tab">
+
+  <div class="head">
+
+    <div>
+      <h1>📈 Indicadores</h1>
+
+      <p>
+        Visão resumida do consumo e do estoque.
+      </p>
+    </div>
+
+  </div>
+
+
+  <div class="cards">
+
+    <div class="card">
+      <div class="label">
+        Quantidade em estoque
+      </div>
+
+      <div id="iq" class="kpi">
+        0
+      </div>
     </div>
 
 
-    <!-- INDICADORES GERAIS -->
+    <div class="card">
+      <div class="label">
+        Valor do estoque
+      </div>
 
-    <div class="cards">
-
-
-        <div class="card">
-
-            <div class="label">
-                Saídas
-            </div>
-
-            <div
-                class="kpi"
-                id="io"
-            >
-                0
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="label">
-                Quantidade consumida
-            </div>
-
-            <div
-                class="kpi"
-                id="iq"
-            >
-                0
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="label">
-                Valor consumido
-            </div>
-
-            <div
-                class="kpi"
-                id="iv"
-            >
-                R$ 0,00
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="label">
-                Valor do estoque atual
-            </div>
-
-            <div
-                class="kpi"
-                id="ii"
-            >
-                R$ 0,00
-            </div>
-
-        </div>
-
+      <div id="iv" class="kpi">
+        R$ 0,00
+      </div>
     </div>
 
 
-    <!-- EVOLUÇÃO MENSAL -->
+    <div class="card">
+      <div class="label">
+        Quantidade de saídas
+      </div>
+
+      <div id="io" class="kpi">
+        0
+      </div>
+    </div>
+
+
+    <div class="card">
+      <div class="label">
+        Quantidade para repor
+      </div>
+
+      <div id="ir" class="kpi">
+        0
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="grid2">
 
     <div class="panel">
 
-        <h2>
-            📅 Evolução mensal — últimos 12 meses
-        </h2>
+      <h2>
+        Peças mais utilizadas
+      </h2>
 
-
-        <div class="monthly-summary">
-
-
-            <div class="mini">
-
-                <div class="label">
-                    Saídas no mês atual
-                </div>
-
-                <b id="monthOut">
-                    R$ 0,00
-                </b>
-
-            </div>
-
-
-            <div class="mini">
-
-                <div class="label">
-                    Estoque no fechamento
-                </div>
-
-                <b id="monthStock">
-                    R$ 0,00
-                </b>
-
-            </div>
-
-
-            <div class="mini">
-
-                <div class="label">
-                    Variação do estoque
-                </div>
-
-                <b id="monthVar">
-                    0%
-                </b>
-
-            </div>
-
-        </div>
-
-
-        <div class="legend">
-
-            <span>
-                <i class="dot"></i>
-                Valor das saídas
-            </span>
-
-            <span>
-                <i class="dot stock"></i>
-                Valor do estoque
-            </span>
-
-        </div>
-
-
-        <div
-            id="monthlyChart"
-            class="chart"
-        ></div>
-
-
-        <div class="section-note">
-
-            O histórico usa a data das movimentações
-            para calcular a evolução mensal.
-
-        </div>
+      <div id="top"></div>
 
     </div>
 
 
-    <!-- TABELA MENSAL -->
+    <div class="panel">
 
-    <div class="panel tablewrap">
+      <h2>
+        Situação do estoque
+      </h2>
 
-        <h2>
-            Histórico mês a mês
-        </h2>
-
-        <div id="monthlyTable"></div>
+      <div id="crit"></div>
 
     </div>
 
-
-    <!-- OUTROS INDICADORES -->
-
-    <div class="grid2">
-
-
-        <div class="panel">
-
-            <h2>
-                Mais consumidas
-            </h2>
-
-            <div id="top"></div>
-
-        </div>
-
-
-        <div class="panel">
-
-            <h2>
-                Criticidade
-            </h2>
-
-            <div id="crit"></div>
-
-        </div>
-
-    </div>
+  </div>
 
 </section>
-
 
 </main>
 
 </div>
 
 
-<!-- ======================================================
-     MODAL
-====================================================== -->
+<!-- MODAL -->
+<div id="modal" class="modal">
 
-<div
-    id="modal"
-    class="modal"
->
+  <div class="modalbox">
 
-    <div class="modalbox">
+    <div class="modalhead">
 
-        <div class="mh">
+      <h2 id="mt"></h2>
 
-            <h2 id="mt"></h2>
-
-            <button
-                id="btnCloseModal"
-                class="close"
-                type="button"
-            >
-                ×
-            </button>
-
-        </div>
-
-
-        <div id="mb"></div>
+      <button id="btnClose" class="close">
+        ×
+      </button>
 
     </div>
+
+    <div id="mb"></div>
+
+  </div>
 
 </div>
 
 
 <script>
 
-"use strict";
-
-
-/* ======================================================
+/* =========================================================
    SUPABASE
-====================================================== */
+========================================================= */
 
 const SUPABASE_URL =
-    "https://uhtmkrlouzbdirkaolet.supabase.co";
+  'https://uhtmkrlouzbdirkaolet.supabase.co';
 
 const SUPABASE_KEY =
-    "sb_publishable_MefMlR2RVIdGv-j9pPqGgw_X72XOvdS";
+  'sb_publishable_MefMlR2VVIdGv-j9pPqGgw_X72XOvdS';
+
+const S =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
 
-let S = null;
+/* =========================================================
+   DADOS
+========================================================= */
 
 let P = [];
-
 let M = [];
-
 let C = [];
-
 let L = [];
 
-let loginBusy = false;
 
+/* =========================================================
+   FUNÇÕES BÁSICAS
+========================================================= */
 
 const $ = id =>
-    document.getElementById(id);
+  document.getElementById(id);
 
-
-/* ======================================================
-   UTILIDADES
-====================================================== */
 
 function money(v){
 
-    return (+v || 0).toLocaleString(
-        "pt-BR",
-        {
-            style:"currency",
-            currency:"BRL"
-        }
-    );
+  return (+v || 0).toLocaleString(
+    'pt-BR',
+    {
+      style:'currency',
+      currency:'BRL'
+    }
+  );
 
 }
 
 
-function esc(s){
+function esc(v){
 
-    return String(s ?? "").replace(
-        /[&<>"']/g,
-        x => ({
-            "&":"&amp;",
-            "<":"&lt;",
-            ">":"&gt;",
-            '"':"&quot;",
-            "'":"&#039;"
-        }[x])
-    );
+  return String(v ?? '')
+    .replace(/[&<>"']/g,x=>({
+
+      '&':'&amp;',
+      '<':'&lt;',
+      '>':'&gt;',
+      '"':'&quot;',
+      "'":'&#039;'
+
+    }[x]));
 
 }
 
 
-function date(x){
+function date(v){
 
-    if(!x){
-        return "—";
-    }
+  if(!v) return '—';
 
-    try{
-
-        return new Date(x)
-            .toLocaleDateString("pt-BR");
-
-    }catch{
-
-        return "—";
-
-    }
+  return new Date(v)
+    .toLocaleDateString('pt-BR');
 
 }
 
 
 function part(id){
 
-    return P.find(
-        p => p.id === id
-    );
+  return P.find(
+    p => p.id === id
+  );
 
 }
 
+
+/* =========================================================
+   STATUS
+========================================================= */
 
 function status(p){
 
-    if(+p.current_stock <= 0){
+  const saldo =
+    Number(p.current_stock) || 0;
 
-        return [
-            "ruptura",
-            "Ruptura"
-        ];
+  const minimo =
+    Number(p.min_stock) || 0;
 
-    }
-
-    if(
-        +p.current_stock <
-        +p.min_stock
-    ){
-
-        return [
-            "baixo",
-            "Abaixo do mínimo"
-        ];
-
-    }
+  if(saldo <= 0){
 
     return [
-        "normal",
-        "Normal"
+      'ruptura',
+      'Sem estoque'
     ];
 
-}
+  }
 
+  if(saldo < minimo){
 
-/* ======================================================
-   MENSAGENS
-====================================================== */
+    return [
+      'baixo',
+      'Abaixo do mínimo'
+    ];
 
-function showLoginMessage(
-    text,
-    type="err"
-){
+  }
 
-    const box = $("msg");
-
-    box.className =
-        "msg show " +
-        (
-            type === "ok"
-            ? "okmsg"
-            : "err"
-        );
-
-    box.textContent =
-        text;
+  return [
+    'normal',
+    'Normal'
+  ];
 
 }
 
 
-function clearLoginMessage(){
+/* =========================================================
+   MENSAGEM LOGIN
+========================================================= */
 
-    const box = $("msg");
+function loginMsg(text,error=false){
 
-    box.className =
-        "msg";
+  const el = $('msg');
 
-    box.textContent =
-        "";
+  el.className =
+    'msg ' +
+    (error ? 'err' : 'okmsg');
+
+  el.textContent = text;
 
 }
 
 
-/* ======================================================
+/* =========================================================
    LOGIN
-====================================================== */
+========================================================= */
 
 async function login(){
 
-    if(loginBusy){
-        return;
+  const email =
+    $('email').value.trim();
+
+  const password =
+    $('pass').value;
+
+  if(!email || !password){
+
+    loginMsg(
+      'Informe e-mail e senha.',
+      true
+    );
+
+    return;
+  }
+
+  $('btnLogin').disabled = true;
+  $('btnLogin').textContent =
+    'Entrando...';
+
+  try{
+
+    const r =
+      await S.auth.signInWithPassword({
+        email,
+        password
+      });
+
+    if(r.error){
+
+      loginMsg(
+        r.error.message,
+        true
+      );
+
+      return;
     }
 
-    clearLoginMessage();
+  }catch(err){
 
-    const email =
-        $("email").value.trim();
+    loginMsg(
+      'Erro ao conectar ao sistema: ' +
+      err.message,
+      true
+    );
 
-    const password =
-        $("pass").value;
+  }finally{
 
+    $('btnLogin').disabled = false;
 
-    if(!email){
+    $('btnLogin').textContent =
+      'Entrar';
 
-        showLoginMessage(
-            "Digite o seu e-mail."
-        );
-
-        $("email").focus();
-
-        return;
-    }
-
-
-    if(!password){
-
-        showLoginMessage(
-            "Digite a sua senha."
-        );
-
-        $("pass").focus();
-
-        return;
-    }
-
-
-    if(!S){
-
-        showLoginMessage(
-            "O sistema ainda não conseguiu conectar ao servidor."
-        );
-
-        return;
-    }
-
-
-    loginBusy = true;
-
-
-    const btn =
-        $("btnLogin");
-
-
-    btn.disabled = true;
-
-    btn.textContent =
-        "Entrando...";
-
-
-    $("loginStatus").textContent =
-        "Verificando acesso...";
-
-
-    try{
-
-        const result =
-            await S.auth.signInWithPassword({
-                email:email,
-                password:password
-            });
-
-
-        if(result.error){
-
-            console.error(
-                "Erro Supabase:",
-                result.error
-            );
-
-
-            let mensagem =
-                result.error.message ||
-                "Não foi possível entrar.";
-
-
-            const lower =
-                mensagem.toLowerCase();
-
-
-            if(
-                lower.includes(
-                    "invalid login credentials"
-                )
-            ){
-
-                mensagem =
-                    "E-mail ou senha incorretos.";
-
-            }
-
-
-            else if(
-                lower.includes(
-                    "email not confirmed"
-                )
-            ){
-
-                mensagem =
-                    "Este e-mail ainda não foi confirmado.";
-
-            }
-
-
-            else if(
-                lower.includes(
-                    "failed to fetch"
-                )
-            ){
-
-                mensagem =
-                    "Não foi possível conectar ao servidor.";
-
-            }
-
-
-            showLoginMessage(
-                mensagem
-            );
-
-
-            $("loginStatus").textContent =
-                "Falha ao entrar.";
-
-
-            return;
-
-        }
-
-
-        if(
-            result.data &&
-            result.data.session
-        ){
-
-            $("loginStatus").textContent =
-                "Login realizado. Carregando sistema...";
-
-
-            await show(
-                result.data.session
-            );
-
-
-            return;
-
-        }
-
-
-        showLoginMessage(
-            "O login foi processado, mas nenhuma sessão foi encontrada."
-        );
-
-
-    }
-
-    catch(error){
-
-        console.error(
-            "Erro inesperado:",
-            error
-        );
-
-
-        showLoginMessage(
-            "Erro ao tentar entrar: " +
-            (
-                error.message ||
-                error
-            )
-        );
-
-
-        $("loginStatus").textContent =
-            "Erro de conexão.";
-
-    }
-
-
-    finally{
-
-        loginBusy = false;
-
-        btn.disabled = false;
-
-        btn.textContent =
-            "Entrar";
-
-    }
+  }
 
 }
 
 
-/* ======================================================
+/* =========================================================
    CRIAR ACESSO
-====================================================== */
+========================================================= */
 
 async function signup(){
 
-    clearLoginMessage();
+  const email =
+    $('email').value.trim();
 
+  const password =
+    $('pass').value;
 
-    const email =
-        $("email").value.trim();
+  if(!email || !password){
 
-    const password =
-        $("pass").value;
+    loginMsg(
+      'Informe e-mail e senha.',
+      true
+    );
 
+    return;
+  }
 
-    if(!email){
+  try{
 
-        showLoginMessage(
-            "Digite o e-mail."
-        );
+    const r =
+      await S.auth.signUp({
+        email,
+        password
+      });
 
-        return;
+    if(r.error){
+
+      loginMsg(
+        r.error.message,
+        true
+      );
+
+      return;
+    }
+
+    if(r.data.session){
+
+      loginMsg(
+        'Acesso criado com sucesso.'
+      );
+
+    }else{
+
+      loginMsg(
+        'Acesso criado. Confirme o e-mail se solicitado.'
+      );
 
     }
 
+  }catch(err){
 
-    if(!password){
+    loginMsg(
+      'Erro: ' + err.message,
+      true
+    );
 
-        showLoginMessage(
-            "Digite a senha."
-        );
-
-        return;
-
-    }
-
-
-    if(password.length < 6){
-
-        showLoginMessage(
-            "A senha precisa ter pelo menos 6 caracteres."
-        );
-
-        return;
-
-    }
-
-
-    try{
-
-        const result =
-            await S.auth.signUp({
-                email:email,
-                password:password
-            });
-
-
-        if(result.error){
-
-            showLoginMessage(
-                result.error.message
-            );
-
-            return;
-
-        }
-
-
-        if(result.data.session){
-
-            showLoginMessage(
-                "Acesso criado com sucesso.",
-                "ok"
-            );
-
-        }else{
-
-            showLoginMessage(
-                "Acesso criado. Confirme seu e-mail para entrar.",
-                "ok"
-            );
-
-        }
-
-    }
-
-    catch(error){
-
-        showLoginMessage(
-            "Erro ao criar acesso: " +
-            (
-                error.message ||
-                error
-            )
-        );
-
-    }
+  }
 
 }
 
 
-/* ======================================================
-   SAIR
-====================================================== */
+/* =========================================================
+   LOGOUT
+========================================================= */
 
 async function logout(){
 
-    if(!S){
-        return;
-    }
-
-    try{
-
-        await S.auth.signOut();
-
-    }
-
-    catch(error){
-
-        console.error(
-            error
-        );
-
-    }
+  await S.auth.signOut();
 
 }
 
 
-/* ======================================================
+/* =========================================================
    MOSTRAR SISTEMA
-====================================================== */
+========================================================= */
 
 async function show(session){
 
-    if(
-        !session ||
-        !session.user
-    ){
+  $('login')
+    .classList
+    .add('hidden');
 
-        return;
+  $('app')
+    .classList
+    .remove('hidden');
 
-    }
+  $('who').textContent =
+    session.user.email || '';
 
-
-    $("login")
-        .classList
-        .add("hidden");
-
-
-    $("app")
-        .classList
-        .remove("hidden");
-
-
-    $("who").textContent =
-        session.user.email || "";
-
-
-    try{
-
-        await load();
-
-    }
-
-    catch(error){
-
-        console.error(
-            "Erro ao carregar:",
-            error
-        );
-
-
-        alert(
-            "O login foi realizado, mas ocorreu um erro ao carregar os dados:\n\n" +
-            (
-                error.message ||
-                error
-            )
-        );
-
-    }
+  await load();
 
 }
 
 
-/* ======================================================
-   CARREGAR DADOS
-====================================================== */
+/* =========================================================
+   CARREGAR BANCO
+========================================================= */
 
 async function load(){
 
-    if(!S){
-
-        throw new Error(
-            "Supabase não inicializado."
-        );
-
-    }
-
+  try{
 
     const [
-        p,
-        m,
-        c,
-        l
+      p,
+      m,
+      c,
+      l
     ] = await Promise.all([
 
-        S
-            .from("parts")
-            .select("*")
-            .eq("active",true)
-            .order("code"),
+      S
+        .from('parts')
+        .select('*')
+        .eq('active',true)
+        .order('code'),
 
+      S
+        .from('stock_movements')
+        .select('*')
+        .order(
+          'movement_date',
+          {ascending:false}
+        ),
 
-        S
-            .from("stock_movements")
-            .select("*")
-            .order(
-                "movement_date",
-                {
-                    ascending:false
-                }
-            ),
+      S
+        .from('categories')
+        .select('*')
+        .eq('active',true)
+        .order('name'),
 
-
-        S
-            .from("categories")
-            .select("*")
-            .eq("active",true)
-            .order("name"),
-
-
-        S
-            .from("locations")
-            .select("*")
-            .eq("active",true)
-            .order("name")
+      S
+        .from('locations')
+        .select('*')
+        .eq('active',true)
+        .order('name')
 
     ]);
 
 
-    for(
-        const result of [
-            p,
-            m,
-            c,
-            l
-        ]
-    ){
+    for(const r of [p,m,c,l]){
 
-        if(result.error){
+      if(r.error){
 
-            throw result.error;
+        console.error(r.error);
 
-        }
+        alert(
+          'Erro ao carregar dados: ' +
+          r.error.message
+        );
+
+        return;
+      }
 
     }
 
 
-    P =
-        p.data || [];
-
-
-    M =
-        m.data || [];
-
-
-    C =
-        c.data || [];
-
-
-    L =
-        l.data || [];
+    P = p.data || [];
+    M = m.data || [];
+    C = c.data || [];
+    L = l.data || [];
 
 
     render();
 
-}
+  }catch(err){
 
+    console.error(err);
 
-/* ======================================================
-   TABELAS
-====================================================== */
+    alert(
+      'Erro de conexão com o banco: ' +
+      err.message
+    );
 
-function tbl(
-    headers,
-    rows
-){
-
-    return `
-
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    ${
-                        headers
-                        .map(
-                            h =>
-                            `<th>${h}</th>`
-                        )
-                        .join("")
-                    }
-
-                </tr>
-
-            </thead>
-
-
-            <tbody>
-
-                ${
-                    rows ||
-
-                    `
-                    <tr>
-
-                        <td
-                            colspan="${headers.length}"
-                            class="empty"
-                        >
-                            Nenhum registro.
-                        </td>
-
-                    </tr>
-                    `
-                }
-
-            </tbody>
-
-        </table>
-
-    `;
+  }
 
 }
 
 
-/* ======================================================
-   RENDER
-====================================================== */
+/* =========================================================
+   RENDER GERAL
+========================================================= */
 
 function render(){
 
-    renderDashboard();
+  renderDashboard();
 
-    renderParts();
+  renderParts();
 
-    renderMoves();
+  renderMoves();
 
-    renderRep();
+  renderReplenishment();
 
-    renderInd();
+  renderIndicators();
 
 }
 
 
-/* ======================================================
+/* =========================================================
    DASHBOARD
-====================================================== */
+========================================================= */
 
 function renderDashboard(){
 
-    const totalValue =
-        P.reduce(
-            (sum,p) =>
-                sum +
-                (+p.current_stock || 0) *
-                (+p.unit_cost || 0),
-            0
-        );
+  const valor =
+    P.reduce(
+      (sum,p)=>
+        sum +
+        (
+          Number(p.current_stock) *
+          Number(p.unit_cost)
+        ),
+      0
+    );
 
 
-    $("kv").textContent =
-        money(totalValue);
+  const quantidade =
+    P.reduce(
+      (sum,p)=>
+        sum +
+        Number(p.current_stock || 0),
+      0
+    );
 
 
-    $("ki").textContent =
-        P.length;
+  const baixo =
+    P.filter(
+      p =>
+        Number(p.current_stock) <
+        Number(p.min_stock)
+    ).length;
 
 
-    $("kl").textContent =
-        P.filter(
-            p =>
-                +p.current_stock <
-                +p.min_stock &&
-                +p.current_stock > 0
-        ).length;
+  const reposicao =
+    P.filter(
+      p =>
+        Number(p.current_stock) <=
+        Number(p.reorder_point)
+    ).length;
 
 
-    $("kz").textContent =
-        P.filter(
-            p =>
-                +p.current_stock <= 0
-        ).length;
+  $('kv').textContent =
+    money(valor);
+
+  $('ki').textContent =
+    P.length;
+
+  $('kl').textContent =
+    baixo;
+
+  $('kr').textContent =
+    reposicao;
 
 
-    const attention =
-        P
-        .filter(
-            p =>
-                +p.current_stock <=
-                +p.reorder_point
-        )
-        .sort(
-            (a,b) =>
-                +a.current_stock -
-                +b.current_stock
-        );
+  /* ATENÇÃO */
+
+  const attention =
+    P
+      .filter(
+        p =>
+          Number(p.current_stock) <=
+          Number(p.reorder_point)
+      )
+      .sort(
+        (a,b)=>
+          Number(a.current_stock) -
+          Number(b.current_stock)
+      );
 
 
-    $("attention").innerHTML =
+  if(!attention.length){
 
-        attention.length
+    $('attention').innerHTML =
+      '<div class="empty">Nenhuma peça precisa de reposição.</div>';
 
-        ?
+  }else{
 
-        attention
-        .map(
-            p => {
+    $('attention').innerHTML =
+      attention.map(p=>{
 
-                const [
-                    cls,
-                    text
-                ] =
-                    status(p);
+        const saldo =
+          Number(p.current_stock) || 0;
 
+        const cota =
+          Number(p.max_stock) || 0;
 
-                return `
+        const repor =
+          Math.max(
+            0,
+            cota - saldo
+          );
 
-                    <div class="alert">
+        const [cl,txt] =
+          status(p);
 
-                        <div>
+        return `
+          <div class="alert">
 
-                            <b>
-                                ${esc(p.code)}
-                            </b>
+            <div>
 
-                            —
-                            ${esc(p.description)}
+              <b>
+                ${esc(p.code)}
+              </b>
 
-                            <div class="muted">
+              — ${esc(p.description)}
 
-                                Saldo
-                                ${p.current_stock}
-                                ${esc(p.unit)}
+              <div class="muted">
 
-                                · mínimo
-                                ${p.min_stock}
+                Atual:
+                <b>${saldo} ${esc(p.unit)}</b>
 
-                                · reposição
-                                ${p.reorder_point}
+                &nbsp; | &nbsp;
 
-                            </div>
+                Cota:
+                <b>${cota} ${esc(p.unit)}</b>
 
-                        </div>
+                &nbsp; | &nbsp;
 
+                Repor:
+                <b class="big-orange">
+                  ${repor} ${esc(p.unit)}
+                </b>
 
-                        <span
-                            class="
-                                tag
-                                ${
-                                    cls === "ruptura"
-                                    ? "danger"
-                                    : "warn"
-                                }
-                            "
-                        >
-                            ${text}
-                        </span>
+              </div>
 
-                    </div>
-
-                `;
-
-            }
-        )
-        .join("")
-
-        :
-
-        `
-            <div class="empty">
-                Nenhuma peça exige atenção.
             </div>
+
+            <span class="tag ${
+              cl === 'ruptura'
+                ? 'danger'
+                : 'warn'
+            }">
+
+              ${txt}
+
+            </span>
+
+          </div>
         `;
 
+      }).join('');
 
-    $("recent").innerHTML =
-
-        M
-        .slice(0,8)
-        .map(
-            m => {
-
-                const p =
-                    part(m.part_id);
+  }
 
 
-                return `
+  /* ÚLTIMAS MOVIMENTAÇÕES */
 
-                    <div
-                        style="
-                            padding:8px 0;
-                            border-bottom:1px solid var(--line)
-                        "
-                    >
-
-                        <b>
-                            ${esc(p?.code || "—")}
-                        </b>
-
-                        ·
-                        ${esc(m.movement_type)}
-
-                        ·
-                        ${m.quantity}
-                        ${esc(p?.unit || "")}
+  const recent =
+    M.slice(0,8);
 
 
-                        <div class="muted">
+  $('recent').innerHTML =
+    recent.length
+      ? recent.map(m=>{
 
-                            ${date(m.movement_date)}
+          const p =
+            part(m.part_id);
 
-                            ·
+          const tipo =
+            m.movement_type || '';
 
-                            ${esc(
-                                m.maintenance_order ||
-                                m.document_number ||
-                                m.reason ||
-                                ""
-                            )}
+          const classe =
+            tipo === 'Saída'
+              ? 'danger'
+              : tipo === 'Entrada' ||
+                tipo === 'Devolução'
+                ? 'ok'
+                : 'info';
 
-                        </div>
+          return `
+            <div style="
+              padding:9px 0;
+              border-bottom:1px solid var(--border)
+            ">
 
-                    </div>
+              <b>
+                ${esc(p?.code || '—')}
+              </b>
 
-                `;
+              <span class="tag ${classe}">
+                ${esc(tipo)}
+              </span>
 
-            }
-        )
-        .join("")
+              — ${m.quantity}
+              ${esc(p?.unit || '')}
 
-        ||
+              <div class="muted">
+                ${date(m.movement_date)}
+              </div>
 
-        `
-            <div class="empty">
-                Nenhuma movimentação.
             </div>
-        `;
+          `;
+
+        }).join('')
+      : '<div class="empty">Nenhuma movimentação.</div>';
 
 
-    const rows =
-        P
-        .map(
-            p => {
+  /* TABELA */
 
-                const [
-                    cls,
-                    text
-                ] =
-                    status(p);
+  const rows =
+    P.map(p=>{
 
+      const saldo =
+        Number(p.current_stock) || 0;
 
-                return `
+      const minimo =
+        Number(p.min_stock) || 0;
 
-                    <tr>
+      const cota =
+        Number(p.max_stock) || 0;
 
-                        <td>
-
-                            <b>
-                                ${esc(p.code)}
-                            </b>
-
-                            <div class="muted">
-                                ${esc(p.description)}
-                            </div>
-
-                        </td>
-
-
-                        <td>
-                            ${p.current_stock}
-                            ${esc(p.unit)}
-                        </td>
-
-
-                        <td>
-                            ${p.min_stock}
-                        </td>
-
-
-                        <td>
-                            ${money(p.unit_cost)}
-                        </td>
-
-
-                        <td>
-
-                            ${money(
-                                (+p.current_stock || 0) *
-                                (+p.unit_cost || 0)
-                            )}
-
-                        </td>
-
-
-                        <td>
-
-                            <span
-                                class="
-                                    tag
-                                    ${
-                                        cls === "normal"
-                                        ? "ok"
-                                        : cls === "baixo"
-                                        ? "warn"
-                                        : "danger"
-                                    }
-                                "
-                            >
-                                ${text}
-                            </span>
-
-                        </td>
-
-                    </tr>
-
-                `;
-
-            }
-        )
-        .join("");
-
-
-    $("dashTable").innerHTML =
-        tbl(
-            [
-                "Peça",
-                "Saldo",
-                "Mín.",
-                "Custo",
-                "Valor",
-                "Status"
-            ],
-            rows
+      const repor =
+        Math.max(
+          0,
+          cota - saldo
         );
+
+      const valor =
+        saldo *
+        Number(p.unit_cost || 0);
+
+      const [cl,txt] =
+        status(p);
+
+      return `
+        <tr>
+
+          <td>
+            <b>${esc(p.code)}</b>
+            <div class="muted">
+              ${esc(p.description)}
+            </div>
+          </td>
+
+          <td>
+            <b>${saldo}</b>
+            ${esc(p.unit)}
+          </td>
+
+          <td>
+            ${minimo}
+          </td>
+
+          <td>
+            ${cota}
+          </td>
+
+          <td>
+            ${repor}
+          </td>
+
+          <td>
+            ${money(p.unit_cost)}
+          </td>
+
+          <td>
+            <b>${money(valor)}</b>
+          </td>
+
+          <td>
+            <span class="tag ${
+              cl === 'normal'
+                ? 'ok'
+                : cl === 'baixo'
+                  ? 'warn'
+                  : 'danger'
+            }">
+              ${txt}
+            </span>
+          </td>
+
+        </tr>
+      `;
+
+    }).join('');
+
+
+  $('dashTable').innerHTML =
+    table(
+      [
+        'Peça',
+        'Saldo atual',
+        'Mínimo',
+        'Cota',
+        'A repor',
+        'Valor unit.',
+        'Valor total',
+        'Status'
+      ],
+      rows
+    );
 
 }
 
 
-/* ======================================================
+/* =========================================================
+   TABELA
+========================================================= */
+
+function table(headers,rows){
+
+  return `
+    <table>
+
+      <thead>
+        <tr>
+          ${headers
+            .map(h=>`<th>${h}</th>`)
+            .join('')
+          }
+        </tr>
+      </thead>
+
+      <tbody>
+
+        ${
+          rows ||
+          `
+            <tr>
+              <td
+                colspan="${headers.length}"
+                class="empty"
+              >
+                Nenhum registro.
+              </td>
+            </tr>
+          `
+        }
+
+      </tbody>
+
+    </table>
+  `;
+
+}
+
+
+/* =========================================================
    PEÇAS
-====================================================== */
+========================================================= */
 
 function renderParts(){
 
-    const q =
-        (
-            $("search")?.value ||
-            ""
-        ).toLowerCase();
+  const q =
+    ($('search')?.value || '')
+      .toLowerCase();
+
+  const filter =
+    $('filter')?.value || '';
 
 
-    const f =
-        $("filter")?.value ||
-        "";
+  const rows =
+    P
+      .filter(p=>{
+
+        const texto =
+          [
+            p.code,
+            p.description
+          ]
+          .join(' ')
+          .toLowerCase();
+
+        const passaBusca =
+          !q ||
+          texto.includes(q);
+
+        const passaFiltro =
+          !filter ||
+          status(p)[0] === filter;
+
+        return passaBusca &&
+               passaFiltro;
+
+      })
+      .map(p=>{
+
+        const saldo =
+          Number(p.current_stock) || 0;
+
+        const cota =
+          Number(p.max_stock) || 0;
+
+        const repor =
+          Math.max(
+            0,
+            cota - saldo
+          );
+
+        const [cl,txt] =
+          status(p);
+
+        return `
+          <tr>
+
+            <td>
+              <b>${esc(p.code)}</b>
+            </td>
+
+            <td>
+              ${esc(p.description)}
+            </td>
+
+            <td>
+              ${esc(p.unit)}
+            </td>
+
+            <td>
+              <b>${saldo}</b>
+            </td>
+
+            <td>
+              ${p.min_stock}
+            </td>
+
+            <td>
+              <b>${cota}</b>
+            </td>
+
+            <td>
+              ${repor}
+            </td>
+
+            <td>
+              ${money(p.unit_cost)}
+            </td>
+
+            <td>
+              ${money(
+                saldo *
+                Number(p.unit_cost || 0)
+              )}
+            </td>
+
+            <td>
+
+              <span class="tag ${
+                cl === 'normal'
+                  ? 'ok'
+                  : cl === 'baixo'
+                    ? 'warn'
+                    : 'danger'
+              }">
+
+                ${txt}
+
+              </span>
+
+            </td>
+
+            <td>
+
+              <button
+                onclick="partForm('${p.id}')"
+              >
+                Editar
+              </button>
+
+            </td>
+
+          </tr>
+        `;
+
+      }).join('');
 
 
-    const rows =
-        P
-        .filter(
-            p => {
-
-                const text =
-                    [
-                        p.code,
-                        p.description
-                    ]
-                    .join(" ")
-                    .toLowerCase();
-
-
-                return (
-
-                    (!q ||
-                    text.includes(q))
-
-                    &&
-
-                    (!f ||
-                    status(p)[0] === f)
-
-                );
-
-            }
-        )
-        .map(
-            p => {
-
-                const [
-                    cls,
-                    text
-                ] =
-                    status(p);
-
-
-                return `
-
-                    <tr>
-
-                        <td>
-                            ${esc(p.code)}
-                        </td>
-
-                        <td>
-                            ${esc(p.description)}
-                        </td>
-
-                        <td>
-                            ${esc(p.unit)}
-                        </td>
-
-                        <td>
-                            ${p.current_stock}
-                        </td>
-
-                        <td>
-                            ${p.min_stock}
-                        </td>
-
-                        <td>
-                            ${p.max_stock}
-                        </td>
-
-                        <td>
-                            ${p.reorder_point}
-                        </td>
-
-                        <td>
-                            ${money(p.unit_cost)}
-                        </td>
-
-                        <td>
-
-                            <span
-                                class="
-                                    tag
-                                    ${
-                                        cls === "normal"
-                                        ? "ok"
-                                        : cls === "baixo"
-                                        ? "warn"
-                                        : "danger"
-                                    }
-                                "
-                            >
-                                ${text}
-                            </span>
-
-                        </td>
-
-                        <td>
-
-                            <button
-                                type="button"
-                                onclick="partForm('${p.id}')"
-                            >
-                                Editar
-                            </button>
-
-                        </td>
-
-                    </tr>
-
-                `;
-
-            }
-        )
-        .join("");
-
-
-    $("partsTable").innerHTML =
-        tbl(
-            [
-                "Código",
-                "Descrição",
-                "Un.",
-                "Saldo",
-                "Mín.",
-                "Máx.",
-                "Repos.",
-                "Custo",
-                "Status",
-                ""
-            ],
-            rows
-        );
+  $('partsTable').innerHTML =
+    table(
+      [
+        'Código',
+        'Descrição',
+        'Un.',
+        'Saldo',
+        'Mínimo',
+        'Cota',
+        'A repor',
+        'Valor unit.',
+        'Valor total',
+        'Status',
+        ''
+      ],
+      rows
+    );
 
 }
 
 
-/* ======================================================
+/* =========================================================
    MOVIMENTAÇÕES
-====================================================== */
+========================================================= */
 
 function renderMoves(){
 
-    const rows =
-        M
-        .map(
-            m => {
+  const rows =
+    M.map(m=>{
 
-                const p =
-                    part(m.part_id);
+      const p =
+        part(m.part_id);
 
+      const tipo =
+        m.movement_type || '';
 
-                const cls =
+      const classe =
+        tipo === 'Saída'
+          ? 'danger'
+          : tipo === 'Entrada' ||
+            tipo === 'Devolução'
+            ? 'ok'
+            : 'info';
 
-                    m.movement_type === "Saída"
+      return `
+        <tr>
 
-                    ? "danger"
+          <td>
+            ${date(m.movement_date)}
+          </td>
 
-                    :
+          <td>
 
-                    (
-                        m.movement_type === "Entrada" ||
-                        m.movement_type === "Devolução"
-                    )
+            <span class="tag ${classe}">
+              ${esc(tipo)}
+            </span>
 
-                    ? "ok"
+          </td>
 
-                    : "info";
+          <td>
 
+            <b>
+              ${esc(p?.code || '—')}
+            </b>
 
-                return `
-
-                    <tr>
-
-                        <td>
-                            ${date(m.movement_date)}
-                        </td>
-
-
-                        <td>
-
-                            <span
-                                class="tag ${cls}"
-                            >
-                                ${esc(m.movement_type)}
-                            </span>
-
-                        </td>
-
-
-                        <td>
-
-                            <b>
-                                ${esc(
-                                    p?.code ||
-                                    "—"
-                                )}
-                            </b>
-
-                            <div class="muted">
-                                ${esc(
-                                    p?.description ||
-                                    ""
-                                )}
-                            </div>
-
-                        </td>
-
-
-                        <td>
-                            ${m.quantity}
-                        </td>
-
-
-                        <td>
-                            ${m.stock_before}
-                            →
-                            ${m.stock_after}
-                        </td>
-
-
-                        <td>
-                            ${esc(
-                                m.maintenance_order ||
-                                ""
-                            )}
-                        </td>
-
-
-                        <td>
-                            ${esc(
-                                m.equipment ||
-                                ""
-                            )}
-                        </td>
-
-
-                        <td>
-                            ${esc(
-                                m.document_number ||
-                                m.reason ||
-                                ""
-                            )}
-                        </td>
-
-                    </tr>
-
-                `;
-
-            }
-        )
-        .join("");
-
-
-    $("moveTable").innerHTML =
-        tbl(
-            [
-                "Data",
-                "Tipo",
-                "Peça",
-                "Qtd.",
-                "Saldo",
-                "OS",
-                "Equipamento",
-                "Documento/Motivo"
-            ],
-            rows
-        );
-
-}
-
-
-/* ======================================================
-   REPOSIÇÃO
-====================================================== */
-
-function renderRep(){
-
-    const rows =
-        P
-        .filter(
-            p =>
-                +p.current_stock <=
-                +p.reorder_point
-        )
-        .map(
-            p => {
-
-                const n =
-                    Math.max(
-                        0,
-                        +p.max_stock -
-                        +p.current_stock
-                    );
-
-
-                return `
-
-                    <tr>
-
-                        <td>
-                            ${esc(p.code)}
-                        </td>
-
-                        <td>
-                            ${esc(p.description)}
-                        </td>
-
-                        <td>
-                            ${esc(p.criticality)}
-                        </td>
-
-                        <td>
-                            ${p.current_stock}
-                        </td>
-
-                        <td>
-                            ${p.reorder_point}
-                        </td>
-
-                        <td>
-                            ${p.max_stock}
-                        </td>
-
-                        <td>
-                            <b>
-                                ${n}
-                            </b>
-                        </td>
-
-                        <td>
-                            ${money(
-                                n *
-                                (+p.unit_cost || 0)
-                            )}
-                        </td>
-
-                    </tr>
-
-                `;
-
-            }
-        )
-        .join("");
-
-
-    $("repTable").innerHTML =
-        tbl(
-            [
-                "Código",
-                "Descrição",
-                "Criticidade",
-                "Saldo",
-                "Ponto repos.",
-                "Máx.",
-                "Sugestão",
-                "Valor"
-            ],
-            rows
-        );
-
-}
-
-
-/* ======================================================
-   FUNÇÃO DE SALDO HISTÓRICO
-====================================================== */
-
-function historicalStock(
-    cutoff
-){
-
-    /*
-       Para cada peça, pega a última
-       movimentação existente até o
-       fechamento daquele mês.
-    */
-
-    const movimentos =
-        M
-        .filter(
-            m =>
-                new Date(
-                    m.movement_date
-                ) <= cutoff
-        )
-        .sort(
-            (a,b) =>
-                new Date(a.movement_date) -
-                new Date(b.movement_date)
-        );
-
-
-    if(movimentos.length){
-
-        const ultima = {};
-
-
-        movimentos.forEach(
-            m => {
-
-                ultima[m.part_id] =
-                    m;
-
-            }
-        );
-
-
-        return P.reduce(
-            (sum,p) => {
-
-                const movimento =
-                    ultima[p.id];
-
-
-                let saldo;
-
-
-                if(movimento){
-
-                    saldo =
-                        +movimento.stock_after || 0;
-
-                }else{
-
-                    saldo =
-                        +p.current_stock || 0;
-
-                }
-
-
-                return sum +
-                    saldo *
-                    (+p.unit_cost || 0);
-
-            },
-            0
-        );
-
-    }
-
-
-    return 0;
-
-}
-
-
-/* ======================================================
-   DADOS MENSAIS
-====================================================== */
-
-function monthKey(
-    d
-){
-
-    return (
-
-        d.getFullYear() +
-        "-" +
-        String(
-            d.getMonth()+1
-        ).padStart(2,"0")
-
-    );
-
-}
-
-
-function monthLabel(
-    d
-){
-
-    return d
-        .toLocaleDateString(
-            "pt-BR",
-            {
-                month:"short"
-            }
-        )
-        .replace(".","");
-
-}
-
-
-function monthlyData(){
-
-    const now =
-        new Date();
-
-
-    const data = [];
-
-
-    /*
-       Últimos 12 meses.
-    */
-
-    for(
-        let i=11;
-        i>=0;
-        i--
-    ){
-
-        const inicio =
-            new Date(
-                now.getFullYear(),
-                now.getMonth()-i,
-                1,
-                0,
-                0,
-                0,
-                0
-            );
-
-
-        const fim =
-            new Date(
-                inicio.getFullYear(),
-                inicio.getMonth()+1,
-                0,
-                23,
-                59,
-                59,
-                999
-            );
-
-
-        const key =
-            monthKey(inicio);
-
-
-        const saidas =
-            M.filter(
-                m =>
-
-                    m.movement_type === "Saída"
-
-                    &&
-
-                    monthKey(
-                        new Date(
-                            m.movement_date
-                        )
-                    ) === key
-            );
-
-
-        const valorSaidas =
-            saidas.reduce(
-                (sum,m) =>
-                    sum +
-                    (+m.quantity || 0) *
-                    (+m.unit_cost || 0),
-                0
-            );
-
-
-        const quantidadeSaidas =
-            saidas.reduce(
-                (sum,m) =>
-                    sum +
-                    (+m.quantity || 0),
-                0
-            );
-
-
-        const estoque =
-            historicalStock(
-                fim
-            );
-
-
-        data.push({
-
-            key:key,
-
-            label:
-                monthLabel(
-                    inicio
-                ),
-
-            outValue:
-                valorSaidas,
-
-            outQty:
-                quantidadeSaidas,
-
-            stockValue:
-                estoque
-
-        });
-
-    }
-
-
-    return data;
-
-}
-
-
-/* ======================================================
-   RENDER INDICADORES
-====================================================== */
-
-function renderInd(){
-
-    const saidas =
-        M.filter(
-            m =>
-                m.movement_type === "Saída"
-        );
-
-
-    const quantidade =
-        saidas.reduce(
-            (sum,m) =>
-                sum +
-                (+m.quantity || 0),
-            0
-        );
-
-
-    const valor =
-        saidas.reduce(
-            (sum,m) =>
-                sum +
-                (+m.quantity || 0) *
-                (+m.unit_cost || 0),
-            0
-        );
-
-
-    const estoqueAtual =
-        P.reduce(
-            (sum,p) =>
-                sum +
-                (+p.current_stock || 0) *
-                (+p.unit_cost || 0),
-            0
-        );
-
-
-    $("io").textContent =
-        saidas.length;
-
-
-    $("iq").textContent =
-        quantidade;
-
-
-    $("iv").textContent =
-        money(valor);
-
-
-    $("ii").textContent =
-        money(estoqueAtual);
-
-
-    /* ==========================
-       MAIS CONSUMIDAS
-    ========================== */
-
-    const top = {};
-
-
-    saidas.forEach(
-        m => {
-
-            top[m.part_id] =
-                (top[m.part_id] || 0) +
-                (+m.quantity || 0);
-
-        }
-    );
-
-
-    const ranking =
-        Object
-        .entries(top)
-        .sort(
-            (a,b) =>
-                b[1] -
-                a[1]
-        )
-        .slice(0,7);
-
-
-    $("top").innerHTML =
-
-        ranking
-        .map(
-            ([id,n]) => {
-
-                const p =
-                    part(id);
-
-
-                return `
-
-                    <div
-                        style="
-                            margin:11px 0;
-                            display:flex;
-                            justify-content:space-between
-                        "
-                    >
-
-                        <b>
-                            ${esc(
-                                p?.code ||
-                                "—"
-                            )}
-                        </b>
-
-                        <span>
-                            ${n}
-                            ${esc(
-                                p?.unit ||
-                                ""
-                            )}
-                        </span>
-
-                    </div>
-
-                `;
-
-            }
-        )
-        .join("")
-
-        ||
-
-        `
-            <div class="empty">
-                Sem saídas.
+            <div class="muted">
+              ${esc(p?.description || '')}
             </div>
+
+          </td>
+
+          <td>
+            ${m.quantity}
+            ${esc(p?.unit || '')}
+          </td>
+
+          <td>
+            ${m.stock_before ?? '—'}
+            →
+            ${m.stock_after ?? '—'}
+          </td>
+
+        </tr>
+      `;
+
+    }).join('');
+
+
+  $('moveTable').innerHTML =
+    table(
+      [
+        'Data',
+        'Tipo',
+        'Peça',
+        'Quantidade',
+        'Saldo'
+      ],
+      rows
+    );
+
+}
+
+
+/* =========================================================
+   REPOSIÇÃO
+========================================================= */
+
+function renderReplenishment(){
+
+  const rows =
+    P
+      .filter(
+        p =>
+          Number(p.current_stock) <=
+          Number(p.reorder_point)
+      )
+      .sort(
+        (a,b)=>
+          Number(a.current_stock) -
+          Number(b.current_stock)
+      )
+      .map(p=>{
+
+        const saldo =
+          Number(p.current_stock) || 0;
+
+        const cota =
+          Number(p.max_stock) || 0;
+
+        const repor =
+          Math.max(
+            0,
+            cota - saldo
+          );
+
+        const valor =
+          repor *
+          Number(p.unit_cost || 0);
+
+        return `
+          <tr>
+
+            <td>
+              <b>${esc(p.code)}</b>
+            </td>
+
+            <td>
+              ${esc(p.description)}
+            </td>
+
+            <td>
+              ${saldo}
+            </td>
+
+            <td>
+              ${p.reorder_point}
+            </td>
+
+            <td>
+              <b>${cota}</b>
+            </td>
+
+            <td>
+              <b class="big-orange">
+                ${repor}
+              </b>
+            </td>
+
+            <td>
+              ${money(p.unit_cost)}
+            </td>
+
+            <td>
+              <b>${money(valor)}</b>
+            </td>
+
+          </tr>
         `;
 
-
-    /* ==========================
-       CRITICIDADE
-    ========================== */
-
-    const criticidade = {
-
-        "Crítica":0,
-        "Alta":0,
-        "Média":0,
-        "Baixa":0
-
-    };
+      }).join('');
 
 
-    P.forEach(
-        p => {
+  $('repTable').innerHTML =
+    table(
+      [
+        'Código',
+        'Descrição',
+        'Saldo atual',
+        'Ponto de reposição',
+        'Cota',
+        'Quantidade a repor',
+        'Valor unit.',
+        'Valor estimado'
+      ],
+      rows
+    );
 
-            criticidade[p.criticality] =
-                (
-                    criticidade[p.criticality] ||
-                    0
-                ) + 1;
+}
 
-        }
+
+/* =========================================================
+   INDICADORES
+========================================================= */
+
+function renderIndicators(){
+
+  const quantidade =
+    P.reduce(
+      (s,p)=>
+        s +
+        Number(p.current_stock || 0),
+      0
     );
 
 
-    $("crit").innerHTML =
-
-        Object
-        .entries(
-            criticidade
-        )
-        .map(
-            ([k,n]) => `
-
-                <div
-                    style="
-                        margin:11px 0;
-                        display:flex;
-                        justify-content:space-between
-                    "
-                >
-
-                    <b>
-                        ${esc(k)}
-                    </b>
-
-                    <span>
-                        ${n}
-                    </span>
-
-                </div>
-
-            `
-        )
-        .join("");
+  const valor =
+    P.reduce(
+      (s,p)=>
+        s +
+        Number(p.current_stock || 0) *
+        Number(p.unit_cost || 0),
+      0
+    );
 
 
-    renderMonthly();
+  const saidas =
+    M.filter(
+      m =>
+        m.movement_type === 'Saída'
+    );
+
+
+  const quantidadeSaida =
+    saidas.reduce(
+      (s,m)=>
+        s +
+        Number(m.quantity || 0),
+      0
+    );
+
+
+  const totalRepor =
+    P.reduce(
+      (s,p)=>{
+
+        const saldo =
+          Number(p.current_stock) || 0;
+
+        const cota =
+          Number(p.max_stock) || 0;
+
+        return s +
+          Math.max(
+            0,
+            cota - saldo
+          );
+
+      },
+      0
+    );
+
+
+  $('iq').textContent =
+    quantidade;
+
+  $('iv').textContent =
+    money(valor);
+
+  $('io').textContent =
+    saidas.length;
+
+  $('ir').textContent =
+    totalRepor;
+
+
+  /* MAIS UTILIZADAS */
+
+  const mapa = {};
+
+  saidas.forEach(m=>{
+
+    mapa[m.part_id] =
+      (mapa[m.part_id] || 0) +
+      Number(m.quantity || 0);
+
+  });
+
+
+  const top =
+    Object.entries(mapa)
+      .sort((a,b)=>b[1]-a[1])
+      .slice(0,8);
+
+
+  $('top').innerHTML =
+    top.length
+      ? top.map(([id,q])=>{
+
+          const p =
+            part(id);
+
+          return `
+            <div style="
+              display:flex;
+              justify-content:space-between;
+              padding:10px 0;
+              border-bottom:1px solid var(--border)
+            ">
+
+              <b>
+                ${esc(p?.code || '—')}
+              </b>
+
+              <span>
+                ${q}
+                ${esc(p?.unit || '')}
+              </span>
+
+            </div>
+          `;
+
+        }).join('')
+      : '<div class="empty">Ainda não existem saídas.</div>';
+
+
+  /* SITUAÇÃO */
+
+  const normal =
+    P.filter(
+      p =>
+        status(p)[0] === 'normal'
+    ).length;
+
+  const baixo =
+    P.filter(
+      p =>
+        status(p)[0] === 'baixo'
+    ).length;
+
+  const ruptura =
+    P.filter(
+      p =>
+        status(p)[0] === 'ruptura'
+    ).length;
+
+
+  $('crit').innerHTML = `
+
+    <div class="alert">
+      <b>Normal</b>
+      <span class="tag ok">
+        ${normal}
+      </span>
+    </div>
+
+    <div class="alert">
+      <b>Abaixo do mínimo</b>
+      <span class="tag warn">
+        ${baixo}
+      </span>
+    </div>
+
+    <div class="alert">
+      <b>Sem estoque</b>
+      <span class="tag danger">
+        ${ruptura}
+      </span>
+    </div>
+
+  `;
 
 }
 
 
-/* ======================================================
-   RENDER MENSAL
-====================================================== */
-
-function renderMonthly(){
-
-    const data =
-        monthlyData();
-
-
-    if(!data.length){
-
-        return;
-
-    }
-
-
-    const maiorValor =
-        Math.max(
-            1,
-            ...data.map(
-                x =>
-                    Math.max(
-                        x.outValue,
-                        x.stockValue
-                    )
-            )
-        );
-
-
-    /* ==========================
-       GRÁFICO
-    ========================== */
-
-    $("monthlyChart").innerHTML =
-
-        data
-        .map(
-            x => {
-
-                const hSaida =
-                    Math.max(
-                        2,
-                        Math.round(
-                            (
-                                x.outValue /
-                                maiorValor
-                            ) *
-                            210
-                        )
-                    );
-
-
-                const hEstoque =
-                    Math.max(
-                        2,
-                        Math.round(
-                            (
-                                x.stockValue /
-                                maiorValor
-                            ) *
-                            210
-                        )
-                    );
-
-
-                return `
-
-                    <div
-                        class="month-group"
-                    >
-
-                        <div class="bars">
-
-
-                            <div
-                                style="
-                                    display:flex;
-                                    flex-direction:column;
-                                    align-items:center;
-                                    justify-content:flex-end;
-                                    height:235px
-                                "
-                            >
-
-                                <div class="barvalue">
-                                    ${money(
-                                        x.outValue
-                                    )}
-                                </div>
-
-                                <div
-                                    class="bar out"
-                                    style="
-                                        height:${hSaida}px
-                                    "
-                                    title="
-                                        Saídas ${x.label}:
-                                        ${money(x.outValue)}
-                                    "
-                                ></div>
-
-                            </div>
-
-
-                            <div
-                                style="
-                                    display:flex;
-                                    flex-direction:column;
-                                    align-items:center;
-                                    justify-content:flex-end;
-                                    height:235px
-                                "
-                            >
-
-                                <div class="barvalue">
-                                    ${money(
-                                        x.stockValue
-                                    )}
-                                </div>
-
-                                <div
-                                    class="bar stock"
-                                    style="
-                                        height:${hEstoque}px
-                                    "
-                                    title="
-                                        Estoque ${x.label}:
-                                        ${money(x.stockValue)}
-                                    "
-                                ></div>
-
-                            </div>
-
-
-                        </div>
-
-
-                        <div class="barlabel">
-                            ${x.label}
-                        </div>
-
-                    </div>
-
-                `;
-
-            }
-        )
-        .join("");
-
-
-    /* ==========================
-       TABELA MENSAL
-    ========================== */
-
-    $("monthlyTable").innerHTML =
-
-        tbl(
-
-            [
-                "Mês",
-                "Valor das saídas",
-                "Qtd. saída",
-                "Estoque no fechamento",
-                "Variação estoque"
-            ],
-
-
-            data
-            .map(
-                (x,i) => {
-
-                    const anterior =
-                        i > 0
-                        ? data[i-1].stockValue
-                        : 0;
-
-
-                    let variacao = 0;
-
-
-                    if(anterior){
-
-                        variacao =
-                            (
-                                (
-                                    x.stockValue -
-                                    anterior
-                                ) /
-                                anterior
-                            ) *
-                            100;
-
-                    }
-
-
-                    let classe =
-                        "info";
-
-
-                    if(
-                        variacao > 0
-                    ){
-
-                        classe =
-                            "ok";
-
-                    }
-
-
-                    if(
-                        variacao < 0
-                    ){
-
-                        classe =
-                            "danger";
-
-                    }
-
-
-                    return `
-
-                        <tr>
-
-                            <td>
-
-                                <b>
-                                    ${x.label}
-                                </b>
-
-                            </td>
-
-
-                            <td>
-                                ${money(
-                                    x.outValue
-                                )}
-                            </td>
-
-
-                            <td>
-                                ${x.outQty}
-                            </td>
-
-
-                            <td>
-                                ${money(
-                                    x.stockValue
-                                )}
-                            </td>
-
-
-                            <td>
-
-                                <span
-                                    class="
-                                        tag
-                                        ${classe}
-                                    "
-                                >
-
-                                    ${
-                                        i === 0
-                                        ?
-
-                                        "—"
-
-                                        :
-
-                                        (
-                                            variacao > 0
-                                            ? "+"
-                                            : ""
-                                        ) +
-                                        variacao.toFixed(1) +
-                                        "%"
-
-                                    }
-
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-                    `;
-
-                }
-            )
-            .join("")
-
-        );
-
-
-    /* ==========================
-       RESUMO DO MÊS ATUAL
-    ========================== */
-
-    const atual =
-        data[data.length-1];
-
-
-    const anterior =
-        data.length > 1
-        ? data[data.length-2]
-        : null;
-
-
-    $("monthOut").textContent =
-        money(
-            atual.outValue
-        );
-
-
-    $("monthStock").textContent =
-        money(
-            atual.stockValue
-        );
-
-
-    let variacaoAtual = 0;
-
-
-    if(
-        anterior &&
-        anterior.stockValue
-    ){
-
-        variacaoAtual =
-            (
-                (
-                    atual.stockValue -
-                    anterior.stockValue
-                ) /
-                anterior.stockValue
-            ) *
-            100;
-
-    }
-
-
-    $("monthVar").textContent =
-        (
-            variacaoAtual > 0
-            ? "+"
-            : ""
-        ) +
-        variacaoAtual.toFixed(1) +
-        "%";
-
-}
-
-
-/* ======================================================
+/* =========================================================
    MODAL
-====================================================== */
+========================================================= */
 
-function openModal(
-    title,
-    body
-){
+function openModal(title,body){
 
-    $("mt").textContent =
-        title;
+  $('mt').textContent =
+    title;
 
+  $('mb').innerHTML =
+    body;
 
-    $("mb").innerHTML =
-        body;
-
-
-    $("modal")
-        .classList
-        .add("show");
+  $('modal')
+    .classList
+    .add('show');
 
 }
 
 
 function closeModal(){
 
-    $("modal")
-        .classList
-        .remove("show");
+  $('modal')
+    .classList
+    .remove('show');
 
 }
 
 
-/* ======================================================
+/* =========================================================
    FORMULÁRIO DE PEÇA
-====================================================== */
+========================================================= */
 
 function partForm(id){
 
-    const p =
+  const p =
+    id
+      ? part(id)
+      : {
 
-        id
-
-        ?
-
-        part(id)
-
-        :
-
-        {
-
-            code:"",
-            description:"",
-            category_id:"",
-            location_id:"",
-            unit:"UN",
-            min_stock:0,
-            max_stock:0,
-            reorder_point:0,
-            unit_cost:0,
-            criticality:"Média",
-            current_stock:0
+          code:'',
+          description:'',
+          category_id:'',
+          location_id:'',
+          unit:'UN',
+          min_stock:0,
+          max_stock:0,
+          reorder_point:0,
+          unit_cost:0,
+          criticality:'Média',
+          current_stock:0
 
         };
 
 
-    openModal(
+  openModal(
 
-        id
-        ? "Editar peça"
-        : "Nova peça",
+    id
+      ? 'Editar peça'
+      : 'Nova peça',
 
+    `
 
-        `
+    <form id="partForm">
 
-        <form id="partFormElement">
+      <div class="formgrid">
 
+        <div class="field">
 
-            <div class="formgrid">
+          <label>Código</label>
 
+          <input
+            name="code"
+            required
+            value="${esc(p.code)}"
+          >
 
-                <div class="field">
+        </div>
 
-                    <label>
-                        Código
-                    </label>
 
-                    <input
-                        name="code"
-                        required
-                        value="${esc(p.code)}"
-                    >
+        <div class="field">
 
-                </div>
+          <label>Descrição</label>
 
+          <input
+            name="description"
+            required
+            value="${esc(p.description)}"
+          >
 
-                <div class="field">
+        </div>
 
-                    <label>
-                        Descrição
-                    </label>
 
-                    <input
-                        name="description"
-                        required
-                        value="${esc(p.description)}"
-                    >
+        <div class="field">
 
-                </div>
+          <label>Unidade</label>
 
+          <input
+            name="unit"
+            value="${esc(p.unit || 'UN')}"
+          >
 
-                <div class="field">
+        </div>
 
-                    <label>
-                        Unidade
-                    </label>
 
-                    <input
-                        name="unit"
-                        value="${esc(p.unit)}"
-                    >
+        <div class="field">
 
-                </div>
+          <label>Categoria</label>
 
+          <select name="category_id">
 
-                <div class="field">
+            <option value="">
+              Não informado
+            </option>
 
-                    <label>
-                        Categoria
-                    </label>
+            ${
+              C.map(c=>`
 
-                    <select
-                        name="category_id"
-                    >
-
-                        <option value="">
-                            Selecione
-                        </option>
-
-
-                        ${
-                            C
-                            .map(
-                                c => `
-
-                                    <option
-                                        value="${c.id}"
-                                        ${
-                                            c.id ===
-                                            p.category_id
-                                            ? "selected"
-                                            : ""
-                                        }
-                                    >
-                                        ${esc(c.name)}
-                                    </option>
-
-                                `
-                            )
-                            .join("")
-                        }
-
-                    </select>
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>
-                        Localização
-                    </label>
-
-                    <select
-                        name="location_id"
-                    >
-
-                        <option value="">
-                            Selecione
-                        </option>
-
-
-                        ${
-                            L
-                            .map(
-                                l => `
-
-                                    <option
-                                        value="${l.id}"
-                                        ${
-                                            l.id ===
-                                            p.location_id
-                                            ? "selected"
-                                            : ""
-                                        }
-                                    >
-                                        ${esc(l.name)}
-                                    </option>
-
-                                `
-                            )
-                            .join("")
-                        }
-
-                    </select>
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>
-                        Criticidade
-                    </label>
-
-                    <select
-                        name="criticality"
-                    >
-
-                        ${
-                            [
-                                "Crítica",
-                                "Alta",
-                                "Média",
-                                "Baixa"
-                            ]
-                            .map(
-                                x => `
-
-                                    <option
-                                        ${
-                                            x ===
-                                            p.criticality
-                                            ? "selected"
-                                            : ""
-                                        }
-                                    >
-                                        ${x}
-                                    </option>
-
-                                `
-                            )
-                            .join("")
-                        }
-
-                    </select>
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>
-                        Mínimo
-                    </label>
-
-                    <input
-                        type="number"
-                        min="0"
-                        step=".001"
-                        name="min_stock"
-                        value="${p.min_stock}"
-                    >
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>
-                        Máximo
-                    </label>
-
-                    <input
-                        type="number"
-                        min="0"
-                        step=".001"
-                        name="max_stock"
-                        value="${p.max_stock}"
-                    >
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>
-                        Ponto de reposição
-                    </label>
-
-                    <input
-                        type="number"
-                        min="0"
-                        step=".001"
-                        name="reorder_point"
-                        value="${p.reorder_point}"
-                    >
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>
-                        Custo unitário
-                    </label>
-
-                    <input
-                        type="number"
-                        min="0"
-                        step=".01"
-                        name="unit_cost"
-                        value="${p.unit_cost}"
-                    >
-
-                </div>
-
-
-                ${
-                    id
-                    ?
-
-                    ""
-
-                    :
-
-                    `
-
-                    <div class="field">
-
-                        <label>
-                            Saldo inicial
-                        </label>
-
-                        <input
-                            type="number"
-                            min="0"
-                            step=".001"
-                            name="current_stock"
-                            value="0"
-                        >
-
-                    </div>
-
-                    `
-                }
-
-
-            </div>
-
-
-            <div class="actions">
-
-
-                <button
-                    type="button"
-                    onclick="closeModal()"
+                <option
+                  value="${c.id}"
+                  ${
+                    c.id === p.category_id
+                      ? 'selected'
+                      : ''
+                  }
                 >
-                    Cancelar
-                </button>
+
+                  ${esc(c.name)}
+
+                </option>
+
+              `).join('')
+            }
+
+          </select>
+
+        </div>
 
 
-                <button
-                    type="submit"
-                    class="primary"
+        <div class="field">
+
+          <label>Localização</label>
+
+          <select name="location_id">
+
+            <option value="">
+              Não informado
+            </option>
+
+            ${
+              L.map(l=>`
+
+                <option
+                  value="${l.id}"
+                  ${
+                    l.id === p.location_id
+                      ? 'selected'
+                      : ''
+                  }
                 >
-                    Salvar peça
-                </button>
+
+                  ${esc(l.name)}
+
+                </option>
+
+              `).join('')
+            }
+
+          </select>
+
+        </div>
 
 
-            </div>
+        <div class="field">
+
+          <label>Criticidade</label>
+
+          <select name="criticality">
+
+            ${
+              [
+                'Crítica',
+                'Alta',
+                'Média',
+                'Baixa'
+              ].map(x=>`
+
+                <option
+                  ${
+                    x === p.criticality
+                      ? 'selected'
+                      : ''
+                  }
+                >
+                  ${x}
+                </option>
+
+              `).join('')
+            }
+
+          </select>
+
+        </div>
 
 
-        </form>
+        <div class="field">
 
-        `
+          <label>Estoque mínimo</label>
 
+          <input
+            type="number"
+            min="0"
+            step="0.001"
+            name="min_stock"
+            value="${p.min_stock || 0}"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label>Cota de estoque</label>
+
+          <input
+            type="number"
+            min="0"
+            step="0.001"
+            name="max_stock"
+            value="${p.max_stock || 0}"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label>Ponto de reposição</label>
+
+          <input
+            type="number"
+            min="0"
+            step="0.001"
+            name="reorder_point"
+            value="${p.reorder_point || 0}"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label>Valor unitário</label>
+
+          <input
+            type="number"
+            min="0"
+            step="0.01"
+            name="unit_cost"
+            value="${p.unit_cost || 0}"
+          >
+
+        </div>
+
+
+        ${
+          id
+            ? ''
+            : `
+
+              <div class="field">
+
+                <label>Saldo inicial</label>
+
+                <input
+                  type="number"
+                  min="0"
+                  step="0.001"
+                  name="current_stock"
+                  value="0"
+                >
+
+              </div>
+
+            `
+        }
+
+      </div>
+
+
+      <div class="actions">
+
+        <button
+          type="button"
+          id="cancelPart"
+        >
+          Cancelar
+        </button>
+
+        <button
+          type="submit"
+          class="primary"
+        >
+          Salvar peça
+        </button>
+
+      </div>
+
+    </form>
+
+    `
+
+  );
+
+
+  $('cancelPart')
+    .onclick =
+    closeModal;
+
+
+  $('partForm')
+    .onsubmit =
+    e =>
+      savePart(e,id);
+
+}
+
+
+/* =========================================================
+   SALVAR PEÇA
+========================================================= */
+
+async function savePart(e,id){
+
+  e.preventDefault();
+
+  const f =
+    new FormData(e.target);
+
+
+  const data = {
+
+    code:
+      String(f.get('code') || '')
+        .trim(),
+
+    description:
+      String(f.get('description') || '')
+        .trim(),
+
+    unit:
+      f.get('unit') || 'UN',
+
+    category_id:
+      f.get('category_id') || null,
+
+    location_id:
+      f.get('location_id') || null,
+
+    criticality:
+      f.get('criticality') || 'Média',
+
+    min_stock:
+      Number(f.get('min_stock')) || 0,
+
+    max_stock:
+      Number(f.get('max_stock')) || 0,
+
+    reorder_point:
+      Number(f.get('reorder_point')) || 0,
+
+    unit_cost:
+      Number(f.get('unit_cost')) || 0
+
+  };
+
+
+  let r;
+
+
+  if(id){
+
+    r =
+      await S
+        .from('parts')
+        .update(data)
+        .eq('id',id);
+
+  }else{
+
+    r =
+      await S
+        .from('parts')
+        .insert({
+
+          ...data,
+
+          current_stock:
+            Number(
+              f.get('current_stock')
+            ) || 0
+
+        });
+
+  }
+
+
+  if(r.error){
+
+    alert(
+      'Erro ao salvar peça: ' +
+      r.error.message
     );
 
+    return;
+  }
 
-    $("partFormElement")
-        .addEventListener(
-            "submit",
-            e =>
-                savePart(
-                    e,
-                    id || ""
-                )
-        );
+
+  closeModal();
+
+  await load();
 
 }
 
 
-/* ======================================================
-   SALVAR PEÇA
-====================================================== */
-
-async function savePart(
-    e,
-    id
-){
-
-    e.preventDefault();
-
-
-    const f =
-        new FormData(
-            e.target
-        );
-
-
-    const d = {
-
-        code:
-            f.get("code").trim(),
-
-        description:
-            f.get("description").trim(),
-
-        unit:
-            f.get("unit") ||
-            "UN",
-
-        category_id:
-            f.get("category_id") ||
-            null,
-
-        location_id:
-            f.get("location_id") ||
-            null,
-
-        criticality:
-            f.get("criticality"),
-
-        min_stock:
-            +f.get("min_stock") ||
-            0,
-
-        max_stock:
-            +f.get("max_stock") ||
-            0,
-
-        reorder_point:
-            +f.get("reorder_point") ||
-            0,
-
-        unit_cost:
-            +f.get("unit_cost") ||
-            0
-
-    };
-
-
-    let result;
-
-
-    if(id){
-
-        result =
-            await S
-            .from("parts")
-            .update(d)
-            .eq("id",id);
-
-    }
-
-    else{
-
-        result =
-            await S
-            .from("parts")
-            .insert({
-
-                ...d,
-
-                current_stock:
-                    +f.get("current_stock") ||
-                    0
-
-            });
-
-    }
-
-
-    if(result.error){
-
-        alert(
-            result.error.message
-        );
-
-        return;
-
-    }
-
-
-    closeModal();
-
-    await load();
-
-}
-
-
-/* ======================================================
-   FORMULÁRIO MOVIMENTAÇÃO
-====================================================== */
+/* =========================================================
+   FORMULÁRIO DE MOVIMENTAÇÃO
+========================================================= */
 
 function moveForm(){
 
-    if(!P.length){
+  if(!P.length){
 
-        alert(
-            "Cadastre uma peça primeiro."
-        );
-
-        return;
-
-    }
-
-
-    const now =
-        new Date(
-            Date.now() -
-            new Date()
-            .getTimezoneOffset() *
-            60000
-        )
-        .toISOString()
-        .slice(0,16);
-
-
-    openModal(
-
-        "Registrar movimentação",
-
-
-        `
-
-        <form id="moveFormElement">
-
-
-            <div class="formgrid">
-
-
-                <div class="field">
-
-                    <label>
-                        Data
-                    </label>
-
-                    <input
-                        type="datetime-local"
-                        name="movement_date"
-                        required
-                        value="${now}"
-                    >
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>
-                        Tipo
-                    </label>
-
-                    <select
-                        name="movement_type"
-                    >
-
-                        <option>
-                            Entrada
-                        </option>
-
-                        <option>
-                            Saída
-                        </option>
-
-                        <option>
-                            Devolução
-                        </option>
-
-                        <option>
-                            Ajuste
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>
-                        Peça
-                    </label>
-
-                    <select
-                        name="part_id"
-                    >
-
-                        ${
-                            P
-                            .map(
-                                p => `
-
-                                    <option
-                                        value="${p.id}"
-                                    >
-                                        ${esc(p.code)}
-                                        —
-                                        ${esc(p.description)}
-                                        (saldo
-                                        ${p.current_stock})
-                                    </option>
-
-                                `
-                            )
-                            .join("")
-                        }
-
-                    </select>
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>
-                        Quantidade
-                    </label>
-
-                    <input
-                        type="number"
-                        min=".001"
-                        step=".001"
-                        name="quantity"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>
-                        Ordem de manutenção
-                    </label>
-
-                    <input
-                        name="maintenance_order"
-                        placeholder="Ex.: OS-1050"
-                    >
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>
-                        Equipamento
-                    </label>
-
-                    <input
-                        name="equipment"
-                    >
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>
-                        Documento / NF
-                    </label>
-
-                    <input
-                        name="document_number"
-                    >
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>
-                        Motivo
-                    </label>
-
-                    <input
-                        name="reason"
-                    >
-
-                </div>
-
-
-            </div>
-
-
-            <div class="actions">
-
-
-                <button
-                    type="button"
-                    onclick="closeModal()"
-                >
-                    Cancelar
-                </button>
-
-
-                <button
-                    class="primary"
-                    type="submit"
-                >
-                    Registrar movimentação
-                </button>
-
-
-            </div>
-
-
-        </form>
-
-        `
-
+    alert(
+      'Cadastre uma peça primeiro.'
     );
 
+    return;
+  }
 
-    $("moveFormElement")
-        .addEventListener(
-            "submit",
-            saveMove
-        );
+
+  const now =
+    new Date(
+      Date.now() -
+      new Date().getTimezoneOffset()*60000
+    )
+    .toISOString()
+    .slice(0,16);
+
+
+  openModal(
+
+    'Registrar entrada ou saída',
+
+    `
+
+    <form id="moveForm">
+
+      <div class="formgrid">
+
+
+        <div class="field">
+
+          <label>Tipo</label>
+
+          <select name="movement_type">
+
+            <option>
+              Entrada
+            </option>
+
+            <option>
+              Saída
+            </option>
+
+            <option>
+              Devolução
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>Peça</label>
+
+          <select name="part_id">
+
+            ${
+              P.map(p=>`
+
+                <option value="${p.id}">
+
+                  ${esc(p.code)}
+                  —
+                  ${esc(p.description)}
+                  |
+                  saldo:
+                  ${p.current_stock}
+
+                </option>
+
+              `).join('')
+            }
+
+          </select>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>Quantidade</label>
+
+          <input
+            type="number"
+            name="quantity"
+            min="0.001"
+            step="0.001"
+            required
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label>Data</label>
+
+          <input
+            type="datetime-local"
+            name="movement_date"
+            value="${now}"
+            required
+          >
+
+        </div>
+
+
+      </div>
+
+
+      <div class="actions">
+
+        <button
+          type="button"
+          id="cancelMove"
+        >
+          Cancelar
+        </button>
+
+        <button
+          type="submit"
+          class="primary"
+        >
+          Registrar
+        </button>
+
+      </div>
+
+    </form>
+
+    `
+
+  );
+
+
+  $('cancelMove')
+    .onclick =
+    closeModal;
+
+
+  $('moveForm')
+    .onsubmit =
+    saveMove;
 
 }
 
 
-/* ======================================================
+/* =========================================================
    SALVAR MOVIMENTAÇÃO
-====================================================== */
+========================================================= */
 
 async function saveMove(e){
 
-    e.preventDefault();
+  e.preventDefault();
+
+  const f =
+    new FormData(e.target);
 
 
-    const f =
-        new FormData(
-            e.target
-        );
+  const partId =
+    f.get('part_id');
+
+  const p =
+    part(partId);
 
 
-    const p =
-        part(
-            f.get("part_id")
-        );
+  const quantity =
+    Number(
+      f.get('quantity')
+    );
 
 
-    const q =
-        +f.get("quantity");
+  const type =
+    f.get('movement_type');
 
 
-    const type =
-        f.get("movement_type");
+  if(!p){
+
+    alert(
+      'Peça não encontrada.'
+    );
+
+    return;
+  }
 
 
-    if(!p){
+  if(quantity <= 0){
 
-        alert(
-            "Peça não encontrada."
-        );
+    alert(
+      'Informe uma quantidade válida.'
+    );
 
-        return;
-
-    }
-
-
-    if(q <= 0){
-
-        alert(
-            "Informe uma quantidade válida."
-        );
-
-        return;
-
-    }
+    return;
+  }
 
 
-    if(
-        type === "Saída" &&
-        +p.current_stock < q
-    ){
+  /* NÃO DEIXA SAIR MAIS DO QUE EXISTE */
 
-        alert(
-            `Saldo insuficiente. Saldo atual: ${p.current_stock}.`
-        );
+  if(
+    type === 'Saída' &&
+    Number(p.current_stock) < quantity
+  ){
 
-        return;
+    alert(
+      'Saldo insuficiente.\n\n' +
+      'Saldo atual: ' +
+      p.current_stock +
+      ' ' +
+      p.unit
+    );
 
-    }
+    return;
+  }
 
 
-    const movementDate =
-        new Date(
-            f.get("movement_date")
+  const data = {
+
+    part_id:
+      partId,
+
+    movement_type:
+      type,
+
+    quantity:
+      quantity,
+
+    unit_cost:
+      Number(p.unit_cost) || 0,
+
+    movement_date:
+      new Date(
+        f.get('movement_date')
+      ).toISOString()
+
+  };
+
+
+  const r =
+    await S
+      .from('stock_movements')
+      .insert(data);
+
+
+  if(r.error){
+
+    alert(
+      'Erro ao registrar movimentação: ' +
+      r.error.message
+    );
+
+    return;
+  }
+
+
+  closeModal();
+
+  await load();
+
+}
+
+
+/* =========================================================
+   NAVEGAÇÃO
+========================================================= */
+
+document
+  .querySelectorAll(
+    'nav button[data-tab]'
+  )
+  .forEach(button=>{
+
+    button.onclick = ()=>{
+
+      document
+        .querySelectorAll(
+          'nav button[data-tab]'
         )
-        .toISOString();
+        .forEach(b=>
+          b.classList.remove('active')
+        );
 
 
-    const d = {
+      button.classList.add('active');
 
-        part_id:
-            f.get("part_id"),
 
-        movement_type:
-            type,
+      document
+        .querySelectorAll('.tab')
+        .forEach(t=>
+          t.classList.remove('active')
+        );
 
-        quantity:
-            q,
 
-        unit_cost:
-            +p.unit_cost ||
-            0,
+      const page =
+        $(button.dataset.tab);
 
-        maintenance_order:
-            f.get("maintenance_order") ||
-            null,
 
-        equipment:
-            f.get("equipment") ||
-            null,
+      if(page){
 
-        document_number:
-            f.get("document_number") ||
-            null,
+        page.classList.add('active');
 
-        reason:
-            f.get("reason") ||
-            null,
+      }
 
-        movement_date:
-            movementDate
+
+      render();
 
     };
 
-
-    const result =
-        await S
-        .from("stock_movements")
-        .insert(d);
+  });
 
 
-    if(result.error){
+/* =========================================================
+   BOTÕES
+========================================================= */
 
-        alert(
-            result.error.message
-        );
+$('btnLogin')
+  .onclick =
+  login;
 
-        return;
+
+$('btnSignup')
+  .onclick =
+  signup;
+
+
+$('btnLogout')
+  .onclick =
+  logout;
+
+
+$('btnNewPart')
+  .onclick =
+  ()=>partForm();
+
+
+$('btnNewPart2')
+  .onclick =
+  ()=>partForm();
+
+
+$('btnNewMove')
+  .onclick =
+  moveForm;
+
+
+$('btnRefresh')
+  .onclick =
+  load;
+
+
+$('btnClose')
+  .onclick =
+  closeModal;
+
+
+$('search')
+  .oninput =
+  renderParts;
+
+
+$('filter')
+  .onchange =
+  renderParts;
+
+
+$('pass')
+  .addEventListener(
+    'keydown',
+    e=>{
+
+      if(e.key === 'Enter'){
+
+        login();
+
+      }
+
+    }
+  );
+
+
+$('email')
+  .addEventListener(
+    'keydown',
+    e=>{
+
+      if(e.key === 'Enter'){
+
+        login();
+
+      }
+
+    }
+  );
+
+
+$('modal')
+  .addEventListener(
+    'click',
+    e=>{
+
+      if(e.target === $('modal')){
+
+        closeModal();
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   LOGIN AUTOMÁTICO
+========================================================= */
+
+S.auth.onAuthStateChange(
+  (event,session)=>{
+
+    if(session){
+
+      show(session);
+
+    }else{
+
+      $('app')
+        .classList
+        .add('hidden');
+
+      $('login')
+        .classList
+        .remove('hidden');
 
     }
 
-
-    closeModal();
-
-    await load();
-
-}
-
-
-/* ======================================================
-   EVENTOS
-====================================================== */
-
-$("btnLogin")
-    .addEventListener(
-        "click",
-        login
-    );
-
-
-$("btnSignup")
-    .addEventListener(
-        "click",
-        signup
-    );
-
-
-$("btnLogout")
-    .addEventListener(
-        "click",
-        logout
-    );
-
-
-$("btnNewPart")
-    .addEventListener(
-        "click",
-        () =>
-            partForm()
-    );
-
-
-$("btnNewPartDash")
-    .addEventListener(
-        "click",
-        () =>
-            partForm()
-    );
-
-
-$("btnNewMove")
-    .addEventListener(
-        "click",
-        moveForm
-    );
-
-
-$("btnCloseModal")
-    .addEventListener(
-        "click",
-        closeModal
-    );
-
-
-$("search")
-    .addEventListener(
-        "input",
-        renderParts
-    );
-
-
-$("filter")
-    .addEventListener(
-        "change",
-        renderParts
-    );
-
-
-$("pass")
-    .addEventListener(
-        "keydown",
-        e => {
-
-            if(e.key === "Enter"){
-
-                e.preventDefault();
-
-                login();
-
-            }
-
-        }
-    );
-
-
-/* ======================================================
-   NAVEGAÇÃO
-====================================================== */
-
-document
-.querySelectorAll(
-    "nav button[data-tab]"
-)
-.forEach(
-    button => {
-
-        button.addEventListener(
-            "click",
-            function(){
-
-                document
-                .querySelectorAll(
-                    "nav button[data-tab]"
-                )
-                .forEach(
-                    x =>
-                        x.classList
-                        .remove("active")
-                );
-
-
-                this.classList
-                    .add("active");
-
-
-                document
-                .querySelectorAll(
-                    ".tab"
-                )
-                .forEach(
-                    x =>
-                        x.classList
-                        .remove("active")
-                );
-
-
-                const section =
-                    $(
-                        this.dataset.tab
-                    );
-
-
-                if(section){
-
-                    section
-                        .classList
-                        .add("active");
-
-                }
-
-
-                render();
-
-            }
-        );
-
-    }
+  }
 );
 
 
-/* ======================================================
-   AUTENTICAÇÃO
-====================================================== */
+/* =========================================================
+   REALTIME
+========================================================= */
 
-async function iniciar(){
-
-    try{
-
-        $("loginStatus").textContent =
-            "Conectando ao servidor...";
-
-
-        if(
-            !window.supabase ||
-            typeof window.supabase.createClient !==
-            "function"
-        ){
-
-            $("loginStatus").textContent =
-                "Erro ao carregar conexão.";
-
-
-            showLoginMessage(
-                "A conexão não carregou. Atualize a página com Ctrl + F5."
-            );
-
-
-            return;
-
-        }
-
-
-        S =
-            window.supabase.createClient(
-                SUPABASE_URL,
-                SUPABASE_KEY
-            );
-
-
-        $("loginStatus").textContent =
-            "Sistema pronto. Faça seu login.";
-
-
-        S.auth.onAuthStateChange(
-            async (
-                event,
-                session
-            ) => {
-
-                console.log(
-                    "Auth:",
-                    event
-                );
-
-
-                if(session){
-
-                    await show(
-                        session
-                    );
-
-                }
-
-                else{
-
-                    $("app")
-                        .classList
-                        .add("hidden");
-
-
-                    $("login")
-                        .classList
-                        .remove("hidden");
-
-                }
-
-            }
-        );
-
-
-        const result =
-            await S.auth.getSession();
-
-
-        if(
-            result.data &&
-            result.data.session
-        ){
-
-            await show(
-                result.data.session
-            );
-
-        }
-
+S
+  .channel('estoque-tempo-real')
+  .on(
+    'postgres_changes',
+    {
+      event:'*',
+      schema:'public',
+      table:'parts'
+    },
+    ()=>{
+      load();
     }
-
-    catch(error){
-
-        console.error(
-            error
-        );
-
-
-        $("loginStatus").textContent =
-            "Erro ao iniciar.";
-
-
-        showLoginMessage(
-            "Erro ao iniciar o sistema: " +
-            (
-                error.message ||
-                error
-            )
-        );
-
+  )
+  .on(
+    'postgres_changes',
+    {
+      event:'*',
+      schema:'public',
+      table:'stock_movements'
+    },
+    ()=>{
+      load();
     }
+  )
+  .subscribe();
 
-}
 
+/* =========================================================
+   VERIFICAR SESSÃO EXISTENTE
+========================================================= */
 
-/* ======================================================
-   INICIAR
-====================================================== */
+(async()=>{
 
-if(
-    document.readyState ===
-    "loading"
-){
+  const r =
+    await S.auth.getSession();
 
-    document.addEventListener(
-        "DOMContentLoaded",
-        iniciar
+  if(r.data.session){
+
+    show(
+      r.data.session
     );
 
-}
+  }
 
-else{
-
-    iniciar();
-
-}
+})();
 
 </script>
 
 </body>
-
 </html>
