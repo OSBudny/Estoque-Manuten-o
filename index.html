@@ -1,27 +1,24 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Estoque Manutenção</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 :root{
-  --black:#080b0f;
-  --bg:#0d1116;
-  --panel:#151a20;
-  --panel2:#1b2128;
-  --border:#303841;
-  --gray:#8e99a5;
-  --text:#f4f6f8;
+  --bg:#0b1016;
+  --panel:#141b24;
+  --line:#2a3542;
+  --text:#f4f7fa;
+  --muted:#9aa8b7;
   --orange:#f28c28;
-  --orange2:#ff9d3d;
   --green:#42c883;
   --yellow:#f5b942;
   --red:#ef5350;
-  --blue:#5ca9ff;
+  --blue:#4da3ff;
 }
 
 *{
@@ -40,12 +37,10 @@ body{
   display:none!important;
 }
 
-/* CABEÇALHO */
-
 header{
   padding:14px 24px;
-  background:#0b0f14;
-  border-bottom:2px solid #252c34;
+  background:#10161d;
+  border-bottom:1px solid var(--line);
   display:flex;
   justify-content:space-between;
   align-items:center;
@@ -58,7 +53,6 @@ header{
 .brand{
   font-size:21px;
   font-weight:800;
-  letter-spacing:.2px;
 }
 
 .brand span{
@@ -66,11 +60,9 @@ header{
 }
 
 .muted{
-  color:var(--gray);
+  color:var(--muted);
   font-size:12px;
 }
-
-/* NAVEGAÇÃO */
 
 nav{
   display:flex;
@@ -81,25 +73,18 @@ nav{
 button{
   cursor:pointer;
   font:inherit;
-  border-radius:7px;
+  border-radius:8px;
   padding:10px 14px;
-  background:#171d24;
-  color:#b9c2cb;
-  border:1px solid #303841;
+  background:transparent;
+  color:var(--muted);
+  border:1px solid var(--line);
   font-weight:700;
-  transition:.15s;
 }
 
-button:hover{
-  background:#252d36;
-  color:#fff;
-  border-color:#4a555f;
-}
-
+button:hover,
 nav button.active{
-  background:var(--orange);
-  color:#111;
-  border-color:var(--orange);
+  background:#1b2531;
+  color:#fff;
 }
 
 button.primary{
@@ -108,12 +93,10 @@ button.primary{
   border-color:var(--orange);
 }
 
-button.primary:hover{
-  background:var(--orange2);
-  border-color:var(--orange2);
+button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
 }
-
-/* CONTEÚDO */
 
 main{
   max-width:1500px;
@@ -139,16 +122,13 @@ main{
 
 .head h1{
   margin:0;
-  font-size:26px;
-  font-weight:800;
+  font-size:25px;
 }
 
 .head p{
-  color:var(--gray);
-  margin:6px 0 0;
+  color:var(--muted);
+  margin:5px 0;
 }
-
-/* CARDS */
 
 .cards{
   display:grid;
@@ -157,31 +137,22 @@ main{
   margin-bottom:18px;
 }
 
-.card{
-  background:linear-gradient(145deg,#181e25,#11161c);
-  border:1px solid #303841;
-  border-radius:11px;
-  padding:18px;
-  position:relative;
-  overflow:hidden;
+.card,
+.panel{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:13px;
 }
 
-.card:before{
-  content:"";
-  position:absolute;
-  left:0;
-  top:0;
-  bottom:0;
-  width:4px;
-  background:var(--orange);
+.card{
+  padding:18px;
 }
 
 .label{
   font-size:11px;
-  color:var(--gray);
+  color:var(--muted);
   font-weight:800;
   text-transform:uppercase;
-  letter-spacing:.5px;
 }
 
 .kpi{
@@ -190,12 +161,7 @@ main{
   margin-top:8px;
 }
 
-/* PAINÉIS */
-
 .panel{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:11px;
   padding:18px;
   margin-bottom:18px;
 }
@@ -203,7 +169,6 @@ main{
 .panel h2{
   font-size:16px;
   margin:0 0 14px;
-  color:#fff;
 }
 
 .grid2{
@@ -211,8 +176,6 @@ main{
   grid-template-columns:1.2fr .8fr;
   gap:18px;
 }
-
-/* FORMULÁRIOS */
 
 .toolbar{
   display:flex;
@@ -223,10 +186,10 @@ main{
 
 input,
 select{
-  background:#0d1217;
-  border:1px solid #353e47;
+  background:#0f151c;
+  border:1px solid var(--line);
   color:#fff;
-  border-radius:7px;
+  border-radius:8px;
   padding:10px;
   outline:0;
 }
@@ -234,43 +197,10 @@ select{
 input:focus,
 select:focus{
   border-color:var(--orange);
-  box-shadow:0 0 0 2px rgba(242,140,40,.12);
 }
 
 .input{
   min-width:260px;
-}
-
-.field label{
-  display:block;
-  color:#aab4be;
-  font-size:11px;
-  font-weight:800;
-  margin-bottom:5px;
-}
-
-.field input,
-.field select{
-  width:100%;
-}
-
-.formgrid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-}
-
-.actions{
-  display:flex;
-  justify-content:flex-end;
-  gap:8px;
-  margin-top:15px;
-}
-
-/* TABELAS */
-
-.tablewrap{
-  overflow:auto;
 }
 
 table{
@@ -281,25 +211,20 @@ table{
 
 th,
 td{
-  padding:11px 9px;
-  border-bottom:1px solid #2b333c;
+  padding:10px 9px;
+  border-bottom:1px solid var(--line);
   text-align:left;
-  white-space:nowrap;
-}
-
-tbody tr:hover{
-  background:#1b2229;
 }
 
 th{
   font-size:11px;
-  color:#8f9aa5;
+  color:var(--muted);
   text-transform:uppercase;
-  letter-spacing:.4px;
-  background:#11161b;
 }
 
-/* TAGS */
+.tablewrap{
+  overflow:auto;
+}
 
 .tag{
   display:inline-block;
@@ -329,14 +254,11 @@ th{
   color:#82baff;
 }
 
-/* ALERTAS */
-
 .alert{
   padding:12px;
-  border:1px solid #303841;
-  border-left:3px solid var(--orange);
-  border-radius:8px;
-  background:#11171d;
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:#111820;
   margin-bottom:9px;
   display:flex;
   justify-content:space-between;
@@ -346,15 +268,13 @@ th{
 .empty{
   text-align:center;
   padding:28px;
-  color:var(--gray);
+  color:var(--muted);
 }
-
-/* MODAL */
 
 .modal{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.72);
+  background:#0009;
   display:none;
   align-items:center;
   justify-content:center;
@@ -369,11 +289,10 @@ th{
   width:min(800px,94vw);
   max-height:90vh;
   overflow:auto;
-  background:#151a20;
-  border:1px solid #3a444e;
-  border-radius:12px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:14px;
   padding:20px;
-  box-shadow:0 20px 60px rgba(0,0,0,.55);
 }
 
 .mh{
@@ -383,36 +302,53 @@ th{
   margin-bottom:15px;
 }
 
-.mh h2{
-  margin:0;
-}
-
 .close{
   font-size:24px;
   border:0;
-  background:transparent;
-  padding:2px 8px;
 }
 
-/* LOGIN */
+.formgrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.field label{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:800;
+  margin-bottom:5px;
+}
+
+.field input,
+.field select{
+  width:100%;
+}
+
+.actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:15px;
+}
 
 .login{
   min-height:100vh;
   display:flex;
   align-items:center;
   justify-content:center;
-  background:
-    radial-gradient(circle at center,#20262d 0,#0b0f14 55%,#07090c 100%);
+  padding:20px;
 }
 
 .loginbox{
   width:min(430px,94vw);
-  background:#151a20;
-  border:1px solid #343d46;
-  border-top:3px solid var(--orange);
-  border-radius:12px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-top:2px solid var(--orange);
+  border-radius:16px;
   padding:26px;
-  box-shadow:0 25px 80px rgba(0,0,0,.5);
+  box-shadow:0 15px 50px #0008;
 }
 
 .loginbox .field{
@@ -424,26 +360,44 @@ th{
 }
 
 .msg{
-  margin-top:10px;
-  padding:10px;
+  margin-top:12px;
+  padding:11px;
   border-radius:8px;
   font-size:12px;
+  line-height:1.5;
+  display:none;
 }
 
-.err{
+.msg.show{
+  display:block;
+}
+
+.msg.err{
   background:#4b211f;
-  color:#ffaaa6;
+  color:#ffb1ae;
+  border:1px solid #7b302c;
 }
 
-.okmsg{
+.msg.okmsg{
   background:#163b2b;
-  color:#8af0b6;
+  color:#8bf0b8;
+  border:1px solid #276447;
 }
 
-/* RESPONSIVO */
+.msg.info-msg{
+  background:#18334f;
+  color:#9ecbff;
+  border:1px solid #28557e;
+}
+
+.login-status{
+  margin-top:12px;
+  color:var(--muted);
+  font-size:11px;
+  text-align:center;
+}
 
 @media(max-width:1000px){
-
   .cards{
     grid-template-columns:repeat(2,1fr);
   }
@@ -454,7 +408,6 @@ th{
 }
 
 @media(max-width:700px){
-
   header{
     flex-direction:column;
     align-items:flex-start;
@@ -474,11 +427,6 @@ th{
     width:100%;
   }
 
-  .head{
-    align-items:flex-start;
-    flex-direction:column;
-  }
-
   nav{
     width:100%;
   }
@@ -493,7 +441,6 @@ th{
 <body>
 
 <!-- LOGIN -->
-
 <div id="login" class="login">
 
   <div class="loginbox">
@@ -507,29 +454,47 @@ th{
     </p>
 
     <div class="field">
-      <label>E-mail</label>
-      <input id="email" type="email">
+      <label for="email">E-mail</label>
+      <input
+        id="email"
+        type="email"
+        autocomplete="username"
+        placeholder="seu@email.com"
+      >
     </div>
 
     <div class="field">
-      <label>Senha</label>
-      <input id="pass" type="password">
+      <label for="pass">Senha</label>
+      <input
+        id="pass"
+        type="password"
+        autocomplete="current-password"
+        placeholder="Sua senha"
+      >
     </div>
 
     <button
+      id="btnLogin"
+      type="button"
       class="primary"
       style="width:100%"
-      onclick="login()">
+    >
       Entrar
     </button>
 
     <button
+      id="btnSignup"
+      type="button"
       style="width:100%;margin-top:8px"
-      onclick="signup()">
+    >
       Criar acesso
     </button>
 
-    <div id="msg"></div>
+    <div id="msg" class="msg"></div>
+
+    <div id="loginStatus" class="login-status">
+      Conectando ao sistema...
+    </div>
 
   </div>
 
@@ -537,46 +502,60 @@ th{
 
 
 <!-- SISTEMA -->
-
 <div id="app" class="hidden">
 
 <header>
 
   <div>
-
     <div class="brand">
       Estoque <span>Manutenção</span>
     </div>
 
     <div id="who" class="muted"></div>
-
   </div>
 
   <nav>
 
     <button
       class="active"
-      data-tab="dash">
+      data-tab="dash"
+      type="button"
+    >
       📊 Painel de Estoque
     </button>
 
-    <button data-tab="parts">
+    <button
+      data-tab="parts"
+      type="button"
+    >
       🔩 Peças
     </button>
 
-    <button data-tab="moves">
+    <button
+      data-tab="moves"
+      type="button"
+    >
       📦 Movimentações
     </button>
 
-    <button data-tab="replen">
+    <button
+      data-tab="replen"
+      type="button"
+    >
       🚨 Reposição
     </button>
 
-    <button data-tab="ind">
+    <button
+      data-tab="ind"
+      type="button"
+    >
       📈 Indicadores
     </button>
 
-    <button onclick="logout()">
+    <button
+      id="btnLogout"
+      type="button"
+    >
       Sair
     </button>
 
@@ -587,26 +566,21 @@ th{
 
 <main>
 
-
-<!-- PAINEL DE ESTOQUE -->
-
+<!-- PAINEL -->
 <section id="dash" class="tab active">
 
   <div class="head">
 
     <div>
-
       <h1>📊 Painel de Estoque</h1>
-
-      <p>
-        Visão geral do estoque de manutenção.
-      </p>
-
+      <p>Visão geral do estoque de manutenção.</p>
     </div>
 
     <button
       class="primary"
-      onclick="partForm()">
+      type="button"
+      id="btnNewPartDash"
+    >
       + Nova peça
     </button>
 
@@ -616,62 +590,23 @@ th{
   <div class="cards">
 
     <div class="card">
-
-      <div class="label">
-        Valor do estoque
-      </div>
-
-      <div
-        class="kpi"
-        id="kv">
-        R$ 0,00
-      </div>
-
+      <div class="label">Valor do estoque</div>
+      <div class="kpi" id="kv">R$ 0,00</div>
     </div>
 
-
     <div class="card">
-
-      <div class="label">
-        Itens cadastrados
-      </div>
-
-      <div
-        class="kpi"
-        id="ki">
-        0
-      </div>
-
+      <div class="label">Itens cadastrados</div>
+      <div class="kpi" id="ki">0</div>
     </div>
 
-
     <div class="card">
-
-      <div class="label">
-        Abaixo do mínimo
-      </div>
-
-      <div
-        class="kpi"
-        id="kl">
-        0
-      </div>
-
+      <div class="label">Abaixo do mínimo</div>
+      <div class="kpi" id="kl">0</div>
     </div>
 
-
     <div class="card">
-
-      <div class="label">
-        Em ruptura
-      </div>
-
-      <div
-        class="kpi"
-        id="kz">
-        0
-      </div>
-
+      <div class="label">Em ruptura</div>
+      <div class="kpi" id="kz">0</div>
     </div>
 
   </div>
@@ -680,24 +615,13 @@ th{
   <div class="grid2">
 
     <div class="panel">
-
-      <h2>
-        Estoque que exige atenção
-      </h2>
-
+      <h2>Estoque que exige atenção</h2>
       <div id="attention"></div>
-
     </div>
 
-
     <div class="panel">
-
-      <h2>
-        Últimas movimentações
-      </h2>
-
+      <h2>Últimas movimentações</h2>
       <div id="recent"></div>
-
     </div>
 
   </div>
@@ -705,9 +629,7 @@ th{
 
   <div class="panel tablewrap">
 
-    <h2>
-      Posição atual
-    </h2>
+    <h2>Posição atual</h2>
 
     <div id="dashTable"></div>
 
@@ -717,24 +639,20 @@ th{
 
 
 <!-- PEÇAS -->
-
 <section id="parts" class="tab">
 
   <div class="head">
 
     <div>
-
       <h1>Peças</h1>
-
-      <p>
-        Cadastro mestre conectado ao Supabase.
-      </p>
-
+      <p>Cadastro mestre conectado ao Supabase.</p>
     </div>
 
     <button
       class="primary"
-      onclick="partForm()">
+      type="button"
+      id="btnNewPart"
+    >
       + Nova peça
     </button>
 
@@ -749,15 +667,11 @@ th{
         id="search"
         class="input"
         placeholder="Buscar código ou descrição"
-        oninput="renderParts()">
+      >
 
-      <select
-        id="filter"
-        onchange="renderParts()">
+      <select id="filter">
 
-        <option value="">
-          Todos
-        </option>
+        <option value="">Todos</option>
 
         <option value="normal">
           Normal
@@ -777,8 +691,8 @@ th{
 
     <div
       class="tablewrap"
-      id="partsTable">
-    </div>
+      id="partsTable"
+    ></div>
 
   </div>
 
@@ -786,81 +700,69 @@ th{
 
 
 <!-- MOVIMENTAÇÕES -->
-
 <section id="moves" class="tab">
 
   <div class="head">
 
     <div>
-
       <h1>Movimentações</h1>
-
       <p>
         Entrada, saída, devolução e ajuste.
         O saldo é atualizado pelo banco.
       </p>
-
     </div>
 
     <button
       class="primary"
-      onclick="moveForm()">
+      type="button"
+      id="btnNewMove"
+    >
       + Registrar movimentação
     </button>
 
   </div>
 
-
   <div
     class="panel tablewrap"
-    id="moveTable">
-  </div>
+    id="moveTable"
+  ></div>
 
 </section>
 
 
 <!-- REPOSIÇÃO -->
-
 <section id="replen" class="tab">
 
   <div class="head">
 
     <div>
-
       <h1>Reposição</h1>
-
       <p>
         Peças no ponto de reposição ou abaixo.
       </p>
-
     </div>
 
   </div>
 
-
   <div
     class="panel tablewrap"
-    id="repTable">
-  </div>
+    id="repTable"
+  ></div>
 
 </section>
 
 
 <!-- INDICADORES -->
-
 <section id="ind" class="tab">
 
   <div class="head">
 
     <div>
-
       <h1>Indicadores</h1>
-
       <p>
         Calculados a partir das movimentações
         e do saldo atual.
       </p>
-
     </div>
 
   </div>
@@ -869,62 +771,23 @@ th{
   <div class="cards">
 
     <div class="card">
-
-      <div class="label">
-        Saídas
-      </div>
-
-      <div
-        class="kpi"
-        id="io">
-        0
-      </div>
-
+      <div class="label">Saídas</div>
+      <div class="kpi" id="io">0</div>
     </div>
 
-
     <div class="card">
-
-      <div class="label">
-        Quantidade consumida
-      </div>
-
-      <div
-        class="kpi"
-        id="iq">
-        0
-      </div>
-
+      <div class="label">Quantidade consumida</div>
+      <div class="kpi" id="iq">0</div>
     </div>
 
-
     <div class="card">
-
-      <div class="label">
-        Valor consumido
-      </div>
-
-      <div
-        class="kpi"
-        id="iv">
-        R$ 0,00
-      </div>
-
+      <div class="label">Valor consumido</div>
+      <div class="kpi" id="iv">R$ 0,00</div>
     </div>
 
-
     <div class="card">
-
-      <div class="label">
-        Valor parado
-      </div>
-
-      <div
-        class="kpi"
-        id="ii">
-        R$ 0,00
-      </div>
-
+      <div class="label">Valor parado</div>
+      <div class="kpi" id="ii">R$ 0,00</div>
     </div>
 
   </div>
@@ -934,20 +797,15 @@ th{
 
     <div class="panel">
 
-      <h2>
-        Mais consumidas
-      </h2>
+      <h2>Mais consumidas</h2>
 
       <div id="top"></div>
 
     </div>
 
-
     <div class="panel">
 
-      <h2>
-        Criticidade
-      </h2>
+      <h2>Criticidade</h2>
 
       <div id="crit"></div>
 
@@ -963,10 +821,10 @@ th{
 
 
 <!-- MODAL -->
-
 <div
   id="modal"
-  class="modal">
+  class="modal"
+>
 
   <div class="modalbox">
 
@@ -975,8 +833,10 @@ th{
       <h2 id="mt"></h2>
 
       <button
+        id="btnCloseModal"
         class="close"
-        onclick="closeModal()">
+        type="button"
+      >
         ×
       </button>
 
@@ -991,499 +851,799 @@ th{
 
 <script>
 
-/* SUPABASE */
+"use strict";
 
-const URL =
-'https://uhtmkrlouzbdirkaolet.supabase.co';
+/* =========================================================
+   CONFIGURAÇÃO SUPABASE
+   ========================================================= */
 
-const KEY =
-'sb_publishable_MefMlR2RVIdGv-j9pPqGgw_X72XOvdS';
+const SUPABASE_URL =
+  "https://uhtmkrlouzbdirkaolet.supabase.co";
 
-const S =
-supabase.createClient(URL,KEY);
-
-
-/* DADOS */
-
-let P=[];
-let M=[];
-let C=[];
-let L=[];
+const SUPABASE_KEY =
+  "sb_publishable_MefMlR2RVIdGv-j9pPqGgw_X72XOvdS";
 
 
-/* FUNÇÕES AUXILIARES */
+/* =========================================================
+   VARIÁVEIS
+   ========================================================= */
 
-const $ =
-id => document.getElementById(id);
+let S = null;
 
-const money =
-v =>
-(+v || 0).toLocaleString(
-'pt-BR',
-{
-  style:'currency',
-  currency:'BRL'
+let P = [];
+let M = [];
+let C = [];
+let L = [];
+
+let carregandoLogin = false;
+
+
+/* =========================================================
+   FUNÇÕES BÁSICAS
+   ========================================================= */
+
+const $ = id => document.getElementById(id);
+
+function money(v){
+
+  return (+v || 0).toLocaleString(
+    "pt-BR",
+    {
+      style:"currency",
+      currency:"BRL"
+    }
+  );
+
 }
-);
-
-const esc =
-s =>
-String(s ?? '')
-.replace(
-/[&<>"']/g,
-x =>
-({
-  '&':'&amp;',
-  '<':'&lt;',
-  '>':'&gt;',
-  '"':'&quot;',
-  "'":'&#039;'
-}[x])
-);
-
-const part =
-id =>
-P.find(p=>p.id===id);
-
-const date =
-x =>
-x
-?
-new Date(x).toLocaleDateString('pt-BR')
-:
-'—';
 
 
-/* STATUS DO ESTOQUE */
+function esc(s){
+
+  return String(s ?? "").replace(
+    /[&<>"']/g,
+    x => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#039;"
+    }[x])
+  );
+
+}
+
+
+function date(x){
+
+  if(!x) return "—";
+
+  try{
+    return new Date(x).toLocaleDateString("pt-BR");
+  }catch{
+    return "—";
+  }
+
+}
+
+
+function part(id){
+
+  return P.find(p => p.id === id);
+
+}
+
 
 function status(p){
 
-  if(+p.current_stock<=0)
-    return ['ruptura','Ruptura'];
+  if(+p.current_stock <= 0){
+    return ["ruptura","Ruptura"];
+  }
 
-  if(+p.current_stock<+p.min_stock)
-    return ['baixo','Abaixo do mínimo'];
+  if(+p.current_stock < +p.min_stock){
+    return ["baixo","Abaixo do mínimo"];
+  }
 
-  return ['normal','Normal'];
+  return ["normal","Normal"];
+
 }
 
 
-/* MENSAGEM LOGIN */
+/* =========================================================
+   MENSAGENS DO LOGIN
+   ========================================================= */
 
-function msg(t,e=false){
+function showLoginMessage(text,type="err"){
 
-  $('msg').className =
-    'msg ' +
-    (e ? 'err' : 'okmsg');
+  const box = $("msg");
 
-  $('msg').textContent=t;
+  if(!box) return;
+
+  box.className =
+    "msg show " +
+    (
+      type === "ok"
+      ? "okmsg"
+      : type === "info"
+      ? "info-msg"
+      : "err"
+    );
+
+  box.textContent = text;
+
 }
 
 
-/* LOGIN */
+function clearLoginMessage(){
+
+  const box = $("msg");
+
+  if(!box) return;
+
+  box.className = "msg";
+  box.textContent = "";
+
+}
+
+
+/* =========================================================
+   LOGIN
+   ========================================================= */
 
 async function login(){
 
-  let email =
-    $('email').value.trim();
+  if(carregandoLogin) return;
 
-  let password =
-    $('pass').value;
+  clearLoginMessage();
 
-  if(!email || !password){
+  const email =
+    $("email").value.trim();
 
-    return msg(
-      'Informe e-mail e senha.',
-      true
+  const password =
+    $("pass").value;
+
+  if(!email){
+
+    showLoginMessage(
+      "Digite o seu e-mail."
     );
 
+    $("email").focus();
+
+    return;
   }
 
-  let r =
-    await S.auth.signInWithPassword({
-      email,
-      password
-    });
+  if(!password){
 
-  if(r.error){
-
-    msg(
-      r.error.message,
-      true
+    showLoginMessage(
+      "Digite a sua senha."
     );
+
+    $("pass").focus();
+
+    return;
+  }
+
+
+  if(!S){
+
+    showLoginMessage(
+      "O sistema ainda não conseguiu conectar ao servidor. Atualize a página e tente novamente."
+    );
+
+    return;
+  }
+
+
+  carregandoLogin = true;
+
+  const btn = $("btnLogin");
+
+  btn.disabled = true;
+  btn.textContent = "Entrando...";
+
+  $("loginStatus").textContent =
+    "Verificando acesso...";
+
+
+  try{
+
+    const result =
+      await S.auth.signInWithPassword({
+        email:email,
+        password:password
+      });
+
+
+    if(result.error){
+
+      console.error(
+        "Erro Supabase:",
+        result.error
+      );
+
+      let mensagem =
+        result.error.message ||
+        "Não foi possível entrar.";
+
+      const lower =
+        mensagem.toLowerCase();
+
+
+      if(
+        lower.includes("invalid login credentials")
+      ){
+
+        mensagem =
+          "E-mail ou senha incorretos.";
+
+      }else if(
+        lower.includes("email not confirmed")
+      ){
+
+        mensagem =
+          "Este e-mail ainda não foi confirmado.";
+
+      }else if(
+        lower.includes("failed to fetch")
+      ){
+
+        mensagem =
+          "Não foi possível conectar ao Supabase. Verifique a conexão com a internet.";
+
+      }
+
+
+      showLoginMessage(
+        mensagem
+      );
+
+      $("loginStatus").textContent =
+        "Falha ao entrar.";
+
+      return;
+    }
+
+
+    if(result.data && result.data.session){
+
+      $("loginStatus").textContent =
+        "Login realizado. Carregando sistema...";
+
+      await show(
+        result.data.session
+      );
+
+      return;
+    }
+
+
+    showLoginMessage(
+      "O login foi processado, mas não foi encontrada uma sessão."
+    );
+
+  }catch(error){
+
+    console.error(
+      "Erro inesperado no login:",
+      error
+    );
+
+    showLoginMessage(
+      "Erro ao tentar entrar: " +
+      (error.message || error)
+    );
+
+    $("loginStatus").textContent =
+      "Erro de conexão.";
+
+  }finally{
+
+    carregandoLogin = false;
+
+    btn.disabled = false;
+    btn.textContent = "Entrar";
 
   }
 
 }
 
 
-/* CADASTRO DE ACESSO */
+/* =========================================================
+   CRIAR ACESSO
+   ========================================================= */
 
 async function signup(){
 
-  let email =
-    $('email').value.trim();
+  clearLoginMessage();
 
-  let password =
-    $('pass').value;
+  const email =
+    $("email").value.trim();
 
-  if(!email || !password){
+  const password =
+    $("pass").value;
 
-    return msg(
-      'Informe e-mail e senha.',
-      true
+
+  if(!email){
+
+    showLoginMessage(
+      "Digite o e-mail para criar o acesso."
     );
 
+    $("email").focus();
+
+    return;
   }
 
-  let r =
-    await S.auth.signUp({
-      email,
-      password
-    });
 
-  if(r.error){
+  if(!password){
 
-    msg(
-      r.error.message,
-      true
+    showLoginMessage(
+      "Digite uma senha para criar o acesso."
     );
 
+    $("pass").focus();
+
+    return;
   }
-  else if(r.data.session){
 
-    msg('Acesso criado.');
 
-  }
-  else{
+  if(password.length < 6){
 
-    msg(
-      'Acesso criado. Se a confirmação estiver ativa, confirme o e-mail.'
+    showLoginMessage(
+      "A senha precisa ter pelo menos 6 caracteres."
     );
+
+    return;
+  }
+
+
+  if(!S){
+
+    showLoginMessage(
+      "O sistema ainda não conseguiu conectar ao servidor."
+    );
+
+    return;
+  }
+
+
+  const btn =
+    $("btnSignup");
+
+  btn.disabled = true;
+  btn.textContent = "Criando...";
+
+
+  try{
+
+    const result =
+      await S.auth.signUp({
+        email:email,
+        password:password
+      });
+
+
+    if(result.error){
+
+      showLoginMessage(
+        result.error.message
+      );
+
+      return;
+    }
+
+
+    if(result.data.session){
+
+      showLoginMessage(
+        "Acesso criado com sucesso.",
+        "ok"
+      );
+
+    }else{
+
+      showLoginMessage(
+        "Acesso criado. Verifique seu e-mail para confirmar a conta.",
+        "ok"
+      );
+
+    }
+
+  }catch(error){
+
+    showLoginMessage(
+      "Erro ao criar acesso: " +
+      (error.message || error)
+    );
+
+  }finally{
+
+    btn.disabled = false;
+    btn.textContent = "Criar acesso";
 
   }
 
 }
 
 
-/* LOGOUT */
+/* =========================================================
+   LOGOUT
+   ========================================================= */
 
 async function logout(){
 
-  await S.auth.signOut();
+  if(!S) return;
+
+  try{
+
+    await S.auth.signOut();
+
+  }catch(error){
+
+    console.error(
+      "Erro ao sair:",
+      error
+    );
+
+  }
 
 }
 
 
-/* AUTENTICAÇÃO */
+/* =========================================================
+   MOSTRAR SISTEMA
+   ========================================================= */
 
-S.auth.onAuthStateChange(
-(e,s)=>{
+async function show(session){
 
-  if(s){
+  if(!session || !session.user){
 
-    show(s);
-
-  }
-  else{
-
-    $('app')
-      .classList
-      .add('hidden');
-
-    $('login')
-      .classList
-      .remove('hidden');
-
+    return;
   }
 
-});
+
+  $("login").classList.add("hidden");
+
+  $("app").classList.remove("hidden");
+
+  $("who").textContent =
+    session.user.email || "";
 
 
-/* MOSTRAR SISTEMA */
+  try{
 
-async function show(s){
+    await load();
 
-  $('login')
-    .classList
-    .add('hidden');
+  }catch(error){
 
-  $('app')
-    .classList
-    .remove('hidden');
+    console.error(
+      "Erro ao carregar sistema:",
+      error
+    );
 
-  $('who').textContent =
-    s.user.email;
+    alert(
+      "O login foi realizado, mas ocorreu um erro ao carregar os dados: " +
+      (error.message || error)
+    );
 
-  await load();
+  }
 
 }
 
 
-/* CARREGAR BANCO */
+/* =========================================================
+   CARREGAR DADOS
+   ========================================================= */
 
 async function load(){
 
-  let [
+  if(!S){
+
+    throw new Error(
+      "Supabase não inicializado."
+    );
+
+  }
+
+
+  const [
     p,
     m,
     c,
     l
-  ] =
-  await Promise.all([
+  ] = await Promise.all([
 
     S
-      .from('parts')
-      .select('*')
-      .eq('active',true)
-      .order('code'),
+      .from("parts")
+      .select("*")
+      .eq("active",true)
+      .order("code"),
 
     S
-      .from('stock_movements')
-      .select('*')
+      .from("stock_movements")
+      .select("*")
       .order(
-        'movement_date',
+        "movement_date",
         {ascending:false}
       ),
 
     S
-      .from('categories')
-      .select('*')
-      .eq('active',true)
-      .order('name'),
+      .from("categories")
+      .select("*")
+      .eq("active",true)
+      .order("name"),
 
     S
-      .from('locations')
-      .select('*')
-      .eq('active',true)
-      .order('name')
+      .from("locations")
+      .select("*")
+      .eq("active",true)
+      .order("name")
 
   ]);
 
 
   for(
-    let r of [p,m,c,l]
+    const result
+    of [p,m,c,l]
   ){
 
-    if(r.error){
+    if(result.error){
 
-      return alert(
-        r.error.message
+      console.error(
+        result.error
       );
+
+      throw result.error;
 
     }
 
   }
 
 
-  P=p.data || [];
-  M=m.data || [];
-  C=c.data || [];
-  L=l.data || [];
+  P = p.data || [];
+  M = m.data || [];
+  C = c.data || [];
+  L = l.data || [];
+
 
   render();
 
 }
 
 
-/* RENDERIZAÇÃO GERAL */
+/* =========================================================
+   TABELA
+   ========================================================= */
+
+function tbl(headers,rows){
+
+  return `
+    <table>
+      <thead>
+        <tr>
+          ${
+            headers
+              .map(h => `<th>${h}</th>`)
+              .join("")
+          }
+        </tr>
+      </thead>
+
+      <tbody>
+
+        ${
+          rows ||
+          `
+            <tr>
+              <td
+                colspan="${headers.length}"
+                class="empty"
+              >
+                Nenhum registro.
+              </td>
+            </tr>
+          `
+        }
+
+      </tbody>
+    </table>
+  `;
+
+}
+
+
+/* =========================================================
+   RENDER GERAL
+   ========================================================= */
 
 function render(){
 
-  let val =
+  renderDashboard();
+
+  renderParts();
+
+  renderMoves();
+
+  renderRep();
+
+  renderInd();
+
+}
+
+
+/* =========================================================
+   DASHBOARD
+   ========================================================= */
+
+function renderDashboard(){
+
+  const totalValue =
     P.reduce(
-      (s,p)=>
-        s +
-        (+p.current_stock * +p.unit_cost),
+      (sum,p) =>
+        sum +
+        (+p.current_stock || 0) *
+        (+p.unit_cost || 0),
       0
     );
 
 
-  $('kv').textContent =
-    money(val);
+  $("kv").textContent =
+    money(totalValue);
 
-  $('ki').textContent =
+  $("ki").textContent =
     P.length;
 
-  $('kl').textContent =
+  $("kl").textContent =
     P.filter(
       p =>
-        +p.current_stock < +p.min_stock &&
+        +p.current_stock <
+        +p.min_stock &&
         +p.current_stock > 0
     ).length;
 
-  $('kz').textContent =
+  $("kz").textContent =
     P.filter(
       p =>
         +p.current_stock <= 0
     ).length;
 
 
-  /* ATENÇÃO */
-
-  let a =
+  const attention =
     P
-    .filter(
-      p =>
-        +p.current_stock <=
-        +p.reorder_point
-    )
-    .sort(
-      (x,y)=>
-        +x.current_stock -
-        +y.current_stock
-    );
+      .filter(
+        p =>
+          +p.current_stock <=
+          +p.reorder_point
+      )
+      .sort(
+        (a,b) =>
+          +a.current_stock -
+          +b.current_stock
+      );
 
 
-  $('attention').innerHTML =
-    a.length
+  $("attention").innerHTML =
+    attention.length
 
-    ?
+    ? attention.map(p => {
 
-    a.map(
-      p => {
-
-        let [c,t] =
-          status(p);
+        const [
+          cls,
+          text
+        ] = status(p);
 
         return `
-        <div class="alert">
+          <div class="alert">
 
-          <div>
+            <div>
 
-            <b>
-              ${esc(p.code)}
-            </b>
+              <b>${esc(p.code)}</b>
+              —
+              ${esc(p.description)}
 
-            —
-            ${esc(p.description)}
-
-            <div class="muted">
-
-              Saldo
-              ${p.current_stock}
-              ${esc(p.unit)}
-
-              · mínimo
-              ${p.min_stock}
-
-              · reposição
-              ${p.reorder_point}
+              <div class="muted">
+                Saldo
+                ${p.current_stock}
+                ${esc(p.unit)}
+                · mínimo
+                ${p.min_stock}
+                · reposição
+                ${p.reorder_point}
+              </div>
 
             </div>
 
+            <span
+              class="tag ${
+                cls === "ruptura"
+                ? "danger"
+                : "warn"
+              }"
+            >
+              ${text}
+            </span>
+
           </div>
-
-          <span class="tag ${
-            c==='ruptura'
-            ? 'danger'
-            : 'warn'
-          }">
-
-            ${t}
-
-          </span>
-
-        </div>
         `;
 
-      }
-    ).join('')
+      }).join("")
 
-    :
-
-    `
-    <div class="empty">
-      Nenhuma peça exige atenção.
-    </div>
+    : `
+      <div class="empty">
+        Nenhuma peça exige atenção.
+      </div>
     `;
 
 
-  /* RECENTES */
-
-  $('recent').innerHTML =
-
+  $("recent").innerHTML =
     M
-    .slice(0,8)
-    .map(
-      m => {
+      .slice(0,8)
+      .map(m => {
 
-        let p =
+        const p =
           part(m.part_id);
 
         return `
-        <div
-          style="
-            padding:8px 0;
-            border-bottom:1px solid var(--border)
-          ">
+          <div
+            style="
+              padding:8px 0;
+              border-bottom:1px solid var(--line)
+            "
+          >
 
-          <b>
-            ${esc(p?.code || '—')}
-          </b>
-
-          ·
-          ${esc(m.movement_type)}
-
-          ·
-          ${m.quantity}
-
-          ${esc(p?.unit || '')}
-
-          <div class="muted">
-
-            ${date(m.movement_date)}
+            <b>
+              ${esc(p?.code || "—")}
+            </b>
 
             ·
+            ${esc(m.movement_type)}
 
-            ${esc(
-              m.maintenance_order ||
-              m.document_number ||
-              m.reason ||
-              ''
-            )}
+            ·
+            ${m.quantity}
+            ${esc(p?.unit || "")}
+
+            <div class="muted">
+              ${date(m.movement_date)}
+              ·
+              ${esc(
+                m.maintenance_order ||
+                m.document_number ||
+                m.reason ||
+                ""
+              )}
+            </div>
 
           </div>
-
-        </div>
         `;
 
-      }
-    )
-    .join('')
+      })
+      .join("")
 
     ||
-
     `
-    <div class="empty">
-      Nenhuma movimentação.
-    </div>
+      <div class="empty">
+        Nenhuma movimentação.
+      </div>
     `;
 
 
-  /* POSIÇÃO */
+  const rows =
+    P.map(p => {
 
-  let rows =
-    P
-    .map(
-      p => {
+      const [
+        cls,
+        text
+      ] = status(p);
 
-        let [c,t] =
-          status(p);
-
-        return `
+      return `
         <tr>
 
           <td>
-
-            <b>
-              ${esc(p.code)}
-            </b>
+            <b>${esc(p.code)}</b>
 
             <div class="muted">
               ${esc(p.description)}
             </div>
-
           </td>
 
           <td>
@@ -1501,387 +1661,313 @@ function render(){
 
           <td>
             ${money(
-              +p.current_stock *
-              +p.unit_cost
+              (+p.current_stock || 0) *
+              (+p.unit_cost || 0)
             )}
           </td>
 
           <td>
 
-            <span class="tag ${
-              c==='normal'
-              ? 'ok'
-              : c==='baixo'
-              ? 'warn'
-              : 'danger'
-            }">
-
-              ${t}
-
+            <span
+              class="
+                tag
+                ${
+                  cls === "normal"
+                  ? "ok"
+                  : cls === "baixo"
+                  ? "warn"
+                  : "danger"
+                }
+              "
+            >
+              ${text}
             </span>
 
           </td>
 
         </tr>
-        `;
+      `;
 
-      }
-    )
-    .join('');
+    }).join("");
 
 
-  $('dashTable').innerHTML =
+  $("dashTable").innerHTML =
     tbl(
       [
-        'Peça',
-        'Saldo',
-        'Mín.',
-        'Custo',
-        'Valor',
-        'Status'
+        "Peça",
+        "Saldo",
+        "Mín.",
+        "Custo",
+        "Valor",
+        "Status"
       ],
       rows
     );
 
-
-  renderParts();
-  renderMoves();
-  renderRep();
-  renderInd();
-
 }
 
 
-/* TABELA */
-
-function tbl(h,r){
-
-  return `
-  <table>
-
-    <thead>
-
-      <tr>
-
-        ${
-          h
-          .map(
-            x => `<th>${x}</th>`
-          )
-          .join('')
-        }
-
-      </tr>
-
-    </thead>
-
-    <tbody>
-
-      ${
-        r ||
-
-        `
-        <tr>
-
-          <td
-            colspan="${h.length}"
-            class="empty">
-
-            Nenhum registro.
-
-          </td>
-
-        </tr>
-        `
-      }
-
-    </tbody>
-
-  </table>
-  `;
-
-}
-
-
-/* PEÇAS */
+/* =========================================================
+   PEÇAS
+   ========================================================= */
 
 function renderParts(){
 
-  let q =
+  const q =
     (
-      $('search')?.value ||
-      ''
-    )
-    .toLowerCase();
+      $("search")?.value ||
+      ""
+    ).toLowerCase();
 
-  let f =
-    $('filter')?.value ||
-    '';
+  const f =
+    $("filter")?.value ||
+    "";
 
 
-  let r =
-
+  const rows =
     P
-    .filter(
+      .filter(p => {
 
-      p =>
-
-        (
-          !q ||
-
+        const texto =
           [
             p.code,
             p.description
           ]
-          .join(' ')
-          .toLowerCase()
-          .includes(q)
-        )
+          .join(" ")
+          .toLowerCase();
 
-        &&
+        return (
+          (!q || texto.includes(q)) &&
+          (!f || status(p)[0] === f)
+        );
 
-        (
-          !f ||
-          status(p)[0]===f
-        )
+      })
+      .map(p => {
 
-    )
-    .map(
-
-      p => {
-
-        let [c,t] =
-          status(p);
+        const [
+          cls,
+          text
+        ] = status(p);
 
         return `
-        <tr>
+          <tr>
 
-          <td>
-            ${esc(p.code)}
-          </td>
+            <td>
+              ${esc(p.code)}
+            </td>
 
-          <td>
-            ${esc(p.description)}
-          </td>
+            <td>
+              ${esc(p.description)}
+            </td>
 
-          <td>
-            ${esc(p.unit)}
-          </td>
+            <td>
+              ${esc(p.unit)}
+            </td>
 
-          <td>
-            ${p.current_stock}
-          </td>
+            <td>
+              ${p.current_stock}
+            </td>
 
-          <td>
-            ${p.min_stock}
-          </td>
+            <td>
+              ${p.min_stock}
+            </td>
 
-          <td>
-            ${p.max_stock}
-          </td>
+            <td>
+              ${p.max_stock}
+            </td>
 
-          <td>
-            ${p.reorder_point}
-          </td>
+            <td>
+              ${p.reorder_point}
+            </td>
 
-          <td>
-            ${money(p.unit_cost)}
-          </td>
+            <td>
+              ${money(p.unit_cost)}
+            </td>
 
-          <td>
+            <td>
 
-            <span class="tag ${
-              c==='normal'
-              ? 'ok'
-              : c==='baixo'
-              ? 'warn'
-              : 'danger'
-            }">
+              <span
+                class="
+                  tag
+                  ${
+                    cls === "normal"
+                    ? "ok"
+                    : cls === "baixo"
+                    ? "warn"
+                    : "danger"
+                  }
+                "
+              >
+                ${text}
+              </span>
 
-              ${t}
+            </td>
 
-            </span>
+            <td>
 
-          </td>
+              <button
+                type="button"
+                onclick="partForm('${p.id}')"
+              >
+                Editar
+              </button>
 
-          <td>
+            </td>
 
-            <button
-              onclick="partForm('${p.id}')">
-
-              Editar
-
-            </button>
-
-          </td>
-
-        </tr>
+          </tr>
         `;
 
-      }
-
-    )
-    .join('');
+      })
+      .join("");
 
 
-  $('partsTable').innerHTML =
+  $("partsTable").innerHTML =
     tbl(
       [
-        'Código',
-        'Descrição',
-        'Un.',
-        'Saldo',
-        'Mín.',
-        'Máx.',
-        'Repos.',
-        'Custo',
-        'Status',
-        ''
+        "Código",
+        "Descrição",
+        "Un.",
+        "Saldo",
+        "Mín.",
+        "Máx.",
+        "Repos.",
+        "Custo",
+        "Status",
+        ""
       ],
-      r
+      rows
     );
 
 }
 
 
-/* MOVIMENTAÇÕES */
+/* =========================================================
+   MOVIMENTAÇÕES
+   ========================================================= */
 
 function renderMoves(){
 
-  let r =
-
+  const rows =
     M
-    .map(
+      .map(m => {
 
-      m => {
-
-        let p =
+        const p =
           part(m.part_id);
 
-        let cl =
-
-          m.movement_type==='Saída'
-
-          ?
-
-          'danger'
-
+        const cls =
+          m.movement_type === "Saída"
+          ? "danger"
           :
-
           (
-            m.movement_type==='Entrada' ||
-            m.movement_type==='Devolução'
+            m.movement_type === "Entrada" ||
+            m.movement_type === "Devolução"
           )
-
-          ?
-
-          'ok'
-
-          :
-
-          'info';
+          ? "ok"
+          : "info";
 
 
         return `
-        <tr>
+          <tr>
 
-          <td>
-            ${date(m.movement_date)}
-          </td>
+            <td>
+              ${date(m.movement_date)}
+            </td>
 
-          <td>
+            <td>
 
-            <span class="tag ${cl}">
+              <span
+                class="tag ${cls}"
+              >
+                ${esc(m.movement_type)}
+              </span>
 
-              ${esc(m.movement_type)}
+            </td>
 
-            </span>
+            <td>
 
-          </td>
+              <b>
+                ${esc(p?.code || "—")}
+              </b>
 
-          <td>
+              <div class="muted">
+                ${esc(
+                  p?.description || ""
+                )}
+              </div>
 
-            <b>
-              ${esc(p?.code || '—')}
-            </b>
+            </td>
 
-            <div class="muted">
-              ${esc(p?.description || '')}
-            </div>
+            <td>
+              ${m.quantity}
+            </td>
 
-          </td>
+            <td>
+              ${m.stock_before}
+              →
+              ${m.stock_after}
+            </td>
 
-          <td>
-            ${m.quantity}
-          </td>
+            <td>
+              ${esc(
+                m.maintenance_order || ""
+              )}
+            </td>
 
-          <td>
-            ${m.stock_before}
-            →
-            ${m.stock_after}
-          </td>
+            <td>
+              ${esc(
+                m.equipment || ""
+              )}
+            </td>
 
-          <td>
-            ${esc(m.maintenance_order || '')}
-          </td>
+            <td>
+              ${esc(
+                m.document_number ||
+                m.reason ||
+                ""
+              )}
+            </td>
 
-          <td>
-            ${esc(m.equipment || '')}
-          </td>
-
-          <td>
-            ${esc(
-              m.document_number ||
-              m.reason ||
-              ''
-            )}
-          </td>
-
-        </tr>
+          </tr>
         `;
 
-      }
-
-    )
-    .join('');
+      })
+      .join("");
 
 
-  $('moveTable').innerHTML =
-
+  $("moveTable").innerHTML =
     tbl(
       [
-        'Data',
-        'Tipo',
-        'Peça',
-        'Qtd.',
-        'Saldo',
-        'OS',
-        'Equipamento',
-        'Documento/Motivo'
+        "Data",
+        "Tipo",
+        "Peça",
+        "Qtd.",
+        "Saldo",
+        "OS",
+        "Equipamento",
+        "Documento/Motivo"
       ],
-      r
+      rows
     );
 
 }
 
 
-/* REPOSIÇÃO */
+/* =========================================================
+   REPOSIÇÃO
+   ========================================================= */
 
 function renderRep(){
 
-  let r =
-
+  const rows =
     P
-    .filter(
-      p =>
-        +p.current_stock <=
-        +p.reorder_point
-    )
-    .map(
+      .filter(
+        p =>
+          +p.current_stock <=
+          +p.reorder_point
+      )
+      .map(p => {
 
-      p => {
-
-        let n =
+        const n =
           Math.max(
             0,
             +p.max_stock -
@@ -1890,661 +1976,612 @@ function renderRep(){
 
 
         return `
-        <tr>
+          <tr>
 
-          <td>
-            ${esc(p.code)}
-          </td>
+            <td>
+              ${esc(p.code)}
+            </td>
 
-          <td>
-            ${esc(p.description)}
-          </td>
+            <td>
+              ${esc(p.description)}
+            </td>
 
-          <td>
-            ${esc(p.criticality)}
-          </td>
+            <td>
+              ${esc(p.criticality)}
+            </td>
 
-          <td>
-            ${p.current_stock}
-          </td>
+            <td>
+              ${p.current_stock}
+            </td>
 
-          <td>
-            ${p.reorder_point}
-          </td>
+            <td>
+              ${p.reorder_point}
+            </td>
 
-          <td>
-            ${p.max_stock}
-          </td>
+            <td>
+              ${p.max_stock}
+            </td>
 
-          <td>
-            <b>${n}</b>
-          </td>
+            <td>
+              <b>${n}</b>
+            </td>
 
-          <td>
-            ${money(
-              n * +p.unit_cost
-            )}
-          </td>
+            <td>
+              ${money(
+                n * (+p.unit_cost || 0)
+              )}
+            </td>
 
-        </tr>
+          </tr>
         `;
 
-      }
-
-    )
-    .join('');
+      })
+      .join("");
 
 
-  $('repTable').innerHTML =
-
+  $("repTable").innerHTML =
     tbl(
       [
-        'Código',
-        'Descrição',
-        'Criticidade',
-        'Saldo',
-        'Ponto repos.',
-        'Máx.',
-        'Sugestão',
-        'Valor'
+        "Código",
+        "Descrição",
+        "Criticidade",
+        "Saldo",
+        "Ponto repos.",
+        "Máx.",
+        "Sugestão",
+        "Valor"
       ],
-      r
+      rows
     );
 
 }
 
 
-/* INDICADORES */
+/* =========================================================
+   INDICADORES
+   ========================================================= */
 
 function renderInd(){
 
-  let o =
+  const out =
     M.filter(
       m =>
-        m.movement_type==='Saída'
+        m.movement_type === "Saída"
     );
 
 
-  let q =
-    o.reduce(
-      (s,m)=>
-        s + +m.quantity,
+  const quantity =
+    out.reduce(
+      (sum,m) =>
+        sum +
+        (+m.quantity || 0),
       0
     );
 
 
-  let v =
-    o.reduce(
-      (s,m)=>
-        s +
-        +m.quantity *
-        +m.unit_cost,
+  const value =
+    out.reduce(
+      (sum,m) =>
+        sum +
+        (+m.quantity || 0) *
+        (+m.unit_cost || 0),
       0
     );
 
 
-  let used =
+  const used =
     new Set(
-      o.map(
+      out.map(
         m => m.part_id
       )
     );
 
 
-  let idle =
-
+  const idle =
     P
-    .filter(
-      p =>
-        !used.has(p.id)
-    )
-    .reduce(
-      (s,p)=>
-        s +
-        +p.current_stock *
-        +p.unit_cost,
-      0
-    );
+      .filter(
+        p =>
+          !used.has(p.id)
+      )
+      .reduce(
+        (sum,p) =>
+          sum +
+          (+p.current_stock || 0) *
+          (+p.unit_cost || 0),
+        0
+      );
 
 
-  $('io').textContent =
-    o.length;
+  $("io").textContent =
+    out.length;
 
-  $('iq').textContent =
-    q;
+  $("iq").textContent =
+    quantity;
 
-  $('iv').textContent =
-    money(v);
+  $("iv").textContent =
+    money(value);
 
-  $('ii').textContent =
+  $("ii").textContent =
     money(idle);
 
 
-  /* MAIS CONSUMIDAS */
-
-  let top={};
+  const top = {};
 
 
-  o.forEach(
-    m => {
+  out.forEach(m => {
 
-      top[m.part_id] =
-        (top[m.part_id] || 0) +
-        +m.quantity;
+    top[m.part_id] =
+      (top[m.part_id] || 0) +
+      (+m.quantity || 0);
 
-    }
-  );
+  });
 
 
-  let ar =
+  const ar =
+    Object
+      .entries(top)
+      .sort(
+        (a,b) =>
+          b[1] - a[1]
+      )
+      .slice(0,7);
 
-    Object.entries(top)
-    .sort(
-      (a,b)=>
-        b[1]-a[1]
-    )
-    .slice(0,7);
 
-
-  $('top').innerHTML =
-
+  $("top").innerHTML =
     ar
-    .map(
+      .map(([id,n]) => {
 
-      ([id,n]) => {
-
-        let p =
+        const p =
           part(id);
 
         return `
-        <div
-          style="
-            margin:11px 0;
-            display:flex;
-            justify-content:space-between
-          ">
+          <div
+            style="
+              margin:11px 0;
+              display:flex;
+              justify-content:space-between
+            "
+          >
 
-          <b>
-            ${esc(p?.code || '—')}
-          </b>
+            <b>
+              ${esc(p?.code || "—")}
+            </b>
 
-          <span>
-            ${n}
-            ${esc(p?.unit || '')}
-          </span>
+            <span>
+              ${n}
+              ${esc(p?.unit || "")}
+            </span>
 
-        </div>
+          </div>
         `;
 
-      }
-
-    )
-    .join('')
+      })
+      .join("")
 
     ||
-
     `
-    <div class="empty">
-      Sem saídas.
-    </div>
+      <div class="empty">
+        Sem saídas.
+      </div>
     `;
 
 
-  /* CRITICIDADE */
-
-  let c={
-    Crítica:0,
-    Alta:0,
-    Média:0,
-    Baixa:0
+  const crit = {
+    "Crítica":0,
+    "Alta":0,
+    "Média":0,
+    "Baixa":0
   };
 
 
-  P.forEach(
-    p =>
-      c[p.criticality] =
-        (c[p.criticality] || 0) +
-        1
-  );
+  P.forEach(p => {
+
+    crit[p.criticality] =
+      (crit[p.criticality] || 0) + 1;
+
+  });
 
 
-  $('crit').innerHTML =
+  $("crit").innerHTML =
+    Object
+      .entries(crit)
+      .map(([k,n]) => {
 
-    Object.entries(c)
-    .map(
+        return `
+          <div
+            style="
+              margin:11px 0;
+              display:flex;
+              justify-content:space-between
+            "
+          >
 
-      ([k,n]) => `
+            <b>${esc(k)}</b>
 
-      <div
-        style="
-          margin:11px 0;
-          display:flex;
-          justify-content:space-between
-        ">
+            <span>${n}</span>
 
-        <b>
-          ${k}
-        </b>
+          </div>
+        `;
 
-        <span>
-          ${n}
-        </span>
-
-      </div>
-
-      `
-
-    )
-    .join('');
+      })
+      .join("");
 
 }
 
 
-/* MODAL */
+/* =========================================================
+   MODAL
+   ========================================================= */
 
-function openModal(t,b){
+function openModal(title,body){
 
-  $('mt').textContent=t;
+  $("mt").textContent =
+    title;
 
-  $('mb').innerHTML=b;
+  $("mb").innerHTML =
+    body;
 
-  $('modal')
-    .classList
-    .add('show');
+  $("modal").classList.add("show");
 
 }
 
 
 function closeModal(){
 
-  $('modal')
-    .classList
-    .remove('show');
+  $("modal").classList.remove("show");
 
 }
 
 
-/* FORMULÁRIO DE PEÇA */
+/* =========================================================
+   FORMULÁRIO DE PEÇA
+   ========================================================= */
 
 function partForm(id){
 
-  let p =
-
+  const p =
     id
-
-    ?
-
-    part(id)
-
-    :
-
-    {
-      code:'',
-      description:'',
-      category_id:'',
-      location_id:'',
-      unit:'UN',
-      min_stock:0,
-      max_stock:0,
-      reorder_point:0,
-      unit_cost:0,
-      criticality:'Média',
-      current_stock:0
-    };
+    ? part(id)
+    : {
+        code:"",
+        description:"",
+        category_id:"",
+        location_id:"",
+        unit:"UN",
+        min_stock:0,
+        max_stock:0,
+        reorder_point:0,
+        unit_cost:0,
+        criticality:"Média",
+        current_stock:0
+      };
 
 
   openModal(
-
     id
-    ? 'Editar peça'
-    : 'Nova peça',
+    ? "Editar peça"
+    : "Nova peça",
 
     `
+      <form id="partFormElement">
 
-    <form
-      onsubmit="savePart(event,'${id || ''}')">
+        <div class="formgrid">
 
-      <div class="formgrid">
-
-        <div class="field">
-
-          <label>
-            Código
-          </label>
-
-          <input
-            name="code"
-            required
-            value="${esc(p.code)}">
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Descrição
-          </label>
-
-          <input
-            name="description"
-            required
-            value="${esc(p.description)}">
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Unidade
-          </label>
-
-          <input
-            name="unit"
-            value="${esc(p.unit)}">
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Categoria
-          </label>
-
-          <select name="category_id">
-
-            <option value="">
-              Selecione
-            </option>
-
-            ${
-              C.map(
-                c =>
-                `
-                <option
-                  value="${c.id}"
-                  ${
-                    c.id===p.category_id
-                    ? 'selected'
-                    : ''
-                  }>
-
-                  ${esc(c.name)}
-
-                </option>
-                `
-              ).join('')
-            }
-
-          </select>
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Localização
-          </label>
-
-          <select name="location_id">
-
-            <option value="">
-              Selecione
-            </option>
-
-            ${
-              L.map(
-                l =>
-                `
-                <option
-                  value="${l.id}"
-                  ${
-                    l.id===p.location_id
-                    ? 'selected'
-                    : ''
-                  }>
-
-                  ${esc(l.name)}
-
-                </option>
-                `
-              ).join('')
-            }
-
-          </select>
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Criticidade
-          </label>
-
-          <select name="criticality">
-
-            ${
-              [
-                'Crítica',
-                'Alta',
-                'Média',
-                'Baixa'
-              ]
-              .map(
-                x =>
-                `
-                <option
-                  ${
-                    x===p.criticality
-                    ? 'selected'
-                    : ''
-                  }>
-
-                  ${x}
-
-                </option>
-                `
-              )
-              .join('')
-            }
-
-          </select>
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Mínimo
-          </label>
-
-          <input
-            type="number"
-            min="0"
-            step=".001"
-            name="min_stock"
-            value="${p.min_stock}">
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Máximo
-          </label>
-
-          <input
-            type="number"
-            min="0"
-            step=".001"
-            name="max_stock"
-            value="${p.max_stock}">
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Ponto de reposição
-          </label>
-
-          <input
-            type="number"
-            min="0"
-            step=".001"
-            name="reorder_point"
-            value="${p.reorder_point}">
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Custo unitário
-          </label>
-
-          <input
-            type="number"
-            min="0"
-            step=".01"
-            name="unit_cost"
-            value="${p.unit_cost}">
-
-        </div>
-
-
-        ${
-          id
-          ? ''
-          :
-          `
           <div class="field">
+            <label>Código</label>
 
-            <label>
-              Saldo inicial
-            </label>
+            <input
+              name="code"
+              required
+              value="${esc(p.code)}"
+            >
+          </div>
+
+
+          <div class="field">
+            <label>Descrição</label>
+
+            <input
+              name="description"
+              required
+              value="${esc(p.description)}"
+            >
+          </div>
+
+
+          <div class="field">
+            <label>Unidade</label>
+
+            <input
+              name="unit"
+              value="${esc(p.unit)}"
+            >
+          </div>
+
+
+          <div class="field">
+            <label>Categoria</label>
+
+            <select name="category_id">
+
+              <option value="">
+                Selecione
+              </option>
+
+              ${
+                C
+                  .map(c => `
+                    <option
+                      value="${c.id}"
+                      ${
+                        c.id === p.category_id
+                        ? "selected"
+                        : ""
+                      }
+                    >
+                      ${esc(c.name)}
+                    </option>
+                  `)
+                  .join("")
+              }
+
+            </select>
+          </div>
+
+
+          <div class="field">
+            <label>Localização</label>
+
+            <select name="location_id">
+
+              <option value="">
+                Selecione
+              </option>
+
+              ${
+                L
+                  .map(l => `
+                    <option
+                      value="${l.id}"
+                      ${
+                        l.id === p.location_id
+                        ? "selected"
+                        : ""
+                      }
+                    >
+                      ${esc(l.name)}
+                    </option>
+                  `)
+                  .join("")
+              }
+
+            </select>
+          </div>
+
+
+          <div class="field">
+            <label>Criticidade</label>
+
+            <select name="criticality">
+
+              ${
+                [
+                  "Crítica",
+                  "Alta",
+                  "Média",
+                  "Baixa"
+                ]
+                .map(x => `
+                  <option
+                    ${
+                      x === p.criticality
+                      ? "selected"
+                      : ""
+                    }
+                  >
+                    ${x}
+                  </option>
+                `)
+                .join("")
+              }
+
+            </select>
+          </div>
+
+
+          <div class="field">
+            <label>Mínimo</label>
 
             <input
               type="number"
               min="0"
               step=".001"
-              name="current_stock"
-              value="0">
-
+              name="min_stock"
+              value="${p.min_stock}"
+            >
           </div>
-          `
-        }
-
-      </div>
 
 
-      <div class="actions">
+          <div class="field">
+            <label>Máximo</label>
 
-        <button
-          type="button"
-          onclick="closeModal()">
+            <input
+              type="number"
+              min="0"
+              step=".001"
+              name="max_stock"
+              value="${p.max_stock}"
+            >
+          </div>
 
-          Cancelar
 
-        </button>
+          <div class="field">
+            <label>Ponto de reposição</label>
 
-        <button class="primary">
+            <input
+              type="number"
+              min="0"
+              step=".001"
+              name="reorder_point"
+              value="${p.reorder_point}"
+            >
+          </div>
 
-          Salvar peça
 
-        </button>
+          <div class="field">
+            <label>Custo unitário</label>
 
-      </div>
+            <input
+              type="number"
+              min="0"
+              step=".01"
+              name="unit_cost"
+              value="${p.unit_cost}"
+            >
+          </div>
 
-    </form>
 
+          ${
+            id
+            ? ""
+            : `
+              <div class="field">
+                <label>Saldo inicial</label>
+
+                <input
+                  type="number"
+                  min="0"
+                  step=".001"
+                  name="current_stock"
+                  value="0"
+                >
+              </div>
+            `
+          }
+
+        </div>
+
+
+        <div class="actions">
+
+          <button
+            type="button"
+            onclick="closeModal()"
+          >
+            Cancelar
+          </button>
+
+          <button
+            type="submit"
+            class="primary"
+          >
+            Salvar peça
+          </button>
+
+        </div>
+
+      </form>
     `
+  );
+
+
+  $("partFormElement").addEventListener(
+    "submit",
+    function(e){
+
+      savePart(
+        e,
+        id || ""
+      );
+
+    }
   );
 
 }
 
 
-/* SALVAR PEÇA */
+/* =========================================================
+   SALVAR PEÇA
+   ========================================================= */
 
 async function savePart(e,id){
 
   e.preventDefault();
 
 
-  let f =
-    new FormData(e.target);
+  const f =
+    new FormData(
+      e.target
+    );
 
 
-  let d={
+  const d = {
 
     code:
-      f.get('code').trim(),
+      f.get("code").trim(),
 
     description:
-      f.get('description').trim(),
+      f.get("description").trim(),
 
     unit:
-      f.get('unit') || 'UN',
+      f.get("unit") || "UN",
 
     category_id:
-      f.get('category_id') || null,
+      f.get("category_id") || null,
 
     location_id:
-      f.get('location_id') || null,
+      f.get("location_id") || null,
 
     criticality:
-      f.get('criticality'),
+      f.get("criticality"),
 
     min_stock:
-      +f.get('min_stock') || 0,
+      +f.get("min_stock") || 0,
 
     max_stock:
-      +f.get('max_stock') || 0,
+      +f.get("max_stock") || 0,
 
     reorder_point:
-      +f.get('reorder_point') || 0,
+      +f.get("reorder_point") || 0,
 
     unit_cost:
-      +f.get('unit_cost') || 0
+      +f.get("unit_cost") || 0
 
   };
 
 
-  let r =
-
-    id
-
-    ?
-
-    await S
-      .from('parts')
-      .update(d)
-      .eq('id',id)
-
-    :
-
-    await S
-      .from('parts')
-      .insert({
-        ...d,
-        current_stock:
-          +f.get('current_stock') || 0
-      });
+  let result;
 
 
-  if(r.error){
+  if(id){
 
-    return alert(
-      r.error.message
+    result =
+      await S
+        .from("parts")
+        .update(d)
+        .eq("id",id);
+
+  }else{
+
+    result =
+      await S
+        .from("parts")
+        .insert({
+          ...d,
+          current_stock:
+            +f.get("current_stock") || 0
+        });
+
+  }
+
+
+  if(result.error){
+
+    alert(
+      result.error.message
     );
+
+    return;
 
   }
 
@@ -2556,246 +2593,288 @@ async function savePart(e,id){
 }
 
 
-/* FORMULÁRIO DE MOVIMENTAÇÃO */
+/* =========================================================
+   FORMULÁRIO DE MOVIMENTAÇÃO
+   ========================================================= */
 
 function moveForm(){
 
   if(!P.length){
 
-    return alert(
-      'Cadastre uma peça primeiro.'
+    alert(
+      "Cadastre uma peça primeiro."
     );
 
+    return;
   }
 
 
   openModal(
-
-    'Registrar movimentação',
+    "Registrar movimentação",
 
     `
+      <form id="moveFormElement">
 
-    <form
-      onsubmit="saveMove(event)">
+        <div class="formgrid">
 
-      <div class="formgrid">
+          <div class="field">
 
+            <label>Data</label>
 
-        <div class="field">
+            <input
+              type="datetime-local"
+              name="movement_date"
+              required
+              value="${
+                new Date(
+                  Date.now() -
+                  new Date()
+                    .getTimezoneOffset() *
+                  60000
+                )
+                .toISOString()
+                .slice(0,16)
+              }"
+            >
 
-          <label>
-            Data
-          </label>
-
-          <input
-            type="datetime-local"
-            name="movement_date"
-            required
-            value="${
-              new Date(
-                Date.now() -
-                new Date()
-                .getTimezoneOffset()*60000
-              )
-              .toISOString()
-              .slice(0,16)
-            }">
-
-        </div>
+          </div>
 
 
-        <div class="field">
+          <div class="field">
 
-          <label>
-            Tipo
-          </label>
+            <label>Tipo</label>
 
-          <select name="movement_type">
+            <select name="movement_type">
 
-            <option>
-              Entrada
-            </option>
+              <option>
+                Entrada
+              </option>
 
-            <option>
-              Saída
-            </option>
+              <option>
+                Saída
+              </option>
 
-            <option>
-              Devolução
-            </option>
+              <option>
+                Devolução
+              </option>
 
-            <option>
-              Ajuste
-            </option>
+              <option>
+                Ajuste
+              </option>
 
-          </select>
+            </select>
 
-        </div>
+          </div>
 
 
-        <div class="field">
+          <div class="field">
 
-          <label>
-            Peça
-          </label>
+            <label>Peça</label>
 
-          <select name="part_id">
+            <select name="part_id">
 
-            ${
-              P.map(
-                p =>
-                `
-                <option
-                  value="${p.id}">
+              ${
+                P
+                  .map(p => `
+                    <option
+                      value="${p.id}"
+                    >
+                      ${esc(p.code)}
+                      —
+                      ${esc(p.description)}
+                      (saldo
+                      ${p.current_stock})
+                    </option>
+                  `)
+                  .join("")
+              }
 
-                  ${esc(p.code)}
-                  —
-                  ${esc(p.description)}
-                  (saldo ${p.current_stock})
+            </select>
 
-                </option>
-                `
-              ).join('')
-            }
-
-          </select>
-
-        </div>
+          </div>
 
 
-        <div class="field">
+          <div class="field">
 
-          <label>
-            Quantidade
-          </label>
+            <label>Quantidade</label>
 
-          <input
-            type="number"
-            min=".001"
-            step=".001"
-            name="quantity"
-            required>
+            <input
+              type="number"
+              min=".001"
+              step=".001"
+              name="quantity"
+              required
+            >
 
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Ordem de manutenção
-          </label>
-
-          <input
-            name="maintenance_order"
-            placeholder="Ex.: OS-1050">
-
-        </div>
+          </div>
 
 
-        <div class="field">
+          <div class="field">
 
-          <label>
-            Equipamento
-          </label>
+            <label>
+              Ordem de manutenção
+            </label>
 
-          <input
-            name="equipment">
+            <input
+              name="maintenance_order"
+              placeholder="Ex.: OS-1050"
+            >
 
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Documento / NF
-          </label>
-
-          <input
-            name="document_number">
-
-        </div>
+          </div>
 
 
-        <div class="field">
+          <div class="field">
 
-          <label>
-            Motivo
-          </label>
+            <label>Equipamento</label>
 
-          <input
-            name="reason">
+            <input
+              name="equipment"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Documento / NF</label>
+
+            <input
+              name="document_number"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Motivo</label>
+
+            <input
+              name="reason"
+            >
+
+          </div>
 
         </div>
 
 
-      </div>
+        <div class="actions">
 
+          <button
+            type="button"
+            onclick="closeModal()"
+          >
+            Cancelar
+          </button>
 
-      <div class="actions">
+          <button
+            class="primary"
+            type="submit"
+          >
+            Registrar movimentação
+          </button>
 
-        <button
-          type="button"
-          onclick="closeModal()">
+        </div>
 
-          Cancelar
-
-        </button>
-
-        <button class="primary">
-
-          Registrar movimentação
-
-        </button>
-
-      </div>
-
-    </form>
-
+      </form>
     `
+  );
+
+
+  $("moveFormElement").addEventListener(
+    "submit",
+    saveMove
   );
 
 }
 
 
-/* SALVAR MOVIMENTAÇÃO */
+/* =========================================================
+   SALVAR MOVIMENTAÇÃO
+   ========================================================= */
 
 async function saveMove(e){
 
   e.preventDefault();
 
 
-  let f =
-    new FormData(e.target);
-
-
-  let p =
-    part(f.get('part_id'));
-
-
-  let q =
-    +f.get('quantity');
-
-
-  let type =
-    f.get('movement_type');
-
-
-  if(
-    type==='Saída' &&
-    +p.current_stock < q
-  ){
-
-    return alert(
-      `Saldo insuficiente. Saldo atual: ${p.current_stock}.`
+  const f =
+    new FormData(
+      e.target
     );
 
+
+  const p =
+    part(
+      f.get("part_id")
+    );
+
+
+  const q =
+    +f.get("quantity");
+
+
+  const type =
+    f.get("movement_type");
+
+
+  if(!p){
+
+    alert(
+      "Peça não encontrada."
+    );
+
+    return;
   }
 
 
-  let d={
+  if(q <= 0){
+
+    alert(
+      "Informe uma quantidade válida."
+    );
+
+    return;
+  }
+
+
+  if(
+    type === "Saída" &&
+    +p.current_stock < q
+  ){
+
+    alert(
+      `Saldo insuficiente. Saldo atual: ${p.current_stock}.`
+    );
+
+    return;
+  }
+
+
+  let movementDate;
+
+
+  try{
+
+    movementDate =
+      new Date(
+        f.get("movement_date")
+      ).toISOString();
+
+  }catch{
+
+    alert(
+      "Data da movimentação inválida."
+    );
+
+    return;
+  }
+
+
+  const d = {
 
     part_id:
-      f.get('part_id'),
+      f.get("part_id"),
 
     movement_type:
       type,
@@ -2807,36 +2886,40 @@ async function saveMove(e){
       +p.unit_cost || 0,
 
     maintenance_order:
-      f.get('maintenance_order') || null,
+      f.get("maintenance_order") ||
+      null,
 
     equipment:
-      f.get('equipment') || null,
+      f.get("equipment") ||
+      null,
 
     document_number:
-      f.get('document_number') || null,
+      f.get("document_number") ||
+      null,
 
     reason:
-      f.get('reason') || null,
+      f.get("reason") ||
+      null,
 
     movement_date:
-      new Date(
-        f.get('movement_date')
-      ).toISOString()
+      movementDate
 
   };
 
 
-  let r =
+  const result =
     await S
-      .from('stock_movements')
+      .from("stock_movements")
       .insert(d);
 
 
-  if(r.error){
+  if(result.error){
 
-    return alert(
-      r.error.message
+    alert(
+      result.error.message
     );
+
+    return;
 
   }
 
@@ -2848,70 +2931,303 @@ async function saveMove(e){
 }
 
 
-/* NAVEGAÇÃO */
+/* =========================================================
+   INICIALIZAÇÃO
+   ========================================================= */
 
-document
-.querySelectorAll(
-  'nav button[data-tab]'
-)
-.forEach(
+async function iniciarSistema(){
 
-  b =>
+  try{
 
-    b.onclick = () => {
+    $("loginStatus").textContent =
+      "Conectando ao servidor...";
 
-      document
-      .querySelectorAll(
-        'nav button[data-tab]'
-      )
-      .forEach(
-        x =>
-          x.classList
-           .remove('active')
+
+    /* Verifica se a biblioteca do Supabase carregou */
+
+    if(
+      !window.supabase ||
+      typeof window.supabase.createClient !== "function"
+    ){
+
+      $("loginStatus").textContent =
+        "Erro ao carregar conexão.";
+
+      showLoginMessage(
+        "A biblioteca de conexão não carregou. Atualize a página com Ctrl + F5."
       );
 
-
-      b.classList
-       .add('active');
-
-
-      document
-      .querySelectorAll('.tab')
-      .forEach(
-        x =>
-          x.classList
-           .remove('active')
-      );
-
-
-      $(b.dataset.tab)
-        .classList
-        .add('active');
-
-
-      render();
+      return;
 
     }
 
-);
+
+    /* Cria cliente Supabase */
+
+    S =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
 
 
-/* VERIFICAR SESSÃO */
+    $("loginStatus").textContent =
+      "Sistema pronto. Faça seu login.";
 
-(async()=>{
 
-  let r =
-    await S.auth.getSession();
+    /* Botões */
 
-  if(r.data.session){
+    $("btnLogin")
+      .addEventListener(
+        "click",
+        login
+      );
 
-    show(
-      r.data.session
+
+    $("btnSignup")
+      .addEventListener(
+        "click",
+        signup
+      );
+
+
+    $("btnLogout")
+      .addEventListener(
+        "click",
+        logout
+      );
+
+
+    $("btnNewPart")
+      .addEventListener(
+        "click",
+        () => partForm()
+      );
+
+
+    $("btnNewPartDash")
+      .addEventListener(
+        "click",
+        () => partForm()
+      );
+
+
+    $("btnNewMove")
+      .addEventListener(
+        "click",
+        moveForm
+      );
+
+
+    $("btnCloseModal")
+      .addEventListener(
+        "click",
+        closeModal
+      );
+
+
+    $("search")
+      .addEventListener(
+        "input",
+        renderParts
+      );
+
+
+    $("filter")
+      .addEventListener(
+        "change",
+        renderParts
+      );
+
+
+    /* Enter no campo de senha */
+
+    $("pass")
+      .addEventListener(
+        "keydown",
+        function(e){
+
+          if(e.key === "Enter"){
+
+            e.preventDefault();
+
+            login();
+
+          }
+
+        }
+      );
+
+
+    /* Navegação */
+
+    document
+      .querySelectorAll(
+        "nav button[data-tab]"
+      )
+      .forEach(button => {
+
+        button.addEventListener(
+          "click",
+          function(){
+
+            document
+              .querySelectorAll(
+                "nav button[data-tab]"
+              )
+              .forEach(x =>
+                x.classList.remove(
+                  "active"
+                )
+              );
+
+
+            this.classList.add(
+              "active"
+            );
+
+
+            document
+              .querySelectorAll(
+                ".tab"
+              )
+              .forEach(x =>
+                x.classList.remove(
+                  "active"
+                )
+              );
+
+
+            const section =
+              $(
+                this.dataset.tab
+              );
+
+
+            if(section){
+
+              section.classList.add(
+                "active"
+              );
+
+            }
+
+          }
+        );
+
+      });
+
+
+    /* Estado de autenticação */
+
+    S.auth.onAuthStateChange(
+      async function(event,session){
+
+        console.log(
+          "Auth:",
+          event,
+          session
+            ? "com sessão"
+            : "sem sessão"
+        );
+
+
+        if(session){
+
+          await show(session);
+
+        }else{
+
+          $("app")
+            .classList.add(
+              "hidden"
+            );
+
+          $("login")
+            .classList.remove(
+              "hidden"
+            );
+
+          $("loginStatus")
+            .textContent =
+              "Faça login para entrar no sistema.";
+
+        }
+
+      }
+    );
+
+
+    /* Verifica sessão existente */
+
+    const result =
+      await S.auth.getSession();
+
+
+    if(result.error){
+
+      console.error(
+        result.error
+      );
+
+      $("loginStatus").textContent =
+        "Sistema pronto. Faça seu login.";
+
+      return;
+
+    }
+
+
+    if(
+      result.data &&
+      result.data.session
+    ){
+
+      await show(
+        result.data.session
+      );
+
+    }
+
+  }catch(error){
+
+    console.error(
+      "Erro na inicialização:",
+      error
+    );
+
+
+    $("loginStatus").textContent =
+      "Erro na inicialização.";
+
+    showLoginMessage(
+      "Erro ao iniciar o sistema: " +
+      (error.message || error)
     );
 
   }
 
-})();
+}
+
+
+/* =========================================================
+   INICIAR
+   ========================================================= */
+
+if(
+  document.readyState === "loading"
+){
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    iniciarSistema
+  );
+
+}else{
+
+  iniciarSistema();
+
+}
 
 </script>
 
