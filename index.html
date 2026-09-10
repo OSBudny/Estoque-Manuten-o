@@ -1,1906 +1,858 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Estoque Manutenção</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 :root{
-    --bg:#07090b;
-    --panel:#0d1115;
-    --panel2:#11161b;
-    --border:#20272e;
-    --text:#eeeeee;
-    --muted:#9299a1;
-    --orange:#f28c18;
-    --orange2:#ff9f2e;
-    --green:#19c37d;
-    --red:#ff4d4f;
-    --yellow:#ffc107;
-    --blue:#4da3ff;
+  --b:#0b1016;
+  --p:#141b24;
+  --l:#2a3542;
+  --t:#f4f7fa;
+  --m:#9aa8b7;
+  --a:#f28c28;
+  --g:#42c883;
+  --w:#f5b942;
+  --d:#ef5350;
 }
 
-*{
-    box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:var(--bg);
-    color:var(--text);
+  margin:0;
+  background:var(--b);
+  color:var(--t);
+  font:14px Segoe UI,Arial,sans-serif;
 }
 
-button,
-input,
-select{
-    font:inherit;
+.hidden{display:none!important}
+
+header{
+  padding:14px 24px;
+  background:#10161d;
+  border-bottom:1px solid var(--l);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  position:sticky;
+  top:0;
+  z-index:5;
+}
+
+.brand{
+  font-size:21px;
+  font-weight:800;
+}
+
+.brand span{
+  color:var(--a);
+}
+
+.muted{
+  color:var(--m);
+  font-size:12px;
+}
+
+nav{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
 }
 
 button{
-    cursor:pointer;
+  cursor:pointer;
+  font:inherit;
+  border-radius:8px;
+  padding:10px 14px;
+  background:transparent;
+  color:var(--m);
+  border:1px solid var(--l);
+  font-weight:700;
 }
 
-.hidden{
-    display:none!important;
+button:hover,
+nav button.active{
+  background:#1b2531;
+  color:#fff;
 }
 
-/* =========================
-   LOGIN
-========================= */
-
-#loginScreen{
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    background:
-        radial-gradient(circle at top right,rgba(242,140,24,.10),transparent 35%),
-        var(--bg);
+button.primary{
+  background:var(--a);
+  color:#111;
+  border-color:var(--a);
 }
 
-.loginBox{
-    width:100%;
-    max-width:430px;
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:14px;
-    padding:30px;
-    box-shadow:0 20px 60px rgba(0,0,0,.45);
+main{
+  max-width:1500px;
+  margin:auto;
+  padding:24px;
 }
 
-.loginLogo{
-    text-align:center;
-    margin-bottom:25px;
+.tab{display:none}
+.tab.active{display:block}
+
+.head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+  gap:15px;
 }
 
-.loginLogo .icon{
-    font-size:42px;
+.head h1{
+  margin:0;
+  font-size:25px;
 }
 
-.loginLogo h1{
-    margin:8px 0 4px;
-    font-size:25px;
+.head p{
+  color:var(--m);
+  margin:5px 0;
 }
 
-.loginLogo p{
-    margin:0;
-    color:var(--muted);
-    font-size:13px;
+.cards{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-bottom:18px;
 }
 
-.formGroup{
-    margin-bottom:15px;
+.card,
+.panel{
+  background:var(--p);
+  border:1px solid var(--l);
+  border-radius:13px;
 }
 
-.formGroup label{
-    display:block;
-    margin-bottom:7px;
-    font-size:13px;
-    color:#c8cdd2;
+.card{
+  padding:18px;
+}
+
+.label{
+  font-size:11px;
+  color:var(--m);
+  font-weight:800;
+  text-transform:uppercase;
+}
+
+.kpi{
+  font-size:28px;
+  font-weight:850;
+  margin-top:8px;
+}
+
+.panel{
+  padding:18px;
+  margin-bottom:18px;
+}
+
+.panel h2{
+  font-size:16px;
+  margin:0 0 14px;
+}
+
+.grid2{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:18px;
+}
+
+.toolbar{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-bottom:14px;
 }
 
 input,
 select{
-    width:100%;
-    padding:12px 13px;
-    border-radius:8px;
-    border:1px solid var(--border);
-    background:#080b0e;
-    color:var(--text);
-    outline:none;
+  background:#0f151c;
+  border:1px solid var(--l);
+  color:#fff;
+  border-radius:8px;
+  padding:10px;
+  outline:0;
 }
 
 input:focus,
 select:focus{
-    border-color:var(--orange);
-    box-shadow:0 0 0 2px rgba(242,140,24,.10);
+  border-color:var(--a);
 }
 
-.btn{
-    border:0;
-    border-radius:8px;
-    padding:11px 16px;
-    font-weight:bold;
-    color:white;
-}
-
-.btnOrange{
-    background:var(--orange);
-}
-
-.btnOrange:hover{
-    background:var(--orange2);
-}
-
-.btnDark{
-    background:#1b2127;
-}
-
-.btnRed{
-    background:#6e2022;
-}
-
-.btnGreen{
-    background:#126844;
-}
-
-.btnFull{
-    width:100%;
-}
-
-.loginActions{
-    display:flex;
-    flex-direction:column;
-    gap:9px;
-    margin-top:20px;
-}
-
-.message{
-    margin-top:15px;
-    padding:11px;
-    border-radius:8px;
-    font-size:13px;
-    display:none;
-}
-
-.message.error{
-    display:block;
-    background:rgba(255,77,79,.12);
-    border:1px solid rgba(255,77,79,.35);
-    color:#ff999a;
-}
-
-.message.success{
-    display:block;
-    background:rgba(25,195,125,.12);
-    border:1px solid rgba(25,195,125,.35);
-    color:#71e0b0;
-}
-
-/* =========================
-   APP
-========================= */
-
-#app{
-    min-height:100vh;
-}
-
-header{
-    height:72px;
-    background:#0b0e11;
-    border-bottom:1px solid var(--border);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 22px;
-    position:sticky;
-    top:0;
-    z-index:20;
-}
-
-.brand{
-    display:flex;
-    align-items:center;
-    gap:11px;
-}
-
-.brandIcon{
-    font-size:25px;
-}
-
-.brandText strong{
-    display:block;
-    font-size:17px;
-}
-
-.brandText span{
-    display:block;
-    color:var(--muted);
-    font-size:11px;
-    margin-top:2px;
-}
-
-.headerRight{
-    display:flex;
-    align-items:center;
-    gap:15px;
-}
-
-.online{
-    font-size:12px;
-    color:var(--green);
-}
-
-.userEmail{
-    color:#c4c9ce;
-    font-size:12px;
-}
-
-.logout{
-    background:#171c21;
-    border:1px solid var(--border);
-    color:#ddd;
-    padding:8px 13px;
-    border-radius:7px;
-}
-
-.layout{
-    display:flex;
-    min-height:calc(100vh - 72px);
-}
-
-.sidebar{
-    width:235px;
-    background:#0a0d10;
-    border-right:1px solid var(--border);
-    padding:15px 12px;
-    flex-shrink:0;
-}
-
-.navButton{
-    width:100%;
-    text-align:left;
-    border:0;
-    background:transparent;
-    color:#aeb4ba;
-    padding:12px 13px;
-    border-radius:8px;
-    margin-bottom:5px;
-    font-weight:bold;
-}
-
-.navButton:hover{
-    background:#151a1f;
-    color:white;
-}
-
-.navButton.active{
-    background:rgba(242,140,24,.13);
-    color:var(--orange2);
-    border-left:3px solid var(--orange);
-}
-
-.main{
-    flex:1;
-    padding:25px;
-    min-width:0;
-}
-
-.section{
-    display:none;
-}
-
-.section.active{
-    display:block;
-}
-
-.sectionHeader{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
-    margin-bottom:22px;
-}
-
-.sectionHeader h2{
-    margin:0 0 5px;
-    font-size:23px;
-}
-
-.sectionHeader p{
-    margin:0;
-    color:var(--muted);
-    font-size:13px;
-}
-
-/* =========================
-   CARDS
-========================= */
-
-.cards{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:13px;
-    margin-bottom:15px;
-}
-
-.card{
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:11px;
-    padding:18px;
-}
-
-.cardTitle{
-    color:#8e969e;
-    font-size:11px;
-    text-transform:uppercase;
-    font-weight:bold;
-    margin-bottom:10px;
-}
-
-.cardValue{
-    font-size:25px;
-    font-weight:bold;
-}
-
-.cardValue.orange{
-    color:var(--orange2);
-}
-
-.cardValue.red{
-    color:var(--red);
-}
-
-.cardValue.green{
-    color:var(--green);
-}
-
-.cardValue.blue{
-    color:var(--blue);
-}
-
-/* =========================
-   GRID
-========================= */
-
-.grid2{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
-}
-
-.panel{
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:11px;
-    padding:17px;
-}
-
-.panelTitle{
-    font-weight:bold;
-    margin-bottom:15px;
-    color:#d9dde0;
-}
-
-.panelTitle small{
-    color:var(--muted);
-    font-weight:normal;
-}
-
-/* =========================
-   TABLE
-========================= */
-
-.tableWrap{
-    overflow:auto;
+.input{
+  min-width:260px;
 }
 
 table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:650px;
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+}
+
+th,
+td{
+  padding:10px 9px;
+  border-bottom:1px solid var(--l);
+  text-align:left;
+  white-space:nowrap;
 }
 
 th{
-    text-align:left;
-    font-size:11px;
-    text-transform:uppercase;
-    color:#858d95;
-    padding:11px 9px;
-    border-bottom:1px solid var(--border);
+  font-size:11px;
+  color:var(--m);
+  text-transform:uppercase;
 }
 
-td{
-    padding:12px 9px;
-    border-bottom:1px solid #181e23;
-    font-size:13px;
+.tablewrap{
+  overflow:auto;
 }
 
-tr:hover td{
-    background:rgba(255,255,255,.015);
+.tag{
+  display:inline-block;
+  padding:4px 8px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:800;
+}
+
+.ok{
+  background:#163b2b;
+  color:#6ee7a8;
+}
+
+.warn{
+  background:#493717;
+  color:#ffd36b;
+}
+
+.danger{
+  background:#48201f;
+  color:#ff8b87;
+}
+
+.info{
+  background:#18334f;
+  color:#82baff;
+}
+
+.alert{
+  padding:12px;
+  border:1px solid var(--l);
+  border-radius:9px;
+  background:#111820;
+  margin-bottom:9px;
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
 }
 
 .empty{
-    color:var(--muted);
-    padding:25px 10px;
-    text-align:center;
+  text-align:center;
+  padding:28px;
+  color:var(--m);
 }
 
-/* =========================
-   STATUS
-========================= */
-
-.badge{
-    display:inline-block;
-    padding:5px 8px;
-    border-radius:6px;
-    font-size:10px;
-    font-weight:bold;
+.modal{
+  position:fixed;
+  inset:0;
+  background:#0009;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:20;
 }
 
-.badgeNormal{
-    background:rgba(25,195,125,.12);
-    color:#58d9a1;
+.modal.show{
+  display:flex;
 }
 
-.badgeReposicao{
-    background:rgba(255,193,7,.12);
-    color:#ffd34d;
+.modalbox{
+  width:min(800px,94vw);
+  max-height:90vh;
+  overflow:auto;
+  background:var(--p);
+  border:1px solid var(--l);
+  border-radius:14px;
+  padding:20px;
 }
 
-.badgeCritico{
-    background:rgba(255,77,79,.12);
-    color:#ff8587;
+.mh{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
 }
 
-.badgeEntrada{
-    background:rgba(25,195,125,.12);
-    color:#58d9a1;
+.close{
+  font-size:24px;
+  border:0;
 }
 
-.badgeSaida{
-    background:rgba(255,77,79,.12);
-    color:#ff8587;
+.formgrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
 }
 
-.badgeDevolucao{
-    background:rgba(77,163,255,.12);
-    color:#77baff;
+.field label{
+  display:block;
+  color:var(--m);
+  font-size:11px;
+  font-weight:800;
+  margin-bottom:5px;
 }
 
-/* =========================
-   FORM
-========================= */
-
-.formGrid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:13px;
+.field input,
+.field select{
+  width:100%;
 }
 
-.formGrid3{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:13px;
+.actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:15px;
 }
 
-.formActions{
-    display:flex;
-    justify-content:flex-end;
-    gap:9px;
-    margin-top:16px;
+.login{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-.full{
-    grid-column:1/-1;
+.loginbox{
+  width:min(430px,94vw);
+  background:var(--p);
+  border:1px solid var(--l);
+  border-radius:16px;
+  padding:26px;
 }
 
-/* =========================
-   SEARCH
-========================= */
-
-.search{
-    max-width:350px;
+.loginbox .field{
+  margin:12px 0;
 }
 
-/* =========================
-   ALERTAS
-========================= */
-
-.alertList{
-    display:flex;
-    flex-direction:column;
-    gap:9px;
+.loginbox input{
+  width:100%;
 }
 
-.alertItem{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:15px;
-    background:#0a0e11;
-    border:1px solid var(--border);
-    padding:12px;
-    border-radius:8px;
+.msg{
+  margin-top:10px;
+  padding:10px;
+  border-radius:8px;
+  font-size:12px;
 }
 
-.alertItem strong{
-    display:block;
-    margin-bottom:4px;
+.err{
+  background:#4b211f;
 }
 
-.alertItem span{
-    color:var(--muted);
-    font-size:12px;
+.okmsg{
+  background:#163b2b;
 }
 
-/* =========================
-   INDICADORES
-========================= */
-
-.indicatorBox{
-    background:#0a0e11;
-    border:1px solid var(--border);
-    border-radius:9px;
-    padding:15px;
+.small-note{
+  color:var(--m);
+  font-size:11px;
+  margin-top:6px;
 }
 
-.indicatorBox .label{
-    color:var(--muted);
-    font-size:11px;
-    text-transform:uppercase;
+.action-group{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
 }
-
-.indicatorBox .number{
-    margin-top:7px;
-    font-size:22px;
-    font-weight:bold;
-}
-
-.bar{
-    height:10px;
-    background:#1a2025;
-    border-radius:10px;
-    overflow:hidden;
-    margin-top:10px;
-}
-
-.barFill{
-    height:100%;
-    background:var(--orange);
-    border-radius:10px;
-    transition:width .4s ease;
-}
-
-/* =========================
-   BARRAS DE QUANTIDADE
-========================= */
-
-.stockBars{
-    display:flex;
-    flex-direction:column;
-    gap:15px;
-}
-
-.stockBarItem{
-    background:#0a0e11;
-    border:1px solid var(--border);
-    border-radius:9px;
-    padding:13px;
-}
-
-.stockBarHeader{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:15px;
-    margin-bottom:8px;
-}
-
-.stockBarName{
-    min-width:0;
-}
-
-.stockBarName strong{
-    display:block;
-    color:#eeeeee;
-    font-size:13px;
-    margin-bottom:3px;
-}
-
-.stockBarName span{
-    display:block;
-    color:var(--muted);
-    font-size:11px;
-}
-
-.stockBarQuantity{
-    white-space:nowrap;
-    font-size:13px;
-    font-weight:bold;
-}
-
-.stockBarTrack{
-    width:100%;
-    height:15px;
-    background:#1b2127;
-    border-radius:10px;
-    overflow:hidden;
-    border:1px solid #252d34;
-}
-
-.stockBarFill{
-    height:100%;
-    background:var(--orange);
-    border-radius:10px;
-    transition:width .5s ease;
-}
-
-.stockBarFill.normal{
-    background:var(--green);
-}
-
-.stockBarFill.reposicao{
-    background:var(--yellow);
-}
-
-.stockBarFill.critico{
-    background:var(--red);
-}
-
-.stockBarFooter{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:10px;
-    margin-top:7px;
-    color:var(--muted);
-    font-size:10px;
-}
-
-.stockBarStatus{
-    font-weight:bold;
-}
-
-/* =========================
-   LOADING
-========================= */
-
-.loading{
-    padding:35px;
-    text-align:center;
-    color:var(--muted);
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
 
 @media(max-width:1000px){
+  .cards{
+    grid-template-columns:repeat(2,1fr);
+  }
 
-    .cards{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .grid2{
-        grid-template-columns:1fr;
-    }
-
-    .sidebar{
-        width:205px;
-    }
+  .grid2{
+    grid-template-columns:1fr;
+  }
 }
 
 @media(max-width:700px){
+  header{
+    flex-direction:column;
+    align-items:flex-start;
+  }
 
-    header{
-        height:auto;
-        min-height:70px;
-        padding:12px;
-        flex-wrap:wrap;
-        gap:10px;
-    }
+  .cards,
+  .formgrid{
+    grid-template-columns:1fr;
+  }
 
-    .headerRight{
-        width:100%;
-        justify-content:flex-end;
-    }
+  main{
+    padding:14px;
+  }
 
-    .layout{
-        display:block;
-    }
+  .input{
+    min-width:0;
+    width:100%;
+  }
 
-    .sidebar{
-        width:100%;
-        border-right:0;
-        border-bottom:1px solid var(--border);
-        display:flex;
-        overflow-x:auto;
-        gap:5px;
-        padding:8px;
-    }
-
-    .navButton{
-        width:auto;
-        min-width:max-content;
-        margin:0;
-    }
-
-    .main{
-        padding:15px;
-    }
-
-    .cards{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .formGrid,
-    .formGrid3{
-        grid-template-columns:1fr;
-    }
-
-    .sectionHeader{
-        align-items:flex-start;
-        flex-direction:column;
-    }
-
-    .search{
-        max-width:none;
-    }
-
-    .stockBarHeader{
-        align-items:flex-start;
-    }
-}
-
-@media(max-width:480px){
-
-    .cards{
-        grid-template-columns:1fr;
-    }
-
-    .userEmail{
-        display:none;
-    }
+  .head{
+    align-items:flex-start;
+    flex-direction:column;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- =====================================================
-     LOGIN
-===================================================== -->
+<!-- LOGIN -->
+<div id="login" class="login">
+  <div class="loginbox">
 
-<div id="loginScreen">
-
-    <div class="loginBox">
-
-        <div class="loginLogo">
-
-            <div class="icon">🔩</div>
-
-            <h1>Estoque Manutenção</h1>
-
-            <p>
-                Controle de peças, saldo e reposição
-            </p>
-
-        </div>
-
-        <form id="loginForm">
-
-            <div class="formGroup">
-
-                <label>E-mail</label>
-
-                <input
-                    id="email"
-                    type="email"
-                    autocomplete="username"
-                    placeholder="Digite seu e-mail"
-                    required
-                >
-
-            </div>
-
-            <div class="formGroup">
-
-                <label>Senha</label>
-
-                <input
-                    id="password"
-                    type="password"
-                    autocomplete="current-password"
-                    placeholder="Digite sua senha"
-                    required
-                >
-
-            </div>
-
-            <div class="loginActions">
-
-                <button
-                    type="submit"
-                    id="btnLogin"
-                    class="btn btnOrange btnFull"
-                >
-                    Entrar
-                </button>
-
-                <button
-                    type="button"
-                    id="btnSignup"
-                    class="btn btnDark btnFull"
-                >
-                    Criar acesso
-                </button>
-
-            </div>
-
-        </form>
-
-        <div
-            id="loginMessage"
-            class="message"
-        ></div>
-
+    <div class="brand">
+      Estoque <span>Manutenção</span>
     </div>
 
+    <p class="muted">
+      Controle de peças, saldo e reposição
+    </p>
+
+    <div class="field">
+      <label>E-mail</label>
+      <input id="email" type="email" autocomplete="username">
+    </div>
+
+    <div class="field">
+      <label>Senha</label>
+      <input id="pass" type="password" autocomplete="current-password">
+    </div>
+
+    <button
+      class="primary"
+      style="width:100%"
+      onclick="login()">
+      Entrar
+    </button>
+
+    <button
+      style="width:100%;margin-top:8px"
+      onclick="signup()">
+      Criar acesso
+    </button>
+
+    <div id="msg"></div>
+
+  </div>
 </div>
 
 
-<!-- =====================================================
-     APP
-===================================================== -->
-
+<!-- SISTEMA -->
 <div id="app" class="hidden">
 
 <header>
 
+  <div>
     <div class="brand">
-
-        <div class="brandIcon">🔩</div>
-
-        <div class="brandText">
-
-            <strong>
-                Estoque Manutenção
-            </strong>
-
-            <span>
-                Controle atual de peças, saldo e reposição
-            </span>
-
-        </div>
-
+      Estoque <span>Manutenção</span>
     </div>
 
+    <div id="who" class="muted"></div>
+  </div>
 
-    <div class="headerRight">
+  <nav>
 
-        <span class="online">
-            ● ONLINE
-        </span>
+    <button
+      class="active"
+      data-tab="dash">
+      📊 Painel de Estoque
+    </button>
 
-        <span
-            id="userEmail"
-            class="userEmail"
-        ></span>
+    <button data-tab="parts">
+      🔩 Peças
+    </button>
 
-        <button
-            id="btnLogout"
-            class="logout"
-        >
-            Sair
-        </button>
+    <button data-tab="moves">
+      📦 Movimentações
+    </button>
 
-    </div>
+    <button data-tab="replen">
+      🚨 Reposição
+    </button>
+
+    <button data-tab="ind">
+      📈 Indicadores
+    </button>
+
+    <button onclick="logout()">
+      Sair
+    </button>
+
+  </nav>
 
 </header>
 
 
-<div class="layout">
+<main>
 
-    <!-- MENU -->
+<!-- PAINEL -->
+<section id="dash" class="tab active">
 
-    <aside class="sidebar">
+  <div class="head">
 
-        <button
-            class="navButton active"
-            data-section="dashboard"
-        >
-            📊 Painel de Estoque
-        </button>
+    <div>
+      <h1>📊 Painel de Estoque</h1>
+      <p>
+        Visão geral do estoque de manutenção.
+      </p>
+    </div>
 
-        <button
-            class="navButton"
-            data-section="parts"
-        >
-            🔩 Peças
-        </button>
+    <button
+      class="primary"
+      onclick="partForm()">
+      + Nova peça
+    </button>
 
-        <button
-            class="navButton"
-            data-section="movements"
-        >
-            📦 Entradas / Saídas
-        </button>
+  </div>
 
-        <button
-            class="navButton"
-            data-section="replenishment"
-        >
-            🚨 Reposição
-        </button>
 
-        <button
-            class="navButton"
-            data-section="indicators"
-        >
-            📈 Indicadores
-        </button>
+  <div class="cards">
 
-    </aside>
+    <div class="card">
+      <div class="label">
+        Valor do estoque
+      </div>
 
+      <div class="kpi" id="kv">
+        R$ 0,00
+      </div>
+    </div>
 
-    <main class="main">
 
-        <!-- =================================================
-             PAINEL DE ESTOQUE
-        ================================================== -->
+    <div class="card">
+      <div class="label">
+        Itens cadastrados
+      </div>
 
-        <section
-            id="section-dashboard"
-            class="section active"
-        >
+      <div class="kpi" id="ki">
+        0
+      </div>
+    </div>
 
-            <div class="sectionHeader">
 
-                <div>
+    <div class="card">
+      <div class="label">
+        Abaixo do mínimo
+      </div>
 
-                    <h2>
-                        📊 Painel de Estoque
-                    </h2>
+      <div class="kpi" id="kl">
+        0
+      </div>
+    </div>
 
-                    <p>
-                        Saldo atual e necessidade de reposição.
-                    </p>
 
-                </div>
+    <div class="card">
+      <div class="label">
+        Em ruptura
+      </div>
 
-                <button
-                    class="btn btnOrange"
-                    onclick="openNewPart()"
-                >
-                    + Nova peça
-                </button>
+      <div class="kpi" id="kz">
+        0
+      </div>
+    </div>
 
-            </div>
+  </div>
 
 
-            <div class="cards">
+  <div class="grid2">
 
-                <div class="card">
+    <div class="panel">
+      <h2>
+        Estoque que exige atenção
+      </h2>
 
-                    <div class="cardTitle">
-                        Valor atual do estoque
-                    </div>
+      <div id="attention"></div>
+    </div>
 
-                    <div
-                        id="dashStockValue"
-                        class="cardValue orange"
-                    >
-                        R$ 0,00
-                    </div>
 
-                </div>
+    <div class="panel">
+      <h2>
+        Últimas movimentações
+      </h2>
 
+      <div id="recent"></div>
+    </div>
 
-                <div class="card">
+  </div>
 
-                    <div class="cardTitle">
-                        Peças cadastradas
-                    </div>
 
-                    <div
-                        id="dashParts"
-                        class="cardValue"
-                    >
-                        0
-                    </div>
+  <div class="panel tablewrap">
 
-                </div>
+    <h2>
+      Posição atual
+    </h2>
 
+    <div id="dashTable"></div>
 
-                <div class="card">
+  </div>
 
-                    <div class="cardTitle">
-                        Abaixo do mínimo
-                    </div>
+</section>
 
-                    <div
-                        id="dashCritical"
-                        class="cardValue red"
-                    >
-                        0
-                    </div>
 
-                </div>
+<!-- PEÇAS -->
+<section id="parts" class="tab">
 
+  <div class="head">
 
-                <div class="card">
+    <div>
+      <h1>🔩 Peças</h1>
 
-                    <div class="cardTitle">
-                        Reposição necessária
-                    </div>
+      <p>
+        Cadastro mestre do estoque.
+      </p>
+    </div>
 
-                    <div
-                        id="dashReplenish"
-                        class="cardValue orange"
-                    >
-                        0
-                    </div>
 
-                </div>
+    <div class="action-group">
 
-            </div>
+      <button
+        onclick="toggleInactive()"
+        id="inactiveBtn">
+        Ver desativadas
+      </button>
 
-
-            <div class="grid2">
-
-                <div class="panel">
-
-                    <div class="panelTitle">
-                        🚨 Estoque que precisa de atenção
-                    </div>
-
-                    <div
-                        id="dashboardAlerts"
-                        class="alertList"
-                    >
-                        <div class="loading">
-                            Carregando...
-                        </div>
-                    </div>
-
-                </div>
-
-
-                <div class="panel">
-
-                    <div class="panelTitle">
-                        📦 Últimas movimentações
-                    </div>
-
-                    <div
-                        id="dashboardMovements"
-                        class="tableWrap"
-                    >
-                        <div class="loading">
-                            Carregando...
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div
-                class="panel"
-                style="margin-top:15px"
-            >
-
-                <div class="panelTitle">
-                    Posição atual do estoque
-                </div>
-
-                <div
-                    id="dashboardStock"
-                    class="tableWrap"
-                >
-                    <div class="loading">
-                        Carregando...
-                    </div>
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             PEÇAS
-        ================================================== -->
-
-        <section
-            id="section-parts"
-            class="section"
-        >
-
-            <div class="sectionHeader">
-
-                <div>
-
-                    <h2>
-                        🔩 Peças
-                    </h2>
-
-                    <p>
-                        Cadastro e posição atual das peças.
-                    </p>
-
-                </div>
-
-                <button
-                    class="btn btnOrange"
-                    onclick="openNewPart()"
-                >
-                    + Nova peça
-                </button>
-
-            </div>
-
-
-            <div class="panel">
-
-                <div style="margin-bottom:15px">
-
-                    <input
-                        id="partSearch"
-                        class="search"
-                        placeholder="Pesquisar código ou descrição..."
-                    >
-
-                </div>
-
-                <div
-                    id="partsTable"
-                    class="tableWrap"
-                >
-                    <div class="loading">
-                        Carregando...
-                    </div>
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             MOVIMENTAÇÕES
-        ================================================== -->
-
-        <section
-            id="section-movements"
-            class="section"
-        >
-
-            <div class="sectionHeader">
-
-                <div>
-
-                    <h2>
-                        📦 Entradas / Saídas
-                    </h2>
-
-                    <p>
-                        Atualize o saldo real do estoque.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="panel">
-
-                <div class="panelTitle">
-                    Registrar movimentação
-                </div>
-
-
-                <form id="movementForm">
-
-                    <div class="formGrid3">
-
-                        <div class="formGroup">
-
-                            <label>
-                                Tipo
-                            </label>
-
-                            <select
-                                id="movementType"
-                                required
-                            >
-
-                                <option value="entry">
-                                    Entrada
-                                </option>
-
-                                <option value="exit">
-                                    Saída
-                                </option>
-
-                                <option value="return">
-                                    Devolução
-                                </option>
-
-                            </select>
-
-                        </div>
-
-
-                        <div class="formGroup">
-
-                            <label>
-                                Peça
-                            </label>
-
-                            <select
-                                id="movementPart"
-                                required
-                            >
-
-                                <option value="">
-                                    Selecione a peça
-                                </option>
-
-                            </select>
-
-                        </div>
-
-
-                        <div class="formGroup">
-
-                            <label>
-                                Quantidade
-                            </label>
-
-                            <input
-                                id="movementQuantity"
-                                type="number"
-                                min="0.01"
-                                step="0.01"
-                                required
-                            >
-
-                        </div>
-
-
-                        <div class="formGroup">
-
-                            <label>
-                                Data
-                            </label>
-
-                            <input
-                                id="movementDate"
-                                type="date"
-                                required
-                            >
-
-                        </div>
-
-                    </div>
-
-
-                    <div
-                        id="movementInfo"
-                        style="
-                            margin-top:10px;
-                            color:#9299a1;
-                            font-size:12px;
-                        "
-                    ></div>
-
-
-                    <div class="formActions">
-
-                        <button
-                            type="reset"
-                            class="btn btnDark"
-                        >
-                            Limpar
-                        </button>
-
-                        <button
-                            type="submit"
-                            class="btn btnOrange"
-                        >
-                            Registrar movimentação
-                        </button>
-
-                    </div>
-
-                </form>
-
-            </div>
-
-
-            <div
-                class="panel"
-                style="margin-top:15px"
-            >
-
-                <div class="panelTitle">
-                    Histórico de movimentações
-                </div>
-
-                <div
-                    id="movementsTable"
-                    class="tableWrap"
-                >
-                    <div class="loading">
-                        Carregando...
-                    </div>
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             REPOSIÇÃO
-        ================================================== -->
-
-        <section
-            id="section-replenishment"
-            class="section"
-        >
-
-            <div class="sectionHeader">
-
-                <div>
-
-                    <h2>
-                        🚨 Reposição
-                    </h2>
-
-                    <p>
-                        Veja quanto precisa ser reposto para atingir a cota máxima.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="panel">
-
-                <div
-                    id="replenishmentTable"
-                    class="tableWrap"
-                >
-                    <div class="loading">
-                        Carregando...
-                    </div>
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             INDICADORES
-        ================================================== -->
-
-        <section
-            id="section-indicators"
-            class="section"
-        >
-
-            <div class="sectionHeader">
-
-                <div>
-
-                    <h2>
-                        📈 Indicadores
-                    </h2>
-
-                    <p>
-                        Resumo da movimentação e posição do estoque.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="cards">
-
-                <div class="card">
-
-                    <div class="cardTitle">
-                        Valor do estoque
-                    </div>
-
-                    <div
-                        id="indValue"
-                        class="cardValue orange"
-                    >
-                        R$ 0,00
-                    </div>
-
-                </div>
-
-
-                <div class="card">
-
-                    <div class="cardTitle">
-                        Quantidade em estoque
-                    </div>
-
-                    <div
-                        id="indQuantity"
-                        class="cardValue blue"
-                    >
-                        0
-                    </div>
-
-                </div>
-
-
-                <div class="card">
-
-                    <div class="cardTitle">
-                        Entradas
-                    </div>
-
-                    <div
-                        id="indEntries"
-                        class="cardValue green"
-                    >
-                        0
-                    </div>
-
-                </div>
-
-
-                <div class="card">
-
-                    <div class="cardTitle">
-                        Saídas
-                    </div>
-
-                    <div
-                        id="indExits"
-                        class="cardValue red"
-                    >
-                        0
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- NOVA LISTA DE BARRAS -->
-
-            <div
-                class="panel"
-                style="margin-bottom:15px"
-            >
-
-                <div class="panelTitle">
-
-                    📦 Quantidade em estoque por peça
-
-                    <small>
-                        — saldo atual em relação à cota máxima
-                    </small>
-
-                </div>
-
-
-                <div
-                    id="stockQuantityBars"
-                    class="stockBars"
-                >
-
-                    <div class="loading">
-                        Carregando...
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="grid2">
-
-                <div class="panel">
-
-                    <div class="panelTitle">
-                        Situação do estoque
-                    </div>
-
-
-                    <div class="formGrid">
-
-                        <div class="indicatorBox">
-
-                            <div class="label">
-                                Peças normais
-                            </div>
-
-                            <div
-                                id="indNormal"
-                                class="number"
-                            >
-                                0
-                            </div>
-
-                        </div>
-
-
-                        <div class="indicatorBox">
-
-                            <div class="label">
-                                Em reposição
-                            </div>
-
-                            <div
-                                id="indReplenish"
-                                class="number"
-                            >
-                                0
-                            </div>
-
-                        </div>
-
-
-                        <div class="indicatorBox">
-
-                            <div class="label">
-                                Críticas
-                            </div>
-
-                            <div
-                                id="indCritical"
-                                class="number"
-                            >
-                                0
-                            </div>
-
-                        </div>
-
-
-                        <div class="indicatorBox">
-
-                            <div class="label">
-                                Necessidade total
-                            </div>
-
-                            <div
-                                id="indNeed"
-                                class="number"
-                            >
-                                0
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="panel">
-
-                    <div class="panelTitle">
-                        Movimentações recentes
-                    </div>
-
-                    <div
-                        id="indicatorRecent"
-                        class="tableWrap"
-                    >
-                        <div class="loading">
-                            Carregando...
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
-
-</div>
-
-</div>
-
-
-<!-- =====================================================
-     MODAL PEÇA
-===================================================== -->
-
-<div
-    id="partModal"
-    class="hidden"
-    style="
-        position:fixed;
-        inset:0;
-        background:rgba(0,0,0,.72);
-        z-index:100;
-        padding:20px;
-        overflow:auto;
-    "
->
-
-    <div
-        style="
-            max-width:700px;
-            margin:50px auto;
-            background:#0d1115;
-            border:1px solid #20272e;
-            border-radius:12px;
-            padding:22px;
-        "
-    >
-
-        <div class="sectionHeader">
-
-            <div>
-
-                <h2 id="partModalTitle">
-                    Nova peça
-                </h2>
-
-                <p>
-                    Cadastre a peça e sua cota de estoque.
-                </p>
-
-            </div>
-
-            <button
-                class="btn btnDark"
-                onclick="closePartModal()"
-            >
-                Fechar
-            </button>
-
-        </div>
-
-
-        <form id="partForm">
-
-            <div class="formGrid">
-
-                <div class="formGroup">
-
-                    <label>
-                        Código
-                    </label>
-
-                    <input
-                        id="partCode"
-                        required
-                        placeholder="Ex.: ROL-001"
-                    >
-
-                </div>
-
-
-                <div class="formGroup">
-
-                    <label>
-                        Descrição
-                    </label>
-
-                    <input
-                        id="partDescription"
-                        required
-                        placeholder="Ex.: Rolamento"
-                    >
-
-                </div>
-
-
-                <div class="formGroup">
-
-                    <label>
-                        Unidade
-                    </label>
-
-                    <input
-                        id="partUnit"
-                        value="UN"
-                        placeholder="UN"
-                    >
-
-                </div>
-
-
-                <div class="formGroup">
-
-                    <label>
-                        Categoria
-                    </label>
-
-                    <select id="partCategory">
-
-                        <option value="">
-                            Sem categoria
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div class="formGroup">
-
-                    <label>
-                        Localização
-                    </label>
-
-                    <select id="partLocation">
-
-                        <option value="">
-                            Sem localização
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div class="formGroup">
-
-                    <label>
-                        Criticidade
-                    </label>
-
-                    <select id="partCriticality">
-
-                        <option value="Normal">
-                            Normal
-                        </option>
-
-                        <option value="Importante">
-                            Importante
-                        </option>
-
-                        <option value="Crítica">
-                            Crítica
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div class="formGroup">
-
-                    <label>
-                        Estoque mínimo
-                    </label>
-
-                    <input
-                        id="partMin"
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        value="0"
-                    >
-
-                </div>
-
-
-                <div class="formGroup">
-
-                    <label>
-                        Cota máxima
-                    </label>
-
-                    <input
-                        id="partMax"
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        value="0"
-                    >
-
-                </div>
-
-
-                <div class="formGroup">
-
-                    <label>
-                        Ponto de reposição
-                    </label>
-
-                    <input
-                        id="partReorder"
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        value="0"
-                    >
-
-                </div>
-
-
-                <div class="formGroup">
-
-                    <label>
-                        Valor unitário
-                    </label>
-
-                    <input
-                        id="partCost"
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        value="0"
-                    >
-
-                </div>
-
-
-                <div class="formGroup">
-
-                    <label>
-                        Estoque inicial
-                    </label>
-
-                    <input
-                        id="partInitial"
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        value="0"
-                    >
-
-                </div>
-
-            </div>
-
-
-            <div
-                id="partMessage"
-                class="message"
-            ></div>
-
-
-            <div class="formActions">
-
-                <button
-                    type="button"
-                    class="btn btnDark"
-                    onclick="closePartModal()"
-                >
-                    Cancelar
-                </button>
-
-                <button
-                    type="submit"
-                    class="btn btnOrange"
-                >
-                    Salvar peça
-                </button>
-
-            </div>
-
-        </form>
+      <button
+        class="primary"
+        onclick="partForm()">
+        + Nova peça
+      </button>
 
     </div>
+
+  </div>
+
+
+  <div class="panel">
+
+    <div class="toolbar">
+
+      <input
+        id="search"
+        class="input"
+        placeholder="Buscar código ou descrição"
+        oninput="renderParts()">
+
+
+      <select
+        id="filter"
+        onchange="renderParts()">
+
+        <option value="">
+          Todos
+        </option>
+
+        <option value="normal">
+          Normal
+        </option>
+
+        <option value="baixo">
+          Abaixo do mínimo
+        </option>
+
+        <option value="ruptura">
+          Ruptura
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div
+      class="tablewrap"
+      id="partsTable">
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- MOVIMENTAÇÕES -->
+<section id="moves" class="tab">
+
+  <div class="head">
+
+    <div>
+      <h1>📦 Movimentações</h1>
+
+      <p>
+        Entrada, saída, devolução e ajuste.
+        O saldo é atualizado pelo banco.
+      </p>
+    </div>
+
+    <button
+      class="primary"
+      onclick="moveForm()">
+      + Registrar movimentação
+    </button>
+
+  </div>
+
+
+  <div class="panel tablewrap">
+
+    <div id="moveTable"></div>
+
+  </div>
+
+</section>
+
+
+<!-- REPOSIÇÃO -->
+<section id="replen" class="tab">
+
+  <div class="head">
+
+    <div>
+      <h1>🚨 Reposição</h1>
+
+      <p>
+        Peças no ponto de reposição ou abaixo.
+      </p>
+    </div>
+
+  </div>
+
+
+  <div class="panel tablewrap">
+
+    <div id="repTable"></div>
+
+  </div>
+
+</section>
+
+
+<!-- INDICADORES -->
+<section id="ind" class="tab">
+
+  <div class="head">
+
+    <div>
+      <h1>📈 Indicadores</h1>
+
+      <p>
+        Indicadores calculados a partir das movimentações
+        e do saldo atual.
+      </p>
+    </div>
+
+  </div>
+
+
+  <div class="cards">
+
+    <div class="card">
+      <div class="label">
+        Saídas
+      </div>
+
+      <div class="kpi" id="io">
+        0
+      </div>
+    </div>
+
+
+    <div class="card">
+      <div class="label">
+        Quantidade consumida
+      </div>
+
+      <div class="kpi" id="iq">
+        0
+      </div>
+    </div>
+
+
+    <div class="card">
+      <div class="label">
+        Valor consumido
+      </div>
+
+      <div class="kpi" id="iv">
+        R$ 0,00
+      </div>
+    </div>
+
+
+    <div class="card">
+      <div class="label">
+        Valor parado
+      </div>
+
+      <div class="kpi" id="ii">
+        R$ 0,00
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="grid2">
+
+    <div class="panel">
+
+      <h2>
+        Mais consumidas
+      </h2>
+
+      <div id="top"></div>
+
+    </div>
+
+
+    <div class="panel">
+
+      <h2>
+        Criticidade
+      </h2>
+
+      <div id="crit"></div>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+</div>
+
+
+<!-- MODAL -->
+<div id="modal" class="modal">
+
+  <div class="modalbox">
+
+    <div class="mh">
+
+      <h2 id="mt"></h2>
+
+      <button
+        class="close"
+        onclick="closeModal()">
+        ×
+      </button>
+
+    </div>
+
+    <div id="mb"></div>
+
+  </div>
 
 </div>
 
@@ -1911,247 +863,103 @@ tr:hover td{
    SUPABASE
 ========================================================= */
 
-const SUPABASE_URL =
-    "https://uhtmkrlouzbdirkaolet.supabase.co";
+const URL =
+'https://uhtmkrlouzbdirkaolet.supabase.co';
 
-const SUPABASE_KEY =
-    "sb_publishable_MefMlR2RVIdGv-j9pPqGgw_X72XOvdS";
+const KEY =
+'sb_publishable_MefMlR2RVIdGv-j9pPqGgw_X72XOvdS';
 
-
-let db;
-
-try{
-
-    db =
-        window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_KEY
-        );
-
-}catch(error){
-
-    console.error(error);
-
-    alert(
-        "Erro ao iniciar o sistema: " +
-        error.message
-    );
-
-}
+const S =
+supabase.createClient(URL,KEY);
 
 
 /* =========================================================
    VARIÁVEIS
 ========================================================= */
 
-let currentUser = null;
+let P = [];
+let M = [];
+let C = [];
+let L = [];
+let I = [];
 
-let parts = [];
-
-let movements = [];
-
-let categories = [];
-
-let locations = [];
-
-let realtimeChannel = null;
+let showInactive = false;
 
 
 /* =========================================================
-   UTILITÁRIOS
+   FUNÇÕES AUXILIARES
 ========================================================= */
 
-function $(id){
-    return document.getElementById(id);
-}
+const $ =
+id => document.getElementById(id);
 
 
-function money(value){
-
-    const numberValue =
-        Number(value || 0);
-
-    return numberValue.toLocaleString(
-        "pt-BR",
-        {
-            style:"currency",
-            currency:"BRL"
-        }
-    );
-}
+const money =
+v =>
+(+v || 0).toLocaleString(
+'pt-BR',
+{
+  style:'currency',
+  currency:'BRL'
+});
 
 
-function number(value){
-
-    return Number(value || 0).toLocaleString(
-        "pt-BR",
-        {
-            maximumFractionDigits:2
-        }
-    );
-}
-
-
-function dateBR(value){
-
-    if(!value){
-        return "-";
-    }
-
-    const d =
-        new Date(
-            value + "T00:00:00"
-        );
-
-    if(
-        Number.isNaN(
-            d.getTime()
-        )
-    ){
-        return value;
-    }
-
-    return d.toLocaleDateString(
-        "pt-BR"
-    );
-}
+const esc =
+s =>
+String(s ?? '')
+.replace(
+/[&<>"']/g,
+x =>
+({
+  '&':'&amp;',
+  '<':'&lt;',
+  '>':'&gt;',
+  '"':'&quot;',
+  "'":'&#039;'
+}[x])
+);
 
 
-function dateTimeBR(value){
-
-    if(!value){
-        return "-";
-    }
-
-    const d =
-        new Date(value);
-
-    if(
-        Number.isNaN(
-            d.getTime()
-        )
-    ){
-        return value;
-    }
-
-    return d.toLocaleString(
-        "pt-BR"
-    );
-}
+const part =
+id =>
+P.find(p => p.id === id);
 
 
-function escapeHTML(value){
-
-    return String(value ?? "")
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-}
+const date =
+x =>
+x
+?
+new Date(x).toLocaleDateString('pt-BR')
+:
+'—';
 
 
-function showMessage(
-    element,
-    message,
-    type
-){
+/* =========================================================
+   STATUS DA PEÇA
+========================================================= */
 
-    if(!element){
-        return;
-    }
+function status(p){
 
-    element.className =
-        "message " +
-        (
-            type === "success"
-                ? "success"
-                : "error"
-        );
+  if(+p.current_stock <= 0)
+    return ['ruptura','Ruptura'];
 
-    element.textContent =
-        message;
-}
+  if(+p.current_stock < +p.min_stock)
+    return ['baixo','Abaixo do mínimo'];
 
-
-function clearMessage(element){
-
-    if(!element){
-        return;
-    }
-
-    element.className =
-        "message";
-
-    element.textContent =
-        "";
+  return ['normal','Normal'];
 }
 
 
 /* =========================================================
-   STATUS
+   MENSAGEM LOGIN
 ========================================================= */
 
-function getStatus(part){
+function msg(t,e=false){
 
-    const stock =
-        Number(
-            part.current_stock || 0
-        );
+  $('msg').className =
+    'msg ' + (e ? 'err' : 'okmsg');
 
-    const min =
-        Number(
-            part.min_stock || 0
-        );
-
-
-    if(stock <= min){
-
-        if(stock <= 0){
-
-            return {
-                text:"CRÍTICO",
-                class:"badgeCritico",
-                barClass:"critico"
-            };
-
-        }
-
-        return {
-            text:"REPOSIÇÃO",
-            class:"badgeReposicao",
-            barClass:"reposicao"
-        };
-
-    }
-
-
-    return {
-        text:"NORMAL",
-        class:"badgeNormal",
-        barClass:"normal"
-    };
-
-}
-
-
-function getReplenishment(part){
-
-    const stock =
-        Number(
-            part.current_stock || 0
-        );
-
-    const max =
-        Number(
-            part.max_stock || 0
-        );
-
-    return Math.max(
-        0,
-        max - stock
-    );
-
+  $('msg').textContent = t;
 }
 
 
@@ -2161,240 +969,179 @@ function getReplenishment(part){
 
 async function login(){
 
-    const email =
-        $("email")
-            .value
-            .trim();
+  const email =
+    $('email').value.trim();
 
-    const password =
-        $("password")
-            .value;
+  const password =
+    $('pass').value;
 
+  if(!email || !password){
 
-    clearMessage(
-        $("loginMessage")
+    msg(
+      'Informe e-mail e senha.',
+      true
     );
 
+    return;
+  }
 
-    if(
-        !email ||
-        !password
-    ){
+  try{
 
-        showMessage(
-            $("loginMessage"),
-            "Informe o e-mail e a senha.",
-            "error"
-        );
+    const r =
+      await S.auth.signInWithPassword({
+        email,
+        password
+      });
 
-        return;
+    if(r.error){
+
+      msg(
+        'Erro ao entrar: ' +
+        r.error.message,
+        true
+      );
+
+      return;
     }
 
+  }catch(err){
 
-    $("btnLogin").disabled =
-        true;
+    msg(
+      'Erro ao entrar: ' +
+      (err.message || err),
+      true
+    );
 
-    $("btnLogin").textContent =
-        "Entrando...";
-
-
-    try{
-
-        const result =
-            await db.auth.signInWithPassword({
-                email,
-                password
-            });
-
-
-        if(result.error){
-
-            throw result.error;
-        }
-
-
-        currentUser =
-            result.data.user;
-
-
-        await enterApp();
-
-
-    }catch(error){
-
-        console.error(
-            "ERRO LOGIN:",
-            error
-        );
-
-        showMessage(
-            $("loginMessage"),
-            "Erro ao entrar: " +
-            (
-                error.message ||
-                "erro desconhecido"
-            ),
-            "error"
-        );
-
-    }finally{
-
-        $("btnLogin").disabled =
-            false;
-
-        $("btnLogin").textContent =
-            "Entrar";
-
-    }
-
-}
-
-
-async function signup(){
-
-    const email =
-        $("email")
-            .value
-            .trim();
-
-    const password =
-        $("password")
-            .value;
-
-
-    if(
-        !email ||
-        !password
-    ){
-
-        showMessage(
-            $("loginMessage"),
-            "Informe o e-mail e a senha para criar o acesso.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    if(
-        password.length < 6
-    ){
-
-        showMessage(
-            $("loginMessage"),
-            "A senha precisa ter pelo menos 6 caracteres.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    $("btnSignup").disabled =
-        true;
-
-    $("btnSignup").textContent =
-        "Criando...";
-
-
-    try{
-
-        const result =
-            await db.auth.signUp({
-                email,
-                password
-            });
-
-
-        if(result.error){
-
-            throw result.error;
-        }
-
-
-        showMessage(
-            $("loginMessage"),
-            "Acesso criado. Se o Supabase solicitar confirmação por e-mail, confirme o e-mail antes de entrar.",
-            "success"
-        );
-
-
-    }catch(error){
-
-        console.error(
-            "ERRO CADASTRO:",
-            error
-        );
-
-        showMessage(
-            $("loginMessage"),
-            "Erro ao criar acesso: " +
-            error.message,
-            "error"
-        );
-
-    }finally{
-
-        $("btnSignup").disabled =
-            false;
-
-        $("btnSignup").textContent =
-            "Criar acesso";
-
-    }
-
-}
-
-
-async function logout(){
-
-    try{
-
-        await db.auth.signOut();
-
-    }catch(error){
-
-        console.error(error);
-
-    }
-
-    currentUser =
-        null;
-
-    $("app")
-        .classList
-        .add("hidden");
-
-    $("loginScreen")
-        .classList
-        .remove("hidden");
+  }
 
 }
 
 
 /* =========================================================
-   ENTRAR NO APP
+   CRIAR ACESSO
 ========================================================= */
 
-async function enterApp(){
+async function signup(){
 
-    $("loginScreen")
-        .classList
-        .add("hidden");
+  const email =
+    $('email').value.trim();
 
-    $("app")
-        .classList
-        .remove("hidden");
+  const password =
+    $('pass').value;
+
+  if(!email || !password){
+
+    msg(
+      'Informe e-mail e senha.',
+      true
+    );
+
+    return;
+  }
+
+  if(password.length < 6){
+
+    msg(
+      'A senha deve ter pelo menos 6 caracteres.',
+      true
+    );
+
+    return;
+  }
+
+  try{
+
+    const r =
+      await S.auth.signUp({
+        email,
+        password
+      });
+
+    if(r.error){
+
+      msg(
+        'Erro ao criar acesso: ' +
+        r.error.message,
+        true
+      );
+
+      return;
+    }
+
+    if(r.data.session){
+
+      msg(
+        'Acesso criado com sucesso.'
+      );
+
+    }else{
+
+      msg(
+        'Acesso criado. Se a confirmação estiver ativa, confirme o e-mail antes de entrar.'
+      );
+
+    }
+
+  }catch(err){
+
+    msg(
+      'Erro ao criar acesso: ' +
+      (err.message || err),
+      true
+    );
+
+  }
+
+}
 
 
-    $("userEmail").textContent =
-        currentUser?.email || "";
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+async function logout(){
+
+  await S.auth.signOut();
+
+}
 
 
-    await loadAll();
+/* =========================================================
+   AUTENTICAÇÃO
+========================================================= */
 
-    setupRealtime();
+S.auth.onAuthStateChange(
+(e,s) => {
+
+  if(s){
+
+    show(s);
+
+  }else{
+
+    $('app').classList.add('hidden');
+
+    $('login').classList.remove('hidden');
+
+  }
+
+});
+
+
+/* =========================================================
+   MOSTRAR SISTEMA
+========================================================= */
+
+async function show(s){
+
+  $('login').classList.add('hidden');
+
+  $('app').classList.remove('hidden');
+
+  $('who').textContent =
+    s.user.email;
+
+  await load();
 
 }
 
@@ -2403,232 +1150,104 @@ async function enterApp(){
    CARREGAR DADOS
 ========================================================= */
 
-async function loadAll(){
+async function load(){
 
-    try{
+  try{
 
-        const [
-            partsResult,
-            movementsResult,
-            categoriesResult,
-            locationsResult
-        ] =
-        await Promise.all([
+    const [
+      p,
+      m,
+      c,
+      l
+    ] =
+    await Promise.all([
 
-            db
-                .from("parts")
-                .select("*")
-                .order("description"),
+      S
+      .from('parts')
+      .select('*')
+      .eq('active',true)
+      .order('code'),
 
-            db
-                .from("stock_movements")
-                .select("*")
-                .order(
-                    "movement_date",
-                    {
-                        ascending:false
-                    }
-                )
-                .limit(500),
+      S
+      .from('stock_movements')
+      .select('*')
+      .order(
+        'movement_date',
+        {ascending:false}
+      ),
 
-            db
-                .from("categories")
-                .select("*")
-                .order("name"),
+      S
+      .from('categories')
+      .select('*')
+      .eq('active',true)
+      .order('name'),
 
-            db
-                .from("locations")
-                .select("*")
-                .order("name")
+      S
+      .from('locations')
+      .select('*')
+      .eq('active',true)
+      .order('name')
 
-        ]);
-
-
-        if(partsResult.error){
-
-            throw new Error(
-                "Peças: " +
-                partsResult.error.message
-            );
-
-        }
+    ]);
 
 
-        if(movementsResult.error){
+    for(
+      const r of [p,m,c,l]
+    ){
 
-            throw new Error(
-                "Movimentações: " +
-                movementsResult.error.message
-            );
-
-        }
-
-
-        if(categoriesResult.error){
-
-            console.warn(
-                "Categorias:",
-                categoriesResult.error.message
-            );
-
-        }
-
-
-        if(locationsResult.error){
-
-            console.warn(
-                "Localizações:",
-                locationsResult.error.message
-            );
-
-        }
-
-
-        parts =
-            partsResult.data || [];
-
-        movements =
-            movementsResult.data || [];
-
-        categories =
-            categoriesResult.data || [];
-
-        locations =
-            locationsResult.data || [];
-
-
-        populateSelectors();
-
-        renderAll();
-
-
-    }catch(error){
-
-        console.error(
-            "ERRO AO CARREGAR DADOS:",
-            error
-        );
-
+      if(r.error){
 
         alert(
-            "Erro ao carregar os dados API: " +
-            (
-                error.message ||
-                "erro desconhecido"
-            )
+          'Erro ao carregar os dados: ' +
+          r.error.message
         );
 
-    }
-
-}
-
-
-/* =========================================================
-   SELECTS
-========================================================= */
-
-function populateSelectors(){
-
-    const movementPart =
-        $("movementPart");
-
-
-    const currentMovement =
-        movementPart.value;
-
-
-    movementPart.innerHTML =
-        '<option value="">Selecione a peça</option>';
-
-
-    parts.forEach(
-        part => {
-
-            const option =
-                document.createElement(
-                    "option"
-                );
-
-            option.value =
-                part.id;
-
-            option.textContent =
-                `${part.code} - ${part.description} | saldo: ${number(part.current_stock)}`;
-
-            movementPart.appendChild(
-                option
-            );
-
-        }
-    );
-
-
-    if(currentMovement){
-
-        movementPart.value =
-            currentMovement;
+        return;
+      }
 
     }
 
 
-    const category =
-        $("partCategory");
+    P = p.data || [];
+    M = m.data || [];
+    C = c.data || [];
+    L = l.data || [];
 
 
-    category.innerHTML =
-        '<option value="">Sem categoria</option>';
+    /* peças desativadas */
+
+    const ir =
+      await S
+      .from('parts')
+      .select('*')
+      .eq('active',false)
+      .order('code');
 
 
-    categories.forEach(
-        item => {
+    if(ir.error){
 
-            const option =
-                document.createElement(
-                    "option"
-                );
+      alert(
+        'Erro ao carregar peças desativadas: ' +
+        ir.error.message
+      );
 
-            option.value =
-                item.id;
+      return;
+    }
 
-            option.textContent =
-                item.name;
 
-            category.appendChild(
-                option
-            );
+    I = ir.data || [];
 
-        }
+
+    render();
+
+  }catch(err){
+
+    alert(
+      'Erro ao carregar os dados: ' +
+      (err.message || err)
     );
 
-
-    const location =
-        $("partLocation");
-
-
-    location.innerHTML =
-        '<option value="">Sem localização</option>';
-
-
-    locations.forEach(
-        item => {
-
-            const option =
-                document.createElement(
-                    "option"
-                );
-
-            option.value =
-                item.id;
-
-            option.textContent =
-                item.name;
-
-            location.appendChild(
-                option
-            );
-
-        }
-    );
+  }
 
 }
 
@@ -2637,375 +1256,301 @@ function populateSelectors(){
    RENDER GERAL
 ========================================================= */
 
-function renderAll(){
-
-    renderDashboard();
-
-    renderParts();
-
-    renderMovements();
-
-    renderReplenishment();
-
-    renderIndicators();
-
-}
-
-
-/* =========================================================
-   DASHBOARD
-========================================================= */
-
-function renderDashboard(){
-
-    const totalValue =
-        parts.reduce(
-            (sum,part) =>
-                sum +
-                (
-                    Number(
-                        part.current_stock || 0
-                    ) *
-                    Number(
-                        part.unit_cost || 0
-                    )
-                ),
-            0
-        );
-
-
-    const critical =
-        parts.filter(
-            part =>
-                Number(
-                    part.current_stock || 0
-                )
-                <=
-                Number(
-                    part.min_stock || 0
-                )
-        );
-
-
-    const totalReplenishment =
-        parts.reduce(
-            (sum,part) =>
-                sum +
-                getReplenishment(part),
-            0
-        );
-
-
-    $("dashStockValue").textContent =
-        money(totalValue);
-
-    $("dashParts").textContent =
-        parts.length;
-
-    $("dashCritical").textContent =
-        critical.length;
-
-    $("dashReplenish").textContent =
-        number(
-            totalReplenishment
-        );
-
-
-    /* ALERTAS */
-
-    if(!critical.length){
-
-        $("dashboardAlerts").innerHTML =
-            '<div class="empty">Nenhuma peça precisa de atenção.</div>';
-
-    }else{
-
-        $("dashboardAlerts").innerHTML =
-            critical
-                .slice(0,8)
-                .map(
-                    part => {
-
-                        const status =
-                            getStatus(part);
-
-                        return `
-
-                            <div class="alertItem">
-
-                                <div>
-
-                                    <strong>
-                                        ${escapeHTML(part.code)}
-                                        -
-                                        ${escapeHTML(part.description)}
-                                    </strong>
-
-                                    <span>
-                                        Saldo:
-                                        ${number(part.current_stock)}
-                                        |
-                                        Mínimo:
-                                        ${number(part.min_stock)}
-                                        |
-                                        Repor:
-                                        ${number(getReplenishment(part))}
-                                    </span>
-
-                                </div>
-
-                                <span
-                                    class="badge ${status.class}"
-                                >
-                                    ${status.text}
-                                </span>
-
-                            </div>
-
-                        `;
-
-                    }
-                )
-                .join("");
-
-    }
-
-
-    /* ÚLTIMAS MOVIMENTAÇÕES */
-
-    const latest =
-        movements.slice(0,8);
-
-
-    if(!latest.length){
-
-        $("dashboardMovements").innerHTML =
-            '<div class="empty">Nenhuma movimentação registrada.</div>';
-
-    }else{
-
-        $("dashboardMovements").innerHTML = `
-
-            <table>
-
-                <thead>
-
-                    <tr>
-                        <th>Data</th>
-                        <th>Tipo</th>
-                        <th>Peça</th>
-                        <th>Qtd.</th>
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    ${
-                        latest
-                            .map(
-                                move => {
-
-                                    const part =
-                                        parts.find(
-                                            p =>
-                                                String(p.id) ===
-                                                String(move.part_id)
-                                        );
-
-                                    return `
-
-                                        <tr>
-
-                                            <td>
-                                                ${dateTimeBR(
-                                                    move.movement_date
-                                                )}
-                                            </td>
-
-                                            <td>
-                                                ${movementBadge(
-                                                    move.movement_type
-                                                )}
-                                            </td>
-
-                                            <td>
-                                                ${escapeHTML(
-                                                    part
-                                                        ? `${part.code} - ${part.description}`
-                                                        : move.part_id
-                                                )}
-                                            </td>
-
-                                            <td>
-                                                ${number(
-                                                    move.quantity
-                                                )}
-                                            </td>
-
-                                        </tr>
-
-                                    `;
-
-                                }
-                            )
-                            .join("")
-                    }
-
-                </tbody>
-
-            </table>
-
-        `;
-
-    }
-
-
-    renderStockTable(
-        $("dashboardStock"),
-        parts
+function render(){
+
+  const value =
+    P.reduce(
+      (s,p) =>
+        s +
+        (+p.current_stock || 0) *
+        (+p.unit_cost || 0),
+      0
     );
 
+
+  $('kv').textContent =
+    money(value);
+
+
+  $('ki').textContent =
+    P.length;
+
+
+  $('kl').textContent =
+    P.filter(
+      p =>
+        +p.current_stock < +p.min_stock &&
+        +p.current_stock > 0
+    ).length;
+
+
+  $('kz').textContent =
+    P.filter(
+      p =>
+        +p.current_stock <= 0
+    ).length;
+
+
+  /* atenção */
+
+  const a =
+    P
+    .filter(
+      p =>
+        +p.current_stock <=
+        +p.reorder_point
+    )
+    .sort(
+      (x,y) =>
+        +x.current_stock -
+        +y.current_stock
+    );
+
+
+  $('attention').innerHTML =
+    a.length
+    ?
+    a.map(
+      p => {
+
+        const [c,t] =
+          status(p);
+
+        return `
+        <div class="alert">
+
+          <div>
+
+            <b>
+              ${esc(p.code)}
+            </b>
+
+            —
+            ${esc(p.description)}
+
+            <div class="muted">
+              Saldo ${p.current_stock}
+              ${esc(p.unit)}
+              · mínimo ${p.min_stock}
+              · reposição ${p.reorder_point}
+            </div>
+
+          </div>
+
+          <span class="tag ${
+            c === 'ruptura'
+            ? 'danger'
+            : 'warn'
+          }">
+            ${t}
+          </span>
+
+        </div>
+        `;
+
+      }
+    ).join('')
+
+    :
+
+    '<div class="empty">Nenhuma peça exige atenção.</div>';
+
+
+  /* últimas movimentações */
+
+  $('recent').innerHTML =
+    M
+    .slice(0,8)
+    .map(
+      m => {
+
+        const p =
+          part(m.part_id);
+
+        return `
+        <div
+          style="
+            padding:8px 0;
+            border-bottom:1px solid var(--l)
+          "
+        >
+
+          <b>
+            ${esc(p?.code || '—')}
+          </b>
+
+          ·
+          ${esc(m.movement_type)}
+
+          ·
+          ${m.quantity}
+          ${esc(p?.unit || '')}
+
+          <div class="muted">
+
+            ${date(m.movement_date)}
+
+            ·
+
+            ${esc(
+              m.maintenance_order ||
+              m.document_number ||
+              m.reason ||
+              ''
+            )}
+
+          </div>
+
+        </div>
+        `;
+
+      }
+    )
+    .join('')
+
+    ||
+
+    '<div class="empty">Nenhuma movimentação.</div>';
+
+
+  /* posição atual */
+
+  const rows =
+    P
+    .map(
+      p => {
+
+        const [c,t] =
+          status(p);
+
+        return `
+        <tr>
+
+          <td>
+
+            <b>
+              ${esc(p.code)}
+            </b>
+
+            <div class="muted">
+              ${esc(p.description)}
+            </div>
+
+          </td>
+
+          <td>
+            ${p.current_stock}
+            ${esc(p.unit)}
+          </td>
+
+          <td>
+            ${p.min_stock}
+          </td>
+
+          <td>
+            ${money(p.unit_cost)}
+          </td>
+
+          <td>
+            ${money(
+              +p.current_stock *
+              +p.unit_cost
+            )}
+          </td>
+
+          <td>
+
+            <span class="tag ${
+              c === 'normal'
+              ? 'ok'
+              : c === 'baixo'
+              ? 'warn'
+              : 'danger'
+            }">
+
+              ${t}
+
+            </span>
+
+          </td>
+
+        </tr>
+        `;
+
+      }
+    )
+    .join('');
+
+
+  $('dashTable').innerHTML =
+    tbl(
+      [
+        'Peça',
+        'Saldo',
+        'Mín.',
+        'Custo',
+        'Valor',
+        'Status'
+      ],
+      rows
+    );
+
+
+  renderParts();
+  renderMoves();
+  renderRep();
+  renderInd();
+
 }
 
 
 /* =========================================================
-   TABELA DE ESTOQUE
+   TABELA
 ========================================================= */
 
-function renderStockTable(
-    element,
-    list
-){
+function tbl(h,r){
 
-    if(!list.length){
+  return `
+  <table>
 
-        element.innerHTML =
-            '<div class="empty">Nenhuma peça cadastrada.</div>';
+    <thead>
 
-        return;
-    }
+      <tr>
 
+        ${h
+          .map(
+            x =>
+              `<th>${x}</th>`
+          )
+          .join('')
+        }
 
-    element.innerHTML = `
+      </tr>
 
-        <table>
+    </thead>
 
-            <thead>
+    <tbody>
 
-                <tr>
-                    <th>Código</th>
-                    <th>Descrição</th>
-                    <th>Saldo atual</th>
-                    <th>Mínimo</th>
-                    <th>Cota máxima</th>
-                    <th>A repor</th>
-                    <th>Valor unit.</th>
-                    <th>Valor total</th>
-                    <th>Status</th>
-                </tr>
+      ${
+        r ||
+        `
+        <tr>
 
-            </thead>
+          <td
+            colspan="${h.length}"
+            class="empty"
+          >
+            Nenhum registro.
+          </td>
 
-            <tbody>
+        </tr>
+        `
+      }
 
-                ${
-                    list
-                        .map(
-                            part => {
+    </tbody>
 
-                                const status =
-                                    getStatus(part);
-
-                                const total =
-                                    Number(
-                                        part.current_stock || 0
-                                    ) *
-                                    Number(
-                                        part.unit_cost || 0
-                                    );
-
-                                return `
-
-                                    <tr>
-
-                                        <td>
-                                            <strong>
-                                                ${escapeHTML(
-                                                    part.code
-                                                )}
-                                            </strong>
-                                        </td>
-
-                                        <td>
-                                            ${escapeHTML(
-                                                part.description
-                                            )}
-                                        </td>
-
-                                        <td>
-                                            <strong>
-                                                ${number(
-                                                    part.current_stock
-                                                )}
-                                                ${escapeHTML(
-                                                    part.unit || ""
-                                                )}
-                                            </strong>
-                                        </td>
-
-                                        <td>
-                                            ${number(
-                                                part.min_stock
-                                            )}
-                                        </td>
-
-                                        <td>
-                                            ${number(
-                                                part.max_stock
-                                            )}
-                                        </td>
-
-                                        <td>
-                                            ${number(
-                                                getReplenishment(part)
-                                            )}
-                                        </td>
-
-                                        <td>
-                                            ${money(
-                                                part.unit_cost
-                                            )}
-                                        </td>
-
-                                        <td>
-                                            ${money(
-                                                total
-                                            )}
-                                        </td>
-
-                                        <td>
-                                            <span
-                                                class="badge ${status.class}"
-                                            >
-                                                ${status.text}
-                                            </span>
-                                        </td>
-
-                                    </tr>
-
-                                `;
-
-                            }
-                        )
-                        .join("")
-                }
-
-            </tbody>
-
-        </table>
-
-    `;
+  </table>
+  `;
 
 }
 
@@ -3016,1092 +1561,851 @@ function renderStockTable(
 
 function renderParts(){
 
-    const search =
-        $("partSearch")
-            .value
-            .trim()
-            .toLowerCase();
+  const q =
+    ($('search')?.value || '')
+    .toLowerCase();
+
+  const f =
+    $('filter')?.value || '';
 
 
-    const filtered =
-        parts.filter(
-            part => {
+  const src =
+    showInactive
+    ? I
+    : P;
 
-                const text =
-                    `${part.code || ""} ${part.description || ""}`
-                    .toLowerCase();
 
-                return text.includes(
-                    search
-                );
+  const filtered =
+    src.filter(
+      p =>
+        (
+          !q ||
+          [
+            p.code,
+            p.description
+          ]
+          .join(' ')
+          .toLowerCase()
+          .includes(q)
+        )
+        &&
+        (
+          !f ||
+          status(p)[0] === f
+        )
+    );
 
+
+  const r =
+    filtered
+    .map(
+      p => {
+
+        /* DESATIVADAS */
+
+        if(showInactive){
+
+          return `
+          <tr>
+
+            <td>
+              ${esc(p.code)}
+            </td>
+
+            <td>
+              ${esc(p.description)}
+            </td>
+
+            <td>
+              ${esc(p.unit)}
+            </td>
+
+            <td>
+              ${p.current_stock}
+            </td>
+
+            <td>
+              ${p.min_stock}
+            </td>
+
+            <td>
+              ${p.max_stock}
+            </td>
+
+            <td>
+              ${p.reorder_point}
+            </td>
+
+            <td>
+              ${money(p.unit_cost)}
+            </td>
+
+            <td>
+
+              <span class="tag info">
+                Desativada
+              </span>
+
+            </td>
+
+            <td>
+
+              <button
+                onclick="reactivatePart('${p.id}')">
+
+                Reativar
+
+              </button>
+
+            </td>
+
+          </tr>
+          `;
+
+        }
+
+
+        /* ATIVAS */
+
+        const [c,t] =
+          status(p);
+
+
+        const hasHistory =
+          M.some(
+            m =>
+              m.part_id === p.id
+          );
+
+
+        let action;
+
+
+        if(hasHistory){
+
+          action = `
+          <button
+            onclick="deactivatePart('${p.id}')">
+
+            Desativar
+
+          </button>
+          `;
+
+        }else{
+
+          action = `
+          <button
+            onclick="deletePart('${p.id}')">
+
+            Excluir
+
+          </button>
+          `;
+
+        }
+
+
+        return `
+        <tr>
+
+          <td>
+            ${esc(p.code)}
+          </td>
+
+          <td>
+            ${esc(p.description)}
+          </td>
+
+          <td>
+            ${esc(p.unit)}
+          </td>
+
+          <td>
+            ${p.current_stock}
+          </td>
+
+          <td>
+            ${p.min_stock}
+          </td>
+
+          <td>
+            ${p.max_stock}
+          </td>
+
+          <td>
+            ${p.reorder_point}
+          </td>
+
+          <td>
+            ${money(p.unit_cost)}
+          </td>
+
+          <td>
+
+            <span class="tag ${
+              c === 'normal'
+              ? 'ok'
+              : c === 'baixo'
+              ? 'warn'
+              : 'danger'
+            }">
+
+              ${t}
+
+            </span>
+
+          </td>
+
+          <td>
+
+            <div class="action-group">
+
+              <button
+                onclick="partForm('${p.id}')">
+
+                Editar
+
+              </button>
+
+              ${action}
+
+            </div>
+
+          </td>
+
+        </tr>
+        `;
+
+      }
+    )
+    .join('');
+
+
+  $('partsTable').innerHTML =
+    tbl(
+      [
+        'Código',
+        'Descrição',
+        'Un.',
+        'Saldo',
+        'Mín.',
+        'Máx.',
+        'Repos.',
+        'Custo',
+        'Status',
+        'Ações'
+      ],
+      r
+    );
+
+
+  if($('inactiveBtn')){
+
+    $('inactiveBtn').textContent =
+      showInactive
+      ?
+      `Voltar às ativas (${P.length})`
+      :
+      `Ver desativadas (${I.length})`;
+
+  }
+
+}
+
+
+/* =========================================================
+   MOSTRAR / ESCONDER DESATIVADAS
+========================================================= */
+
+function toggleInactive(){
+
+  showInactive =
+    !showInactive;
+
+  renderParts();
+
+}
+
+
+/* =========================================================
+   EXCLUIR DEFINITIVAMENTE
+========================================================= */
+
+async function deletePart(id){
+
+  const p =
+    P.find(
+      x => x.id === id
+    );
+
+
+  if(!p)
+    return;
+
+
+  /* segurança extra */
+
+  if(
+    M.some(
+      m => m.part_id === id
+    )
+  ){
+
+    alert(
+      'Esta peça possui movimentações e não pode ser excluída. Ela deve ser desativada para preservar o histórico.'
+    );
+
+    return;
+
+  }
+
+
+  const ok =
+    confirm(
+      `Excluir definitivamente a peça ${p.code} — ${p.description}?`
+    );
+
+
+  if(!ok)
+    return;
+
+
+  try{
+
+    const r =
+      await S
+      .from('parts')
+      .delete()
+      .eq('id',id);
+
+
+    if(r.error){
+
+      alert(
+        'Erro ao excluir: ' +
+        r.error.message
+      );
+
+      return;
+    }
+
+
+    await load();
+
+
+    alert(
+      'Peça excluída definitivamente.'
+    );
+
+  }catch(err){
+
+    alert(
+      'Erro ao excluir: ' +
+      (err.message || err)
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   DESATIVAR
+========================================================= */
+
+async function deactivatePart(id){
+
+  const p =
+    P.find(
+      x => x.id === id
+    );
+
+
+  if(!p)
+    return;
+
+
+  const hasHistory =
+    M.some(
+      m => m.part_id === id
+    );
+
+
+  /* se não tiver histórico,
+     pode excluir */
+
+  if(!hasHistory){
+
+    await deletePart(id);
+
+    return;
+
+  }
+
+
+  const ok =
+    confirm(
+      `Desativar a peça ${p.code} — ${p.description}?\n\nO histórico de movimentações será preservado.`
+    );
+
+
+  if(!ok)
+    return;
+
+
+  try{
+
+    const r =
+      await S
+      .from('parts')
+      .update({
+        active:false
+      })
+      .eq('id',id);
+
+
+    if(r.error){
+
+      alert(
+        'Erro ao desativar: ' +
+        r.error.message
+      );
+
+      return;
+    }
+
+
+    await load();
+
+
+    alert(
+      'Peça desativada. O histórico foi preservado.'
+    );
+
+  }catch(err){
+
+    alert(
+      'Erro ao desativar: ' +
+      (err.message || err)
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   REATIVAR
+========================================================= */
+
+async function reactivatePart(id){
+
+  const p =
+    I.find(
+      x => x.id === id
+    );
+
+
+  if(!p)
+    return;
+
+
+  const ok =
+    confirm(
+      `Reativar a peça ${p.code} — ${p.description}?`
+    );
+
+
+  if(!ok)
+    return;
+
+
+  try{
+
+    const r =
+      await S
+      .from('parts')
+      .update({
+        active:true
+      })
+      .eq('id',id);
+
+
+    if(r.error){
+
+      alert(
+        'Erro ao reativar: ' +
+        r.error.message
+      );
+
+      return;
+    }
+
+
+    showInactive = false;
+
+    await load();
+
+
+    alert(
+      'Peça reativada com sucesso.'
+    );
+
+  }catch(err){
+
+    alert(
+      'Erro ao reativar: ' +
+      (err.message || err)
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function openModal(t,b){
+
+  $('mt').textContent = t;
+
+  $('mb').innerHTML = b;
+
+  $('modal')
+    .classList
+    .add('show');
+
+}
+
+
+function closeModal(){
+
+  $('modal')
+    .classList
+    .remove('show');
+
+}
+
+
+/* =========================================================
+   FORMULÁRIO DE PEÇA
+========================================================= */
+
+function partForm(id){
+
+  let p;
+
+
+  if(id){
+
+    p =
+      P.find(
+        x => x.id === id
+      );
+
+  }else{
+
+    p = {
+      code:'',
+      description:'',
+      category_id:'',
+      location_id:'',
+      unit:'UN',
+      min_stock:0,
+      max_stock:0,
+      reorder_point:0,
+      unit_cost:0,
+      criticality:'Média',
+      current_stock:0
+    };
+
+  }
+
+
+  if(!p)
+    return;
+
+
+  openModal(
+
+    id
+    ?
+    'Editar peça'
+    :
+    'Nova peça',
+
+    `
+
+    <form
+      onsubmit="savePart(event,'${id || ''}')">
+
+      <div class="formgrid">
+
+        <div class="field">
+
+          <label>
+            Código
+          </label>
+
+          <input
+            name="code"
+            required
+            value="${esc(p.code)}">
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Descrição
+          </label>
+
+          <input
+            name="description"
+            required
+            value="${esc(p.description)}">
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Unidade
+          </label>
+
+          <input
+            name="unit"
+            value="${esc(p.unit)}">
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Categoria
+          </label>
+
+          <select name="category_id">
+
+            <option value="">
+              Selecione
+            </option>
+
+            ${C.map(
+              c =>
+              `
+              <option
+                value="${c.id}"
+                ${
+                  c.id === p.category_id
+                  ? 'selected'
+                  : ''
+                }>
+
+                ${esc(c.name)}
+
+              </option>
+              `
+            ).join('')}
+
+          </select>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Localização
+          </label>
+
+          <select name="location_id">
+
+            <option value="">
+              Selecione
+            </option>
+
+            ${L.map(
+              l =>
+              `
+              <option
+                value="${l.id}"
+                ${
+                  l.id === p.location_id
+                  ? 'selected'
+                  : ''
+                }>
+
+                ${esc(l.name)}
+
+              </option>
+              `
+            ).join('')}
+
+          </select>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Criticidade
+          </label>
+
+          <select name="criticality">
+
+            ${
+              [
+                'Crítica',
+                'Alta',
+                'Média',
+                'Baixa'
+              ]
+              .map(
+                x =>
+                `
+                <option
+                  ${
+                    x === p.criticality
+                    ? 'selected'
+                    : ''
+                  }>
+
+                  ${x}
+
+                </option>
+                `
+              )
+              .join('')
             }
-        );
-
-
-    if(!filtered.length){
-
-        $("partsTable").innerHTML =
-            '<div class="empty">Nenhuma peça encontrada.</div>';
-
-        return;
-    }
-
-
-    $("partsTable").innerHTML = `
-
-        <table>
-
-            <thead>
-
-                <tr>
-                    <th>Código</th>
-                    <th>Descrição</th>
-                    <th>Unid.</th>
-                    <th>Saldo</th>
-                    <th>Mínimo</th>
-                    <th>Cota</th>
-                    <th>A repor</th>
-                    <th>Valor unit.</th>
-                    <th>Status</th>
-                    <th>Ação</th>
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                ${
-                    filtered
-                        .map(
-                            part => {
 
-                                const status =
-                                    getStatus(part);
+          </select>
 
-                                return `
+        </div>
 
-                                    <tr>
 
-                                        <td>
-                                            <strong>
-                                                ${escapeHTML(
-                                                    part.code
-                                                )}
-                                            </strong>
-                                        </td>
+        <div class="field">
 
-                                        <td>
-                                            ${escapeHTML(
-                                                part.description
-                                            )}
-                                        </td>
+          <label>
+            Mínimo
+          </label>
 
-                                        <td>
-                                            ${escapeHTML(
-                                                part.unit || "UN"
-                                            )}
-                                        </td>
+          <input
+            type="number"
+            min="0"
+            step=".001"
+            name="min_stock"
+            value="${p.min_stock}">
 
-                                        <td>
-                                            <strong>
-                                                ${number(
-                                                    part.current_stock
-                                                )}
-                                            </strong>
-                                        </td>
+        </div>
 
-                                        <td>
-                                            ${number(
-                                                part.min_stock
-                                            )}
-                                        </td>
 
-                                        <td>
-                                            ${number(
-                                                part.max_stock
-                                            )}
-                                        </td>
+        <div class="field">
 
-                                        <td>
-                                            ${number(
-                                                getReplenishment(part)
-                                            )}
-                                        </td>
+          <label>
+            Máximo
+          </label>
 
-                                        <td>
-                                            ${money(
-                                                part.unit_cost
-                                            )}
-                                        </td>
+          <input
+            type="number"
+            min="0"
+            step=".001"
+            name="max_stock"
+            value="${p.max_stock}">
 
-                                        <td>
-                                            <span
-                                                class="badge ${status.class}"
-                                            >
-                                                ${status.text}
-                                            </span>
-                                        </td>
+        </div>
 
-                                        <td>
 
-                                            <button
-                                                class="btn btnDark"
-                                                style="
-                                                    padding:6px 9px;
-                                                    font-size:11px
-                                                "
-                                                onclick="editPart('${part.id}')"
-                                            >
-                                                Editar
-                                            </button>
+        <div class="field">
 
-                                        </td>
+          <label>
+            Ponto de reposição
+          </label>
 
-                                    </tr>
+          <input
+            type="number"
+            min="0"
+            step=".001"
+            name="reorder_point"
+            value="${p.reorder_point}">
 
-                                `;
+        </div>
 
-                            }
-                        )
-                        .join("")
-                }
 
-            </tbody>
+        <div class="field">
 
-        </table>
+          <label>
+            Custo unitário
+          </label>
 
-    `;
+          <input
+            type="number"
+            min="0"
+            step=".01"
+            name="unit_cost"
+            value="${p.unit_cost}">
 
-}
+        </div>
 
 
-/* =========================================================
-   MOVIMENTAÇÕES
-========================================================= */
+        ${
+          id
+          ?
+          ''
+          :
+          `
+          <div class="field">
 
-function movementBadge(type){
+            <label>
+              Saldo inicial
+            </label>
 
-    const t =
-        String(type || "")
-            .toLowerCase();
+            <input
+              type="number"
+              min="0"
+              step=".001"
+              name="current_stock"
+              value="0">
 
+          </div>
+          `
+        }
 
-    if(
-        t === "entry" ||
-        t === "entrada"
-    ){
+      </div>
 
-        return `
-            <span class="badge badgeEntrada">
-                ENTRADA
-            </span>
-        `;
 
-    }
+      <div class="actions">
 
+        <button
+          type="button"
+          onclick="closeModal()">
 
-    if(
-        t === "return" ||
-        t === "devolucao" ||
-        t === "devolução"
-    ){
+          Cancelar
 
-        return `
-            <span class="badge badgeDevolucao">
-                DEVOLUÇÃO
-            </span>
-        `;
+        </button>
 
-    }
 
+        <button
+          class="primary">
 
-    return `
-        <span class="badge badgeSaida">
-            SAÍDA
-        </span>
-    `;
+          Salvar peça
 
-}
+        </button>
 
+      </div>
 
-function renderMovements(){
+    </form>
 
-    if(!movements.length){
+    `
 
-        $("movementsTable").innerHTML =
-            '<div class="empty">Nenhuma movimentação registrada.</div>';
-
-        return;
-    }
-
-
-    $("movementsTable").innerHTML = `
-
-        <table>
-
-            <thead>
-
-                <tr>
-                    <th>Data</th>
-                    <th>Tipo</th>
-                    <th>Peça</th>
-                    <th>Quantidade</th>
-                    <th>Valor unit.</th>
-                    <th>Saldo antes</th>
-                    <th>Saldo depois</th>
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                ${
-                    movements
-                        .map(
-                            move => {
-
-                                const part =
-                                    parts.find(
-                                        p =>
-                                            String(p.id) ===
-                                            String(move.part_id)
-                                    );
-
-                                return `
-
-                                    <tr>
-
-                                        <td>
-                                            ${dateTimeBR(
-                                                move.movement_date
-                                            )}
-                                        </td>
-
-                                        <td>
-                                            ${movementBadge(
-                                                move.movement_type
-                                            )}
-                                        </td>
-
-                                        <td>
-                                            ${
-                                                part
-                                                    ? escapeHTML(
-                                                        `${part.code} - ${part.description}`
-                                                    )
-                                                    : escapeHTML(
-                                                        move.part_id
-                                                    )
-                                            }
-                                        </td>
-
-                                        <td>
-                                            ${number(
-                                                move.quantity
-                                            )}
-                                        </td>
-
-                                        <td>
-                                            ${money(
-                                                move.unit_cost
-                                            )}
-                                        </td>
-
-                                        <td>
-                                            ${number(
-                                                move.stock_before
-                                            )}
-                                        </td>
-
-                                        <td>
-                                            <strong>
-                                                ${number(
-                                                    move.stock_after
-                                                )}
-                                            </strong>
-                                        </td>
-
-                                    </tr>
-
-                                `;
-
-                            }
-                        )
-                        .join("")
-                }
-
-            </tbody>
-
-        </table>
-
-    `;
-
-}
-
-
-/* =========================================================
-   REPOSIÇÃO
-========================================================= */
-
-function renderReplenishment(){
-
-    const list =
-        parts
-            .map(
-                part => ({
-                    part,
-                    quantity:
-                        getReplenishment(part)
-                })
-            )
-            .filter(
-                item =>
-                    item.quantity > 0
-            )
-            .sort(
-                (a,b) =>
-                    b.quantity -
-                    a.quantity
-            );
-
-
-    if(!list.length){
-
-        $("replenishmentTable").innerHTML =
-            '<div class="empty">Nenhuma reposição necessária no momento.</div>';
-
-        return;
-    }
-
-
-    const total =
-        list.reduce(
-            (sum,item) =>
-                sum +
-                item.quantity,
-            0
-        );
-
-
-    $("replenishmentTable").innerHTML = `
-
-        <table>
-
-            <thead>
-
-                <tr>
-                    <th>Código</th>
-                    <th>Descrição</th>
-                    <th>Saldo atual</th>
-                    <th>Mínimo</th>
-                    <th>Cota máxima</th>
-                    <th>Quantidade a repor</th>
-                    <th>Valor estimado</th>
-                    <th>Status</th>
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                ${
-                    list
-                        .map(
-                            item => {
-
-                                const part =
-                                    item.part;
-
-                                const status =
-                                    getStatus(part);
-
-                                const value =
-                                    item.quantity *
-                                    Number(
-                                        part.unit_cost || 0
-                                    );
-
-                                return `
-
-                                    <tr>
-
-                                        <td>
-                                            <strong>
-                                                ${escapeHTML(
-                                                    part.code
-                                                )}
-                                            </strong>
-                                        </td>
-
-                                        <td>
-                                            ${escapeHTML(
-                                                part.description
-                                            )}
-                                        </td>
-
-                                        <td>
-                                            ${number(
-                                                part.current_stock
-                                            )}
-                                        </td>
-
-                                        <td>
-                                            ${number(
-                                                part.min_stock
-                                            )}
-                                        </td>
-
-                                        <td>
-                                            ${number(
-                                                part.max_stock
-                                            )}
-                                        </td>
-
-                                        <td>
-                                            <strong>
-                                                ${number(
-                                                    item.quantity
-                                                )}
-                                            </strong>
-                                        </td>
-
-                                        <td>
-                                            ${money(
-                                                value
-                                            )}
-                                        </td>
-
-                                        <td>
-                                            <span
-                                                class="badge ${status.class}"
-                                            >
-                                                ${status.text}
-                                            </span>
-                                        </td>
-
-                                    </tr>
-
-                                `;
-
-                            }
-                        )
-                        .join("")
-                }
-
-            </tbody>
-
-            <tfoot>
-
-                <tr>
-
-                    <td colspan="5">
-                        <strong>
-                            Total
-                        </strong>
-                    </td>
-
-                    <td>
-                        <strong>
-                            ${number(total)}
-                        </strong>
-                    </td>
-
-                    <td colspan="2"></td>
-
-                </tr>
-
-            </tfoot>
-
-        </table>
-
-    `;
-
-}
-
-
-/* =========================================================
-   INDICADORES
-========================================================= */
-
-function renderIndicators(){
-
-    const totalValue =
-        parts.reduce(
-            (sum,part) =>
-                sum +
-                (
-                    Number(
-                        part.current_stock || 0
-                    ) *
-                    Number(
-                        part.unit_cost || 0
-                    )
-                ),
-            0
-        );
-
-
-    const totalQuantity =
-        parts.reduce(
-            (sum,part) =>
-                sum +
-                Number(
-                    part.current_stock || 0
-                ),
-            0
-        );
-
-
-    const entries =
-        movements
-            .filter(
-                m =>
-                    [
-                        "entry",
-                        "entrada",
-                        "return",
-                        "devolucao",
-                        "devolução"
-                    ]
-                    .includes(
-                        String(
-                            m.movement_type || ""
-                        ).toLowerCase()
-                    )
-            )
-            .reduce(
-                (sum,m) =>
-                    sum +
-                    Number(
-                        m.quantity || 0
-                    ),
-                0
-            );
-
-
-    const exits =
-        movements
-            .filter(
-                m =>
-                    [
-                        "exit",
-                        "saida",
-                        "saída"
-                    ]
-                    .includes(
-                        String(
-                            m.movement_type || ""
-                        ).toLowerCase()
-                    )
-            )
-            .reduce(
-                (sum,m) =>
-                    sum +
-                    Number(
-                        m.quantity || 0
-                    ),
-                0
-            );
-
-
-    const normal =
-        parts.filter(
-            part =>
-                getStatus(part).text ===
-                "NORMAL"
-        ).length;
-
-
-    const replenish =
-        parts.filter(
-            part =>
-                getStatus(part).text ===
-                "REPOSIÇÃO"
-        ).length;
-
-
-    const critical =
-        parts.filter(
-            part =>
-                getStatus(part).text ===
-                "CRÍTICO"
-        ).length;
-
-
-    const need =
-        parts.reduce(
-            (sum,part) =>
-                sum +
-                getReplenishment(part),
-            0
-        );
-
-
-    $("indValue").textContent =
-        money(totalValue);
-
-    $("indQuantity").textContent =
-        number(totalQuantity);
-
-    $("indEntries").textContent =
-        number(entries);
-
-    $("indExits").textContent =
-        number(exits);
-
-    $("indNormal").textContent =
-        normal;
-
-    $("indReplenish").textContent =
-        replenish;
-
-    $("indCritical").textContent =
-        critical;
-
-    $("indNeed").textContent =
-        number(need);
-
-
-    /* =====================================================
-       BARRAS — UMA PARA CADA PEÇA
-    ===================================================== */
-
-    renderStockQuantityBars();
-
-
-    /* MOVIMENTAÇÕES RECENTES */
-
-    const recent =
-        movements.slice(0,12);
-
-
-    if(!recent.length){
-
-        $("indicatorRecent").innerHTML =
-            '<div class="empty">Nenhuma movimentação registrada.</div>';
-
-        return;
-    }
-
-
-    $("indicatorRecent").innerHTML = `
-
-        <table>
-
-            <thead>
-
-                <tr>
-                    <th>Data</th>
-                    <th>Tipo</th>
-                    <th>Peça</th>
-                    <th>Qtd.</th>
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                ${
-                    recent
-                        .map(
-                            move => {
-
-                                const part =
-                                    parts.find(
-                                        p =>
-                                            String(p.id) ===
-                                            String(move.part_id)
-                                    );
-
-                                return `
-
-                                    <tr>
-
-                                        <td>
-                                            ${dateTimeBR(
-                                                move.movement_date
-                                            )}
-                                        </td>
-
-                                        <td>
-                                            ${movementBadge(
-                                                move.movement_type
-                                            )}
-                                        </td>
-
-                                        <td>
-                                            ${
-                                                part
-                                                    ? escapeHTML(
-                                                        `${part.code} - ${part.description}`
-                                                    )
-                                                    : "-"
-                                            }
-                                        </td>
-
-                                        <td>
-                                            ${number(
-                                                move.quantity
-                                            )}
-                                        </td>
-
-                                    </tr>
-
-                                `;
-
-                            }
-                        )
-                        .join("")
-                }
-
-            </tbody>
-
-        </table>
-
-    `;
-
-}
-
-
-/* =========================================================
-   BARRAS DE QUANTIDADE POR PEÇA
-========================================================= */
-
-function renderStockQuantityBars(){
-
-    const container =
-        $("stockQuantityBars");
-
-
-    if(!parts.length){
-
-        container.innerHTML =
-            '<div class="empty">Nenhuma peça cadastrada.</div>';
-
-        return;
-    }
-
-
-    const sortedParts =
-        [...parts].sort(
-            (a,b) =>
-                Number(
-                    b.current_stock || 0
-                ) -
-                Number(
-                    a.current_stock || 0
-                )
-        );
-
-
-    container.innerHTML =
-        sortedParts
-            .map(
-                part => {
-
-                    const stock =
-                        Number(
-                            part.current_stock || 0
-                        );
-
-                    const max =
-                        Number(
-                            part.max_stock || 0
-                        );
-
-                    const min =
-                        Number(
-                            part.min_stock || 0
-                        );
-
-
-                    let percentage;
-
-
-                    /*
-                     * Se a cota máxima estiver cadastrada,
-                     * ela representa 100% da barra.
-                     *
-                     * Se estiver zerada, usamos o próprio
-                     * estoque como referência para não
-                     * deixar a barra sem informação.
-                     */
-
-                    if(max > 0){
-
-                        percentage =
-                            (
-                                stock /
-                                max
-                            ) *
-                            100;
-
-                    }else{
-
-                        percentage =
-                            stock > 0
-                                ? 100
-                                : 0;
-
-                    }
-
-
-                    /*
-                     * A barra não passa de 100%.
-                     */
-
-                    percentage =
-                        Math.max(
-                            0,
-                            Math.min(
-                                100,
-                                percentage
-                            )
-                        );
-
-
-                    const status =
-                        getStatus(part);
-
-
-                    return `
-
-                        <div class="stockBarItem">
-
-                            <div class="stockBarHeader">
-
-                                <div class="stockBarName">
-
-                                    <strong>
-                                        ${escapeHTML(
-                                            part.code
-                                        )}
-                                        —
-                                        ${escapeHTML(
-                                            part.description
-                                        )}
-                                    </strong>
-
-                                    <span>
-                                        Unidade:
-                                        ${escapeHTML(
-                                            part.unit || "UN"
-                                        )}
-                                    </span>
-
-                                </div>
-
-
-                                <div class="stockBarQuantity">
-
-                                    ${number(stock)}
-
-                                    /
-                                    
-                                    ${number(max)}
-
-                                    ${escapeHTML(
-                                        part.unit || "UN"
-                                    )}
-
-                                </div>
-
-                            </div>
-
-
-                            <div class="stockBarTrack">
-
-                                <div
-                                    class="stockBarFill ${status.barClass}"
-                                    style="width:${percentage}%"
-                                ></div>
-
-                            </div>
-
-
-                            <div class="stockBarFooter">
-
-                                <span>
-                                    Mínimo:
-                                    ${number(min)}
-                                </span>
-
-
-                                <span
-                                    class="stockBarStatus"
-                                >
-                                    ${status.text}
-                                </span>
-
-
-                                <span>
-                                    Cota:
-                                    ${number(max)}
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                    `;
-
-                }
-            )
-            .join("");
-
-}
-
-
-/* =========================================================
-   NOVA PEÇA
-========================================================= */
-
-function openNewPart(){
-
-    $("partModal")
-        .classList
-        .remove("hidden");
-
-
-    $("partModalTitle")
-        .textContent =
-        "Nova peça";
-
-
-    $("partForm").reset();
-
-
-    $("partUnit").value =
-        "UN";
-
-
-    $("partMin").value =
-        "0";
-
-
-    $("partMax").value =
-        "0";
-
-
-    $("partReorder").value =
-        "0";
-
-
-    $("partCost").value =
-        "0";
-
-
-    $("partInitial").value =
-        "0";
-
-
-    $("partForm").dataset.editId =
-        "";
-
-
-    clearMessage(
-        $("partMessage")
-    );
-
-}
-
-
-function closePartModal(){
-
-    $("partModal")
-        .classList
-        .add("hidden");
-
-}
-
-
-function editPart(id){
-
-    const part =
-        parts.find(
-            p =>
-                String(p.id) ===
-                String(id)
-        );
-
-
-    if(!part){
-        return;
-    }
-
-
-    $("partModal")
-        .classList
-        .remove("hidden");
-
-
-    $("partModalTitle")
-        .textContent =
-        "Editar peça";
-
-
-    $("partForm").dataset.editId =
-        part.id;
-
-
-    $("partCode").value =
-        part.code || "";
-
-
-    $("partDescription").value =
-        part.description || "";
-
-
-    $("partUnit").value =
-        part.unit || "UN";
-
-
-    $("partCategory").value =
-        part.category_id || "";
-
-
-    $("partLocation").value =
-        part.location_id || "";
-
-
-    $("partCriticality").value =
-        part.criticality || "Normal";
-
-
-    $("partMin").value =
-        Number(
-            part.min_stock || 0
-        );
-
-
-    $("partMax").value =
-        Number(
-            part.max_stock || 0
-        );
-
-
-    $("partReorder").value =
-        Number(
-            part.reorder_point || 0
-        );
-
-
-    $("partCost").value =
-        Number(
-            part.unit_cost || 0
-        );
-
-
-    $("partInitial").value =
-        Number(
-            part.current_stock || 0
-        );
-
-
-    clearMessage(
-        $("partMessage")
-    );
+  );
 
 }
 
@@ -4110,170 +2414,310 @@ function editPart(id){
    SALVAR PEÇA
 ========================================================= */
 
-async function savePart(){
+async function savePart(e,id){
 
-    const editId =
-        $("partForm").dataset.editId;
+  e.preventDefault();
 
 
-    const data = {
+  try{
 
-        code:
-            $("partCode")
-                .value
-                .trim(),
+    const f =
+      new FormData(e.target);
 
-        description:
-            $("partDescription")
-                .value
-                .trim(),
 
-        unit:
-            $("partUnit")
-                .value
-                .trim() ||
-            "UN",
+    const d = {
 
-        category_id:
-            $("partCategory")
-                .value ||
-            null,
+      code:
+        f.get('code').trim(),
 
-        location_id:
-            $("partLocation")
-                .value ||
-            null,
+      description:
+        f.get('description').trim(),
 
-        criticality:
-            $("partCriticality")
-                .value,
+      unit:
+        f.get('unit') || 'UN',
 
-        min_stock:
-            Number(
-                $("partMin")
-                    .value ||
-                0
-            ),
+      category_id:
+        f.get('category_id') || null,
 
-        max_stock:
-            Number(
-                $("partMax")
-                    .value ||
-                0
-            ),
+      location_id:
+        f.get('location_id') || null,
 
-        reorder_point:
-            Number(
-                $("partReorder")
-                    .value ||
-                0
-            ),
+      criticality:
+        f.get('criticality'),
 
-        unit_cost:
-            Number(
-                $("partCost")
-                    .value ||
-                0
-            )
+      min_stock:
+        +f.get('min_stock') || 0,
+
+      max_stock:
+        +f.get('max_stock') || 0,
+
+      reorder_point:
+        +f.get('reorder_point') || 0,
+
+      unit_cost:
+        +f.get('unit_cost') || 0
 
     };
 
 
-    if(
-        !data.code ||
-        !data.description
-    ){
+    let r;
 
-        showMessage(
-            $("partMessage"),
-            "Informe o código e a descrição da peça.",
-            "error"
-        );
 
-        return;
+    if(id){
+
+      r =
+        await S
+        .from('parts')
+        .update(d)
+        .eq('id',id);
+
+    }else{
+
+      r =
+        await S
+        .from('parts')
+        .insert({
+          ...d,
+          current_stock:
+            +f.get('current_stock') || 0
+        });
+
+    }
+
+
+    if(r.error){
+
+      alert(
+        'Erro ao salvar: ' +
+        r.error.message
+      );
+
+      return;
     }
 
 
-    if(
-        data.max_stock > 0 &&
-        data.min_stock >
-        data.max_stock
-    ){
+    closeModal();
 
-        showMessage(
-            $("partMessage"),
-            "O estoque mínimo não pode ser maior que a cota máxima.",
-            "error"
-        );
-
-        return;
-    }
+    await load();
 
 
-    try{
-
-        let result;
-
-
-        if(editId){
-
-            result =
-                await db
-                    .from("parts")
-                    .update(data)
-                    .eq(
-                        "id",
-                        editId
-                    );
-
-        }else{
-
-            data.current_stock =
-                Number(
-                    $("partInitial")
-                        .value ||
-                    0
-                );
-
-            data.active =
-                true;
+    alert(
+      'Peça salva com sucesso.'
+    );
 
 
-            result =
-                await db
-                    .from("parts")
-                    .insert(data);
+  }catch(err){
 
-        }
+    alert(
+      'Erro ao salvar: ' +
+      (err.message || err)
+    );
 
+  }
 
-        if(result.error){
-
-            throw result.error;
-        }
+}
 
 
-        closePartModal();
+/* =========================================================
+   FORMULÁRIO DE MOVIMENTAÇÃO
+========================================================= */
 
-        await loadAll();
+function moveForm(){
+
+  if(!P.length){
+
+    alert(
+      'Cadastre uma peça primeiro.'
+    );
+
+    return;
+  }
 
 
-    }catch(error){
+  openModal(
 
-        console.error(
-            "ERRO AO SALVAR PEÇA:",
-            error
-        );
+    'Registrar movimentação',
+
+    `
+
+    <form
+      onsubmit="saveMove(event)">
+
+      <div class="formgrid">
 
 
-        showMessage(
-            $("partMessage"),
-            "Erro ao salvar: " +
-            error.message,
-            "error"
-        );
+        <div class="field">
 
-    }
+          <label>
+            Data
+          </label>
+
+          <input
+            type="datetime-local"
+            name="movement_date"
+            required
+            value="${
+              new Date(
+                Date.now() -
+                new Date().getTimezoneOffset()*60000
+              )
+              .toISOString()
+              .slice(0,16)
+            }">
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Tipo
+          </label>
+
+          <select name="movement_type">
+
+            <option>
+              Entrada
+            </option>
+
+            <option>
+              Saída
+            </option>
+
+            <option>
+              Devolução
+            </option>
+
+            <option>
+              Ajuste
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Peça
+          </label>
+
+          <select name="part_id">
+
+            ${P.map(
+              p =>
+              `
+              <option
+                value="${p.id}">
+
+                ${esc(p.code)}
+                —
+                ${esc(p.description)}
+                (saldo ${p.current_stock})
+
+              </option>
+              `
+            ).join('')}
+
+          </select>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Quantidade
+          </label>
+
+          <input
+            type="number"
+            min=".001"
+            step=".001"
+            name="quantity"
+            required>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Ordem de manutenção
+          </label>
+
+          <input
+            name="maintenance_order"
+            placeholder="Ex.: OS-1050">
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Equipamento
+          </label>
+
+          <input
+            name="equipment">
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Documento / NF
+          </label>
+
+          <input
+            name="document_number">
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Motivo
+          </label>
+
+          <input
+            name="reason">
+
+        </div>
+
+
+      </div>
+
+
+      <div class="actions">
+
+        <button
+          type="button"
+          onclick="closeModal()">
+
+          Cancelar
+
+        </button>
+
+
+        <button
+          class="primary">
+
+          Registrar movimentação
+
+        </button>
+
+      </div>
+
+    </form>
+
+    `
+
+  );
 
 }
 
@@ -4282,287 +2726,511 @@ async function savePart(){
    SALVAR MOVIMENTAÇÃO
 ========================================================= */
 
-async function saveMovement(){
+async function saveMove(e){
+
+  e.preventDefault();
+
+
+  try{
+
+    const f =
+      new FormData(e.target);
+
+
+    const p =
+      part(
+        f.get('part_id')
+      );
+
+
+    if(!p){
+
+      alert(
+        'Peça não encontrada.'
+      );
+
+      return;
+    }
+
+
+    const q =
+      +f.get('quantity');
+
 
     const type =
-        $("movementType")
-            .value;
+      f.get('movement_type');
 
 
-    const partId =
-        $("movementPart")
-            .value;
+    if(q <= 0){
 
+      alert(
+        'Informe uma quantidade válida.'
+      );
 
-    const quantity =
-        Number(
-            $("movementQuantity")
-                .value
-        );
-
-
-    const date =
-        $("movementDate")
-            .value;
-
-
-    if(!partId){
-
-        alert(
-            "Selecione a peça."
-        );
-
-        return;
+      return;
     }
 
 
     if(
-        !quantity ||
-        quantity <= 0
+      type === 'Saída' &&
+      +p.current_stock < q
     ){
 
-        alert(
-            "Informe uma quantidade maior que zero."
-        );
+      alert(
+        `Saldo insuficiente.\n\nSaldo atual: ${p.current_stock} ${p.unit}.`
+      );
 
-        return;
+      return;
     }
 
 
-    const part =
-        parts.find(
-            p =>
-                String(p.id) ===
-                String(partId)
-        );
+    const d = {
+
+      part_id:
+        f.get('part_id'),
+
+      movement_type:
+        type,
+
+      quantity:
+        q,
+
+      unit_cost:
+        +p.unit_cost || 0,
+
+      maintenance_order:
+        f.get('maintenance_order') || null,
+
+      equipment:
+        f.get('equipment') || null,
+
+      document_number:
+        f.get('document_number') || null,
+
+      reason:
+        f.get('reason') || null,
+
+      movement_date:
+        new Date(
+          f.get('movement_date')
+        ).toISOString()
+
+    };
 
 
-    if(!part){
+    const r =
+      await S
+      .from('stock_movements')
+      .insert(d);
 
-        alert(
-            "Peça não encontrada."
-        );
 
-        return;
+    if(r.error){
+
+      alert(
+        'Erro ao registrar movimentação: ' +
+        r.error.message
+      );
+
+      return;
     }
 
 
-    const isExit =
-        [
-            "exit",
-            "saida",
-            "saída"
-        ]
-        .includes(
-            String(type)
-                .toLowerCase()
-        );
+    closeModal();
+
+    await load();
 
 
-    if(
-        isExit &&
-        quantity >
-        Number(
-            part.current_stock || 0
-        )
-    ){
-
-        alert(
-            `Saldo insuficiente.\n\nSaldo atual: ${number(part.current_stock)}\nQuantidade solicitada: ${number(quantity)}`
-        );
-
-        return;
-    }
+    alert(
+      'Movimentação registrada com sucesso.'
+    );
 
 
-    try{
+  }catch(err){
 
-        const movement = {
+    alert(
+      'Erro ao registrar movimentação: ' +
+      (err.message || err)
+    );
 
-            part_id:
-                partId,
-
-            movement_type:
-                type,
-
-            quantity:
-                quantity,
-
-            unit_cost:
-                Number(
-                    part.unit_cost || 0
-                ),
-
-            document_number:
-                null,
-
-            equipment:
-                null,
-
-            maintenance_order:
-                null,
-
-            reason:
-                null,
-
-            created_by:
-                currentUser
-                    ? currentUser.id
-                    : null,
-
-            movement_date:
-                date
-                    ? new Date(
-                        date +
-                        "T12:00:00"
-                    ).toISOString()
-                    : new Date().toISOString()
-
-        };
-
-
-        const result =
-            await db
-                .from("stock_movements")
-                .insert(
-                    movement
-                );
-
-
-        if(result.error){
-
-            throw result.error;
-        }
-
-
-        alert(
-            "Movimentação registrada com sucesso."
-        );
-
-
-        $("movementForm")
-            .reset();
-
-
-        setMovementDate();
-
-
-        await loadAll();
-
-
-    }catch(error){
-
-        console.error(
-            "ERRO MOVIMENTAÇÃO:",
-            error
-        );
-
-
-        alert(
-            "Erro ao registrar movimentação: " +
-            error.message
-        );
-
-    }
+  }
 
 }
 
 
 /* =========================================================
-   INFO MOVIMENTAÇÃO
+   RENDER MOVIMENTAÇÕES
 ========================================================= */
 
-function updateMovementInfo(){
+function renderMoves(){
 
-    const id =
-        $("movementPart")
-            .value;
+  const r =
+    M
+    .map(
+      m => {
 
-
-    const part =
-        parts.find(
-            p =>
-                String(p.id) ===
-                String(id)
-        );
+        const p =
+          part(m.part_id);
 
 
-    if(!part){
+        const cl =
+          m.movement_type === 'Saída'
+          ?
+          'danger'
+          :
+          m.movement_type === 'Entrada' ||
+          m.movement_type === 'Devolução'
+          ?
+          'ok'
+          :
+          'info';
 
-        $("movementInfo")
-            .textContent =
-            "";
 
-        return;
-    }
+        return `
+        <tr>
+
+          <td>
+            ${date(m.movement_date)}
+          </td>
+
+          <td>
+
+            <span class="tag ${cl}">
+              ${esc(m.movement_type)}
+            </span>
+
+          </td>
+
+          <td>
+
+            <b>
+              ${esc(p?.code || '—')}
+            </b>
+
+            <div class="muted">
+              ${esc(p?.description || '')}
+            </div>
+
+          </td>
+
+          <td>
+            ${m.quantity}
+          </td>
+
+          <td>
+            ${m.stock_before ?? '—'}
+            →
+            ${m.stock_after ?? '—'}
+          </td>
+
+          <td>
+            ${esc(m.maintenance_order || '')}
+          </td>
+
+          <td>
+            ${esc(m.equipment || '')}
+          </td>
+
+          <td>
+            ${esc(
+              m.document_number ||
+              m.reason ||
+              ''
+            )}
+          </td>
+
+        </tr>
+        `;
+
+      }
+    )
+    .join('');
 
 
-    $("movementInfo")
-        .textContent =
-        `Saldo atual: ${number(part.current_stock)} ${part.unit || "UN"} | Mínimo: ${number(part.min_stock)} | Cota máxima: ${number(part.max_stock)} | A repor: ${number(getReplenishment(part))}`;
+  $('moveTable').innerHTML =
+    tbl(
+      [
+        'Data',
+        'Tipo',
+        'Peça',
+        'Qtd.',
+        'Saldo',
+        'OS',
+        'Equipamento',
+        'Documento/Motivo'
+      ],
+      r
+    );
 
 }
 
 
 /* =========================================================
-   REALTIME
+   RENDER REPOSIÇÃO
 ========================================================= */
 
-function setupRealtime(){
+function renderRep(){
 
-    try{
+  const r =
+    P
+    .filter(
+      p =>
+        +p.current_stock <=
+        +p.reorder_point
+    )
+    .map(
+      p => {
 
-        if(realtimeChannel){
-
-            db.removeChannel(
-                realtimeChannel
-            );
-
-        }
-
-
-        realtimeChannel =
-            db
-                .channel(
-                    "estoque-tempo-real"
-                )
-                .on(
-                    "postgres_changes",
-                    {
-                        event:"*",
-                        schema:"public",
-                        table:"parts"
-                    },
-                    async () => {
-
-                        await loadAll();
-
-                    }
-                )
-                .on(
-                    "postgres_changes",
-                    {
-                        event:"*",
-                        schema:"public",
-                        table:"stock_movements"
-                    },
-                    async () => {
-
-                        await loadAll();
-
-                    }
-                )
-                .subscribe();
+        const n =
+          Math.max(
+            0,
+            +p.max_stock -
+            +p.current_stock
+          );
 
 
-    }catch(error){
+        return `
+        <tr>
 
-        console.error(
-            "Realtime:",
-            error
-        );
+          <td>
+            ${esc(p.code)}
+          </td>
+
+          <td>
+            ${esc(p.description)}
+          </td>
+
+          <td>
+            ${esc(p.criticality)}
+          </td>
+
+          <td>
+            ${p.current_stock}
+          </td>
+
+          <td>
+            ${p.reorder_point}
+          </td>
+
+          <td>
+            ${p.max_stock}
+          </td>
+
+          <td>
+            <b>
+              ${n}
+            </b>
+          </td>
+
+          <td>
+            ${money(
+              n * +p.unit_cost
+            )}
+          </td>
+
+        </tr>
+        `;
+
+      }
+    )
+    .join('');
+
+
+  $('repTable').innerHTML =
+    tbl(
+      [
+        'Código',
+        'Descrição',
+        'Criticidade',
+        'Saldo',
+        'Ponto repos.',
+        'Máx.',
+        'Sugestão',
+        'Valor'
+      ],
+      r
+    );
+
+}
+
+
+/* =========================================================
+   INDICADORES
+========================================================= */
+
+function renderInd(){
+
+  const o =
+    M.filter(
+      m =>
+        m.movement_type === 'Saída'
+    );
+
+
+  const q =
+    o.reduce(
+      (s,m) =>
+        s + +m.quantity,
+      0
+    );
+
+
+  const v =
+    o.reduce(
+      (s,m) =>
+        s +
+        (+m.quantity || 0) *
+        (+m.unit_cost || 0),
+      0
+    );
+
+
+  const used =
+    new Set(
+      o.map(
+        m => m.part_id
+      )
+    );
+
+
+  const idle =
+    P
+    .filter(
+      p =>
+        !used.has(p.id)
+    )
+    .reduce(
+      (s,p) =>
+        s +
+        (+p.current_stock || 0) *
+        (+p.unit_cost || 0),
+      0
+    );
+
+
+  $('io').textContent =
+    o.length;
+
+  $('iq').textContent =
+    q;
+
+  $('iv').textContent =
+    money(v);
+
+  $('ii').textContent =
+    money(idle);
+
+
+  /* mais consumidas */
+
+  let top = {};
+
+
+  o.forEach(
+    m => {
+
+      top[m.part_id] =
+        (top[m.part_id] || 0) +
+        +m.quantity;
 
     }
+  );
+
+
+  const ar =
+    Object
+    .entries(top)
+    .sort(
+      (a,b) =>
+        b[1] - a[1]
+    )
+    .slice(0,7);
+
+
+  $('top').innerHTML =
+    ar
+    .map(
+      ([id,n]) => {
+
+        const p =
+          part(id);
+
+        return `
+        <div
+          style="
+            margin:11px 0;
+            display:flex;
+            justify-content:space-between
+          "
+        >
+
+          <b>
+            ${esc(p?.code || '—')}
+          </b>
+
+          <span>
+            ${n}
+            ${esc(p?.unit || '')}
+          </span>
+
+        </div>
+        `;
+
+      }
+    )
+    .join('')
+
+    ||
+
+    '<div class="empty">Sem saídas.</div>';
+
+
+  /* criticidade */
+
+  const c = {
+    Crítica:0,
+    Alta:0,
+    Média:0,
+    Baixa:0
+  };
+
+
+  P.forEach(
+    p => {
+
+      c[p.criticality] =
+        (c[p.criticality] || 0) +
+        1;
+
+    }
+  );
+
+
+  $('crit').innerHTML =
+    Object
+    .entries(c)
+    .map(
+      ([k,n]) =>
+      `
+      <div
+        style="
+          margin:11px 0;
+          display:flex;
+          justify-content:space-between
+        "
+      >
+
+        <b>
+          ${k}
+        </b>
+
+        <span>
+          ${n}
+        </span>
+
+      </div>
+      `
+    )
+    .join('');
 
 }
 
@@ -4571,291 +3239,76 @@ function setupRealtime(){
    NAVEGAÇÃO
 ========================================================= */
 
-function setupNavigation(){
+document
+.querySelectorAll(
+  'nav button[data-tab]'
+)
+.forEach(
+  b => {
 
-    document
-        .querySelectorAll(".navButton")
-        .forEach(
-            button => {
+    b.onclick = () => {
 
-                button.addEventListener(
-                    "click",
-                    () => {
-
-                        const section =
-                            button.dataset.section;
-
-
-                        document
-                            .querySelectorAll(
-                                ".navButton"
-                            )
-                            .forEach(
-                                btn =>
-                                    btn.classList
-                                        .remove(
-                                            "active"
-                                        )
-                            );
+      document
+      .querySelectorAll(
+        'nav button[data-tab]'
+      )
+      .forEach(
+        x =>
+          x.classList.remove('active')
+      );
 
 
-                        button.classList
-                            .add("active");
+      b.classList.add('active');
 
 
-                        document
-                            .querySelectorAll(
-                                ".section"
-                            )
-                            .forEach(
-                                sec =>
-                                    sec.classList
-                                        .remove(
-                                            "active"
-                                        )
-                            );
+      document
+      .querySelectorAll('.tab')
+      .forEach(
+        x =>
+          x.classList.remove('active')
+      );
 
 
-                        const target =
-                            $(
-                                "section-" +
-                                section
-                            );
+      $(b.dataset.tab)
+        .classList
+        .add('active');
 
 
-                        if(target){
+      render();
 
-                            target.classList
-                                .add("active");
+    };
 
-                        }
-
-                    }
-                );
-
-            }
-        );
-
-}
+  }
+);
 
 
 /* =========================================================
-   DATA
+   INICIAR
 ========================================================= */
 
-function setMovementDate(){
+(async()=>{
 
-    const today =
-        new Date();
+  try{
 
+    const r =
+      await S.auth.getSession();
 
-    const yyyy =
-        today.getFullYear();
 
+    if(r.data.session){
 
-    const mm =
-        String(
-            today.getMonth() + 1
-        )
-        .padStart(
-            2,
-            "0"
-        );
-
-
-    const dd =
-        String(
-            today.getDate()
-        )
-        .padStart(
-            2,
-            "0"
-        );
-
-
-    $("movementDate")
-        .value =
-        `${yyyy}-${mm}-${dd}`;
-
-}
-
-
-/* =========================================================
-   EVENTOS
-========================================================= */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    async () => {
-
-        setupNavigation();
-
-        setMovementDate();
-
-
-        $("loginForm")
-            .addEventListener(
-                "submit",
-                event => {
-
-                    event.preventDefault();
-
-                    login();
-
-                }
-            );
-
-
-        $("btnSignup")
-            .addEventListener(
-                "click",
-                signup
-            );
-
-
-        $("btnLogout")
-            .addEventListener(
-                "click",
-                logout
-            );
-
-
-        $("partForm")
-            .addEventListener(
-                "submit",
-                event => {
-
-                    event.preventDefault();
-
-                    savePart();
-
-                }
-            );
-
-
-        $("movementForm")
-            .addEventListener(
-                "submit",
-                event => {
-
-                    event.preventDefault();
-
-                    saveMovement();
-
-                }
-            );
-
-
-        $("movementPart")
-            .addEventListener(
-                "change",
-                updateMovementInfo
-            );
-
-
-        $("partSearch")
-            .addEventListener(
-                "input",
-                renderParts
-            );
-
-
-        $("partModal")
-            .addEventListener(
-                "click",
-                event => {
-
-                    if(
-                        event.target ===
-                        $("partModal")
-                    ){
-
-                        closePartModal();
-
-                    }
-
-                }
-            );
-
-
-        try{
-
-            const result =
-                await db.auth.getSession();
-
-
-            if(result.error){
-
-                console.error(
-                    result.error
-                );
-
-                return;
-            }
-
-
-            if(
-                result.data &&
-                result.data.session &&
-                result.data.session.user
-            ){
-
-                currentUser =
-                    result.data.session.user;
-
-                await enterApp();
-
-            }
-
-        }catch(error){
-
-            console.error(
-                "Erro ao recuperar sessão:",
-                error
-            );
-
-        }
-
-
-        db.auth.onAuthStateChange(
-            async (
-                event,
-                session
-            ) => {
-
-                if(
-                    session &&
-                    session.user
-                ){
-
-                    currentUser =
-                        session.user;
-
-
-                    if(
-                        $("app")
-                            .classList
-                            .contains(
-                                "hidden"
-                            )
-                    ){
-
-                        await enterApp();
-
-                    }
-
-                }else{
-
-                    currentUser =
-                        null;
-
-                }
-
-            }
-        );
+      show(
+        r.data.session
+      );
 
     }
-);
+
+  }catch(err){
+
+    console.error(err);
+
+  }
+
+})();
 
 </script>
 
