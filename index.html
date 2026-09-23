@@ -4,146 +4,392 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Estoque Manutenção</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 :root{
- --b:#0b1016;--p:#141b24;--l:#2a3542;--t:#f4f7fa;--m:#9aa8b7;
- --a:#f28c28;--g:#42c883;--w:#f5b942;--d:#ef5350
+  --bg:#0b1016;
+  --panel:#141b24;
+  --line:#2a3542;
+  --text:#f4f7fa;
+  --muted:#9aa8b7;
+  --orange:#f28c28;
+  --green:#42c883;
+  --yellow:#f5b942;
+  --red:#ef5350;
 }
+
 *{box-sizing:border-box}
-body{margin:0;background:var(--b);color:var(--t);font:14px Segoe UI,Arial}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font:14px Segoe UI,Arial,sans-serif;
+}
+
 .hidden{display:none!important}
 
-header{
- padding:14px 24px;background:#10161d;border-bottom:1px solid var(--l);
- display:flex;justify-content:space-between;align-items:center;gap:20px;
- position:sticky;top:0;z-index:5
-}
-.brand{font-size:21px;font-weight:800}
-.brand span{color:var(--a)}
-.muted{color:var(--m);font-size:12px}
-
-nav{display:flex;gap:6px;flex-wrap:wrap}
 button{
- cursor:pointer;font:inherit;border-radius:8px;padding:10px 14px;
- background:transparent;color:var(--m);border:1px solid var(--l);
- font-weight:700
+  cursor:pointer;
+  font:inherit;
+  border-radius:8px;
+  padding:10px 14px;
+  background:transparent;
+  color:var(--muted);
+  border:1px solid var(--line);
+  font-weight:700;
 }
-button:hover,nav button.active{background:#1b2531;color:#fff}
-button.primary{background:var(--a);color:#111;border-color:var(--a)}
 
-main{max-width:1500px;margin:auto;padding:24px}
+button:hover{
+  background:#1b2531;
+  color:#fff;
+}
+
+button.primary{
+  background:var(--orange);
+  color:#111;
+  border-color:var(--orange);
+}
+
+input,select{
+  background:#0f151c;
+  border:1px solid var(--line);
+  color:#fff;
+  border-radius:8px;
+  padding:10px;
+  outline:0;
+}
+
+input:focus,select:focus{
+  border-color:var(--orange);
+}
+
+header{
+  padding:14px 24px;
+  background:#10161d;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  position:sticky;
+  top:0;
+  z-index:5;
+}
+
+.brand{
+  font-size:21px;
+  font-weight:800;
+}
+
+.brand span{
+  color:var(--orange);
+}
+
+.muted{
+  color:var(--muted);
+  font-size:12px;
+}
+
+nav{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+}
+
+nav button.active{
+  background:#1b2531;
+  color:#fff;
+}
+
+main{
+  max-width:1500px;
+  margin:auto;
+  padding:24px;
+}
+
 .tab{display:none}
 .tab.active{display:block}
 
 .head{
- display:flex;justify-content:space-between;align-items:center;
- margin-bottom:18px
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+  gap:15px;
 }
-.head h1{margin:0;font-size:25px}
-.head p{color:var(--m);margin:5px 0}
+
+.head h1{
+  margin:0;
+  font-size:25px;
+}
+
+.head p{
+  color:var(--muted);
+  margin:5px 0;
+}
 
 .cards{
- display:grid;grid-template-columns:repeat(4,1fr);
- gap:14px;margin-bottom:18px
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-bottom:18px;
 }
+
 .card,.panel{
- background:var(--p);border:1px solid var(--l);border-radius:13px
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:13px;
 }
-.card{padding:18px}
+
+.card{
+  padding:18px;
+}
+
 .label{
- font-size:11px;color:var(--m);font-weight:800;text-transform:uppercase
+  font-size:11px;
+  color:var(--muted);
+  font-weight:800;
+  text-transform:uppercase;
 }
-.kpi{font-size:28px;font-weight:850;margin-top:8px}
 
-.panel{padding:18px;margin-bottom:18px}
-.panel h2{font-size:16px;margin:0 0 14px}
-.grid2{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
-
-.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}
-input,select{
- background:#0f151c;border:1px solid var(--l);color:#fff;
- border-radius:8px;padding:10px;outline:0
+.kpi{
+  font-size:28px;
+  font-weight:850;
+  margin-top:8px;
 }
-input:focus,select:focus{border-color:var(--a)}
-.input{min-width:260px}
 
-table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{padding:10px 9px;border-bottom:1px solid var(--l);text-align:left}
-th{font-size:11px;color:var(--m);text-transform:uppercase}
+.grid2{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:18px;
+}
 
-.tablewrap{overflow:auto}
+.panel{
+  padding:18px;
+  margin-bottom:18px;
+}
+
+.panel h2{
+  font-size:16px;
+  margin:0 0 14px;
+}
+
+.toolbar{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+}
+
+.input{
+  min-width:260px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+}
+
+th,td{
+  padding:10px 9px;
+  border-bottom:1px solid var(--line);
+  text-align:left;
+}
+
+th{
+  font-size:11px;
+  color:var(--muted);
+  text-transform:uppercase;
+}
+
+.tablewrap{
+  overflow:auto;
+}
 
 .tag{
- display:inline-block;padding:4px 8px;border-radius:20px;
- font-size:11px;font-weight:800
+  display:inline-block;
+  padding:4px 8px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:800;
 }
-.ok{background:#163b2b;color:#6ee7a8}
-.warn{background:#493717;color:#ffd36b}
-.danger{background:#48201f;color:#ff8b87}
-.info{background:#18334f;color:#82baff}
+
+.ok{
+  background:#163b2b;
+  color:#6ee7a8;
+}
+
+.warn{
+  background:#493717;
+  color:#ffd36b;
+}
+
+.danger{
+  background:#48201f;
+  color:#ff8b87;
+}
+
+.info{
+  background:#18334f;
+  color:#82baff;
+}
 
 .alert{
- padding:12px;border:1px solid var(--l);border-radius:9px;
- background:#111820;margin-bottom:9px;
- display:flex;justify-content:space-between;gap:10px
+  padding:12px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:#111820;
+  margin-bottom:9px;
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
 }
-.empty{text-align:center;padding:28px;color:var(--m)}
+
+.empty{
+  text-align:center;
+  padding:28px;
+  color:var(--muted);
+}
 
 .modal{
- position:fixed;inset:0;background:#0009;display:none;
- align-items:center;justify-content:center;z-index:20
+  position:fixed;
+  inset:0;
+  background:#0009;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:20;
 }
-.modal.show{display:flex}
+
+.modal.show{
+  display:flex;
+}
+
 .modalbox{
- width:min(800px,94vw);max-height:90vh;overflow:auto;
- background:var(--p);border:1px solid var(--l);
- border-radius:14px;padding:20px
+  width:min(800px,94vw);
+  max-height:90vh;
+  overflow:auto;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:20px;
 }
+
 .mh{
- display:flex;justify-content:space-between;align-items:center;
- margin-bottom:15px
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
 }
-.close{font-size:24px;border:0}
+
+.close{
+  font-size:24px;
+  border:0;
+}
 
 .formgrid{
- display:grid;grid-template-columns:repeat(3,1fr);gap:12px
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
 }
+
 .field label{
- display:block;color:var(--m);font-size:11px;
- font-weight:800;margin-bottom:5px
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:800;
+  margin-bottom:5px;
 }
-.field input,.field select{width:100%}
+
+.field input,
+.field select{
+  width:100%;
+}
+
 .actions{
- display:flex;justify-content:flex-end;gap:8px;margin-top:15px
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:15px;
 }
 
 .login{
- min-height:100vh;display:flex;
- align-items:center;justify-content:center
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
+
 .loginbox{
- width:min(430px,94vw);background:var(--p);
- border:1px solid var(--l);border-radius:16px;padding:26px
+  width:min(430px,94vw);
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:26px;
 }
-.loginbox .field{margin:12px 0}
-.loginbox input{width:100%}
+
+.loginbox .field{
+  margin:12px 0;
+}
+
+.loginbox input{
+  width:100%;
+}
+
+.loginbox button{
+  width:100%;
+}
+
 .msg{
- margin-top:10px;padding:10px;border-radius:8px;font-size:12px
+  margin-top:10px;
+  padding:10px;
+  border-radius:8px;
+  font-size:12px;
 }
-.err{background:#4b211f}
-.okmsg{background:#163b2b}
+
+.err{
+  background:#4b211f;
+  color:#ffb0ad;
+}
+
+.okmsg{
+  background:#163b2b;
+  color:#6ee7a8;
+}
 
 @media(max-width:1000px){
- .cards{grid-template-columns:repeat(2,1fr)}
- .grid2{grid-template-columns:1fr}
+  .cards{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .grid2{
+    grid-template-columns:1fr;
+  }
 }
+
 @media(max-width:700px){
- header{flex-direction:column;align-items:flex-start}
- .cards,.formgrid{grid-template-columns:1fr}
- main{padding:14px}
- .input{min-width:0;width:100%}
+  header{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .cards,
+  .formgrid{
+    grid-template-columns:1fr;
+  }
+
+  main{
+    padding:14px;
+  }
+
+  .input{
+    min-width:0;
+    width:100%;
+  }
 }
 </style>
 </head>
@@ -152,31 +398,37 @@ th{font-size:11px;color:var(--m);text-transform:uppercase}
 
 <!-- LOGIN -->
 <div id="login" class="login">
- <div class="loginbox">
-  <div class="brand">Estoque <span>Manutenção</span></div>
-  <p class="muted">Sistema online de estoque.</p>
+  <div class="loginbox">
 
-  <div class="field">
-   <label>E-mail</label>
-   <input id="email" type="email" autocomplete="username">
+    <div class="brand">
+      Estoque <span>Manutenção</span>
+    </div>
+
+    <p class="muted">
+      Sistema online de estoque.
+    </p>
+
+    <div class="field">
+      <label>E-mail</label>
+      <input id="email" type="email" autocomplete="username">
+    </div>
+
+    <div class="field">
+      <label>Senha</label>
+      <input id="pass" type="password" autocomplete="current-password">
+    </div>
+
+    <button id="btnLogin" class="primary">
+      Entrar
+    </button>
+
+    <button id="btnSignup" style="margin-top:8px;display:none">
+      Criar acesso
+    </button>
+
+    <div id="msg"></div>
+
   </div>
-
-  <div class="field">
-   <label>Senha</label>
-   <input id="pass" type="password" autocomplete="current-password">
-  </div>
-
-  <button class="primary" style="width:100%" onclick="login()">Entrar</button>
-
-  <button
-   id="signupBtn"
-   style="width:100%;margin-top:8px;display:none"
-   onclick="signup()">
-   Criar acesso
-  </button>
-
-  <div id="msg"></div>
- </div>
 </div>
 
 
@@ -184,77 +436,112 @@ th{font-size:11px;color:var(--m);text-transform:uppercase}
 <div id="app" class="hidden">
 
 <header>
- <div>
-  <div class="brand">Estoque <span>Manutenção</span></div>
-  <div id="who" class="muted"></div>
- </div>
 
- <nav>
-  <button class="active" data-tab="dash">📊 Painel de Estoque</button>
-  <button data-tab="parts">🔩 Peças</button>
-  <button data-tab="moves">📦 Movimentações</button>
-  <button data-tab="replen">🚨 Reposição</button>
-  <button data-tab="ind">📈 Indicadores</button>
-  <button onclick="logout()">Sair</button>
- </nav>
+  <div>
+    <div class="brand">
+      Estoque <span>Manutenção</span>
+    </div>
+
+    <div id="who" class="muted"></div>
+  </div>
+
+  <nav>
+
+    <button class="active" data-tab="dash">
+      📊 Painel de Estoque
+    </button>
+
+    <button data-tab="parts">
+      🔩 Peças
+    </button>
+
+    <button data-tab="moves">
+      📦 Movimentações
+    </button>
+
+    <button data-tab="replen">
+      🚨 Reposição
+    </button>
+
+    <button data-tab="ind">
+      📈 Indicadores
+    </button>
+
+    <button id="btnLogout">
+      Sair
+    </button>
+
+  </nav>
+
 </header>
+
 
 <main>
 
-<!-- DASHBOARD -->
+<!-- PAINEL -->
 <section id="dash" class="tab active">
 
- <div class="head">
-  <div>
-   <h1>Visão geral</h1>
-   <p>Posição atual do estoque.</p>
+  <div class="head">
+
+    <div>
+      <h1>📊 Painel de Estoque</h1>
+      <p>Visão geral do estoque de manutenção.</p>
+    </div>
+
+    <button class="primary" onclick="partForm()">
+      + Nova peça
+    </button>
+
   </div>
 
-  <button class="primary" onclick="partForm()">+ Nova peça</button>
- </div>
 
- <div class="cards">
+  <div class="cards">
 
-  <div class="card">
-   <div class="label">Valor do estoque</div>
-   <div class="kpi" id="kv">R$ 0,00</div>
+    <div class="card">
+      <div class="label">Valor do estoque</div>
+      <div class="kpi" id="kv">R$ 0,00</div>
+    </div>
+
+    <div class="card">
+      <div class="label">Itens cadastrados</div>
+      <div class="kpi" id="ki">0</div>
+    </div>
+
+    <div class="card">
+      <div class="label">Abaixo do mínimo</div>
+      <div class="kpi" id="kl">0</div>
+    </div>
+
+    <div class="card">
+      <div class="label">Sem estoque</div>
+      <div class="kpi" id="kz">0</div>
+    </div>
+
   </div>
 
-  <div class="card">
-   <div class="label">Itens cadastrados</div>
-   <div class="kpi" id="ki">0</div>
+
+  <div class="grid2">
+
+    <div class="panel">
+      <h2>Estoque que exige atenção</h2>
+      <div id="attention"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Últimas movimentações</h2>
+      <div id="recent"></div>
+    </div>
+
   </div>
 
-  <div class="card">
-   <div class="label">Abaixo do mínimo</div>
-   <div class="kpi" id="kl">0</div>
+
+  <div class="panel tablewrap">
+
+    <h2>Posição atual</h2>
+
+    <div id="dashTable"></div>
+
   </div>
-
-  <div class="card">
-   <div class="label">Sem estoque</div>
-   <div class="kpi" id="kz">0</div>
-  </div>
-
- </div>
-
- <div class="grid2">
-
-  <div class="panel">
-   <h2>Estoque que exige atenção</h2>
-   <div id="attention"></div>
-  </div>
-
-  <div class="panel">
-   <h2>Últimas movimentações</h2>
-   <div id="recent"></div>
-  </div>
-
- </div>
-
- <div class="panel tablewrap">
-  <h2>Posição atual</h2>
-  <div id="dashTable"></div>
- </div>
 
 </section>
 
@@ -262,45 +549,61 @@ th{font-size:11px;color:var(--m);text-transform:uppercase}
 <!-- PEÇAS -->
 <section id="parts" class="tab">
 
- <div class="head">
-  <div>
-   <h1>Peças</h1>
-   <p>Cadastro mestre conectado ao Supabase.</p>
-  </div>
+  <div class="head">
 
-  <div style="display:flex;gap:8px;flex-wrap:wrap">
-   <button onclick="toggleInactive()" id="inactiveBtn">
-    Ver desativadas
-   </button>
+    <div>
+      <h1>🔩 Peças</h1>
+      <p>Cadastro mestre conectado ao Supabase.</p>
+    </div>
 
-   <button class="primary" onclick="partForm()">
-    + Nova peça
-   </button>
-  </div>
- </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
 
- <div class="panel">
+      <button onclick="toggleInactive()" id="inactiveBtn">
+        Ver desativadas
+      </button>
 
-  <div class="toolbar">
+      <button class="primary" onclick="partForm()">
+        + Nova peça
+      </button>
 
-   <input
-    id="search"
-    class="input"
-    placeholder="Buscar código ou descrição"
-    oninput="renderParts()">
-
-   <select id="filter" onchange="renderParts()">
-    <option value="">Todos</option>
-    <option value="normal">Normal</option>
-    <option value="baixo">Abaixo do mínimo</option>
-    <option value="ruptura">Sem estoque</option>
-   </select>
+    </div>
 
   </div>
 
-  <div class="tablewrap" id="partsTable"></div>
 
- </div>
+  <div class="panel">
+
+    <div class="toolbar">
+
+      <input
+        id="search"
+        class="input"
+        placeholder="Buscar código ou descrição"
+      >
+
+      <select id="filter">
+
+        <option value="">Todos</option>
+
+        <option value="normal">
+          Normal
+        </option>
+
+        <option value="baixo">
+          Abaixo do mínimo
+        </option>
+
+        <option value="ruptura">
+          Sem estoque
+        </option>
+
+      </select>
+
+    </div>
+
+    <div class="tablewrap" id="partsTable"></div>
+
+  </div>
 
 </section>
 
@@ -308,18 +611,22 @@ th{font-size:11px;color:var(--m);text-transform:uppercase}
 <!-- MOVIMENTAÇÕES -->
 <section id="moves" class="tab">
 
- <div class="head">
-  <div>
-   <h1>Movimentações</h1>
-   <p>Entrada, saída, devolução e ajuste. O saldo é atualizado pelo banco.</p>
+  <div class="head">
+
+    <div>
+      <h1>📦 Movimentações</h1>
+      <p>
+        Entrada, saída, devolução e ajuste.
+      </p>
+    </div>
+
+    <button class="primary" onclick="moveForm()">
+      + Registrar movimentação
+    </button>
+
   </div>
 
-  <button class="primary" onclick="moveForm()">
-   + Registrar movimentação
-  </button>
- </div>
-
- <div class="panel tablewrap" id="moveTable"></div>
+  <div class="panel tablewrap" id="moveTable"></div>
 
 </section>
 
@@ -327,14 +634,18 @@ th{font-size:11px;color:var(--m);text-transform:uppercase}
 <!-- REPOSIÇÃO -->
 <section id="replen" class="tab">
 
- <div class="head">
-  <div>
-   <h1>Reposição</h1>
-   <p>Peças no ponto de reposição ou abaixo.</p>
-  </div>
- </div>
+  <div class="head">
 
- <div class="panel tablewrap" id="repTable"></div>
+    <div>
+      <h1>🚨 Reposição</h1>
+      <p>
+        Peças no ponto de reposição ou abaixo.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="panel tablewrap" id="repTable"></div>
 
 </section>
 
@@ -342,50 +653,56 @@ th{font-size:11px;color:var(--m);text-transform:uppercase}
 <!-- INDICADORES -->
 <section id="ind" class="tab">
 
- <div class="head">
-  <div>
-   <h1>Indicadores</h1>
-   <p>Calculados a partir das movimentações e do saldo atual.</p>
-  </div>
- </div>
+  <div class="head">
 
- <div class="cards">
+    <div>
+      <h1>📈 Indicadores</h1>
+      <p>
+        Calculados a partir das movimentações e do saldo atual.
+      </p>
+    </div>
 
-  <div class="card">
-   <div class="label">Saídas</div>
-   <div class="kpi" id="io">0</div>
   </div>
 
-  <div class="card">
-   <div class="label">Quantidade consumida</div>
-   <div class="kpi" id="iq">0</div>
+
+  <div class="cards">
+
+    <div class="card">
+      <div class="label">Saídas</div>
+      <div class="kpi" id="io">0</div>
+    </div>
+
+    <div class="card">
+      <div class="label">Quantidade consumida</div>
+      <div class="kpi" id="iq">0</div>
+    </div>
+
+    <div class="card">
+      <div class="label">Valor consumido</div>
+      <div class="kpi" id="iv">R$ 0,00</div>
+    </div>
+
+    <div class="card">
+      <div class="label">Valor parado</div>
+      <div class="kpi" id="ii">R$ 0,00</div>
+    </div>
+
   </div>
 
-  <div class="card">
-   <div class="label">Valor consumido</div>
-   <div class="kpi" id="iv">R$ 0,00</div>
+
+  <div class="grid2">
+
+    <div class="panel">
+      <h2>Mais consumidas</h2>
+      <div id="top"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Criticidade</h2>
+      <div id="crit"></div>
+    </div>
+
   </div>
-
-  <div class="card">
-   <div class="label">Valor parado</div>
-   <div class="kpi" id="ii">R$ 0,00</div>
-  </div>
-
- </div>
-
- <div class="grid2">
-
-  <div class="panel">
-   <h2>Mais consumidas</h2>
-   <div id="top"></div>
-  </div>
-
-  <div class="panel">
-   <h2>Criticidade</h2>
-   <div id="crit"></div>
-  </div>
-
- </div>
 
 </section>
 
@@ -396,1424 +713,2527 @@ th{font-size:11px;color:var(--m);text-transform:uppercase}
 <!-- MODAL -->
 <div id="modal" class="modal">
 
- <div class="modalbox">
+  <div class="modalbox">
 
-  <div class="mh">
-   <h2 id="mt"></h2>
-   <button class="close" onclick="closeModal()">×</button>
+    <div class="mh">
+
+      <h2 id="mt"></h2>
+
+      <button class="close" onclick="closeModal()">
+        ×
+      </button>
+
+    </div>
+
+    <div id="mb"></div>
+
   </div>
-
-  <div id="mb"></div>
-
- </div>
 
 </div>
 
 
 <script>
 
-const URL='https://uhtmkrlouzbdirkaolet.supabase.co';
+/* =========================================================
+   SUPABASE
+========================================================= */
 
-const KEY='sb_publishable_MefMlR2RVIdGv-j9pPqGgw_X72XOvdS';
+const SUPABASE_URL =
+  'https://uhtmkrlouzbdirkaolet.supabase.co';
 
-const S=supabase.createClient(URL,KEY);
+const SUPABASE_KEY =
+  'sb_publishable_MefMlR2RVIdGv-j9pPqGgw_X72XOvdS';
 
-let P=[],M=[],C=[],L=[],I=[];
-let showInactive=false;
-
-const $=id=>document.getElementById(id);
-
-const money=v=>
- (+v||0).toLocaleString('pt-BR',{
-  style:'currency',
-  currency:'BRL'
- });
-
-const esc=s=>
- String(s??'').replace(/[&<>"']/g,x=>({
-  '&':'&amp;',
-  '<':'&lt;',
-  '>':'&gt;',
-  '"':'&quot;',
-  "'":'&#039;'
- }[x]));
-
-const part=id=>P.find(p=>p.id===id);
-
-const date=x=>
- x?new Date(x).toLocaleDateString('pt-BR'):'—';
+const S =
+  supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
 
-/* STATUS
-   Mantemos "ruptura" internamente para não alterar a lógica.
-   O usuário verá "Sem estoque".
-*/
+/* =========================================================
+   VARIÁVEIS
+========================================================= */
+
+let P = [];
+let M = [];
+let C = [];
+let L = [];
+let I = [];
+let showInactive = false;
+
+
+/* =========================================================
+   FUNÇÕES BÁSICAS
+========================================================= */
+
+function $(id){
+  return document.getElementById(id);
+}
+
+
+function money(v){
+  return (+v || 0).toLocaleString(
+    'pt-BR',
+    {
+      style:'currency',
+      currency:'BRL'
+    }
+  );
+}
+
+
+function esc(s){
+  return String(s ?? '').replace(
+    /[&<>"']/g,
+    function(x){
+      return {
+        '&':'&amp;',
+        '<':'&lt;',
+        '>':'&gt;',
+        '"':'&quot;',
+        "'":'&#039;'
+      }[x];
+    }
+  );
+}
+
+
+function part(id){
+  return P.find(
+    p => String(p.id) === String(id)
+  );
+}
+
+
+function date(x){
+  if(!x) return '—';
+
+  return new Date(x).toLocaleDateString(
+    'pt-BR'
+  );
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
 function status(p){
 
- if(+p.current_stock<=0)
-  return ['ruptura','Sem estoque'];
+  if(+p.current_stock <= 0){
 
- if(+p.current_stock<+p.min_stock)
-  return ['baixo','Abaixo do mínimo'];
-
- return ['normal','Normal'];
-}
-
-
-/* MENSAGEM */
-function msg(t,e=false){
-
- $('msg').className='msg '+(e?'err':'okmsg');
- $('msg').textContent=t;
-
-}
-
-
-/* MOSTRAR CRIAR ACESSO
-   Somente quando o e-mail digitado for o cadastrado.
-*/
-function checkSignup(){
-
- const email=$('email').value.trim().toLowerCase();
-
- $('signupBtn').style.display=
-  email==='kelvin.batista@budny.com.br'
-   ? 'block'
-   : 'none';
-
-}
-
-$('email').addEventListener('input',checkSignup);
-
-
-/* LOGIN */
-async function login(){
-
- const email=$('email').value.trim();
- const password=$('pass').value;
-
- if(!email||!password){
-  msg('Informe e-mail e senha.',true);
-  return;
- }
-
- msg('Entrando...');
-
- const r=await S.auth.signInWithPassword({
-  email,
-  password
- });
-
- if(r.error){
-  msg(r.error.message,true);
-  return;
- }
-
-}
-
-
-/* CRIAR ACESSO */
-async function signup(){
-
- const email=$('email').value.trim();
- const password=$('pass').value;
-
- if(email.toLowerCase()!=='kelvin.batista@budny.com.br'){
-  msg('Use o e-mail autorizado para criar acesso.',true);
-  return;
- }
-
- if(!email||!password){
-  msg('Informe e-mail e senha.',true);
-  return;
- }
-
- const r=await S.auth.signUp({
-  email,
-  password
- });
-
- if(r.error){
-  msg(r.error.message,true);
-  return;
- }
-
- if(r.data.session){
-  msg('Acesso criado com sucesso.');
- }else{
-  msg('Acesso criado. Se a confirmação estiver ativa, confirme o e-mail.');
- }
-
-}
-
-
-/* ENTER NO LOGIN */
-$('email').addEventListener('keydown',e=>{
- if(e.key==='Enter') login();
-});
-
-$('pass').addEventListener('keydown',e=>{
- if(e.key==='Enter') login();
-});
-
-
-/* LOGOUT */
-async function logout(){
-
- await S.auth.signOut();
-
-}
-
-
-/* AUTENTICAÇÃO */
-S.auth.onAuthStateChange((e,s)=>{
-
- if(s){
-  show(s);
- }else{
-
-  $('app').classList.add('hidden');
-  $('login').classList.remove('hidden');
-
- }
-
-});
-
-
-/* MOSTRAR SISTEMA */
-async function show(s){
-
- $('login').classList.add('hidden');
- $('app').classList.remove('hidden');
-
- $('who').textContent=s.user.email;
-
- await load();
-
-}
-
-
-/* CARREGAR DADOS */
-async function load(){
-
- const [
-  p,
-  m,
-  c,
-  l,
-  i
- ]=await Promise.all([
-
-  S.from('parts')
-   .select('*')
-   .eq('active',true)
-   .order('code'),
-
-  S.from('stock_movements')
-   .select('*')
-   .order('movement_date',{ascending:false}),
-
-  S.from('categories')
-   .select('*')
-   .eq('active',true)
-   .order('name'),
-
-  S.from('locations')
-   .select('*')
-   .eq('active',true)
-   .order('name'),
-
-  S.from('parts')
-   .select('*')
-   .eq('active',false)
-   .order('code')
-
- ]);
-
- for(let r of [p,m,c,l,i]){
-
-  if(r.error){
-
-   alert('Erro ao carregar os dados: '+r.error.message);
-   return;
+    return [
+      'ruptura',
+      'Sem estoque'
+    ];
 
   }
 
- }
+  if(
+    +p.current_stock <
+    +p.min_stock
+  ){
 
- P=p.data||[];
- M=m.data||[];
- C=c.data||[];
- L=l.data||[];
- I=i.data||[];
+    return [
+      'baixo',
+      'Abaixo do mínimo'
+    ];
 
- render();
+  }
 
+  return [
+    'normal',
+    'Normal'
+  ];
 }
 
 
-/* RENDER PRINCIPAL */
-function render(){
+/* =========================================================
+   MENSAGEM
+========================================================= */
 
- const val=P.reduce(
-  (s,p)=>s+(+p.current_stock*+p.unit_cost),
-  0
- );
+function msg(text,error){
 
- $('kv').textContent=money(val);
+  const el = $('msg');
 
- $('ki').textContent=P.length;
+  if(!el) return;
 
- $('kl').textContent=
-  P.filter(p=>
-   +p.current_stock<+p.min_stock &&
-   +p.current_stock>0
-  ).length;
+  el.className =
+    'msg ' +
+    (error ? 'err' : 'okmsg');
 
- $('kz').textContent=
-  P.filter(p=>+p.current_stock<=0).length;
-
-
- /* ATENÇÃO */
- let a=P
-  .filter(p=>+p.current_stock<=+p.reorder_point)
-  .sort((x,y)=>+x.current_stock-+y.current_stock);
-
- $('attention').innerHTML=a.length
-
- ?a.map(p=>{
-
-   let[c,t]=status(p);
-
-   return `
-    <div class="alert">
-
-     <div>
-      <b>${esc(p.code)}</b> —
-      ${esc(p.description)}
-
-      <div class="muted">
-       Saldo ${p.current_stock}
-       ${esc(p.unit)}
-       · mínimo ${p.min_stock}
-       · reposição ${p.reorder_point}
-      </div>
-     </div>
-
-     <span class="tag ${c==='ruptura'?'danger':'warn'}">
-      ${t}
-     </span>
-
-    </div>
-   `;
-
-  }).join('')
-
- :' <div class="empty">Nenhuma peça exige atenção.</div>';
-
-
- /* RECENTES */
- $('recent').innerHTML=
-
-  M.slice(0,8).map(m=>{
-
-   let p=part(m.part_id);
-
-   return `
-    <div style="padding:8px 0;border-bottom:1px solid var(--l)">
-
-     <b>${esc(p?.code||'—')}</b>
-     · ${esc(m.movement_type)}
-     · ${m.quantity}
-     ${esc(p?.unit||'')}
-
-     <div class="muted">
-      ${date(m.movement_date)}
-      ·
-      ${esc(
-       m.maintenance_order||
-       m.document_number||
-       m.reason||
-       ''
-      )}
-     </div>
-
-    </div>
-   `;
-
-  }).join('')
-
-  ||
-
-  '<div class="empty">Nenhuma movimentação.</div>';
-
-
- /* TABELA DASHBOARD */
- let rows=P.map(p=>{
-
-  let[c,t]=status(p);
-
-  return `
-   <tr>
-
-    <td>
-     <b>${esc(p.code)}</b>
-     <div class="muted">
-      ${esc(p.description)}
-     </div>
-    </td>
-
-    <td>
-     ${p.current_stock}
-     ${esc(p.unit)}
-    </td>
-
-    <td>${p.min_stock}</td>
-
-    <td>${money(p.unit_cost)}</td>
-
-    <td>
-     ${money(+p.current_stock*+p.unit_cost)}
-    </td>
-
-    <td>
-     <span class="tag ${
-      c==='normal'
-       ?'ok'
-       :c==='baixo'
-        ?'warn'
-        :'danger'
-     }">
-      ${t}
-     </span>
-    </td>
-
-   </tr>
-  `;
-
- }).join('');
-
- $('dashTable').innerHTML=tbl(
-  ['Peça','Saldo','Mín.','Custo','Valor','Status'],
-  rows
- );
-
- renderParts();
- renderMoves();
- renderRep();
- renderInd();
-
+  el.textContent = text;
 }
 
 
-/* TABELAS */
-function tbl(h,r){
+/* =========================================================
+   LOGIN
+========================================================= */
 
- return `
-  <table>
+async function fazerLogin(){
 
-   <thead>
-    <tr>
-     ${h.map(x=>`<th>${x}</th>`).join('')}
-    </tr>
-   </thead>
+  const email =
+    $('email').value.trim();
 
-   <tbody>
+  const password =
+    $('pass').value;
 
-    ${
-     r ||
-     `<tr>
-       <td colspan="${h.length}" class="empty">
-        Nenhum registro.
-       </td>
-      </tr>`
+
+  if(!email){
+
+    msg(
+      'Informe o e-mail.',
+      true
+    );
+
+    $('email').focus();
+
+    return;
+  }
+
+
+  if(!password){
+
+    msg(
+      'Informe a senha.',
+      true
+    );
+
+    $('pass').focus();
+
+    return;
+  }
+
+
+  const btn =
+    $('btnLogin');
+
+  btn.disabled = true;
+
+  btn.textContent =
+    'Entrando...';
+
+
+  try{
+
+    const resultado =
+      await S.auth.signInWithPassword({
+        email:email,
+        password:password
+      });
+
+
+    if(resultado.error){
+
+      msg(
+        resultado.error.message,
+        true
+      );
+
+      return;
     }
 
-   </tbody>
 
-  </table>
- `;
-
-}
+    msg(
+      'Login realizado. Carregando sistema...'
+    );
 
 
-/* PEÇAS */
-function renderParts(){
+  }catch(erro){
 
- let q=($('search')?.value||'').toLowerCase();
- let f=$('filter')?.value||'';
+    console.error(
+      'Erro no login:',
+      erro
+    );
 
- let src=showInactive?I:P;
+    msg(
+      'Erro ao conectar ao sistema: ' +
+      (erro.message || erro),
+      true
+    );
 
- let r=src
+  }finally{
 
-  .filter(p=>
-   (!q||
-    [p.code,p.description]
-    .join(' ')
-    .toLowerCase()
-    .includes(q)
-   ) &&
-   (!f||status(p)[0]===f)
-  )
+    btn.disabled = false;
 
-  .map(p=>{
+    btn.textContent =
+      'Entrar';
 
-   if(showInactive){
-
-    return `
-     <tr>
-
-      <td>${esc(p.code)}</td>
-      <td>${esc(p.description)}</td>
-      <td>${esc(p.unit)}</td>
-      <td>${p.current_stock}</td>
-      <td>${p.min_stock}</td>
-      <td>${p.max_stock}</td>
-      <td>${p.reorder_point}</td>
-      <td>${money(p.unit_cost)}</td>
-
-      <td>
-       <span class="tag info">
-        Desativada
-       </span>
-      </td>
-
-      <td>
-       <button onclick="reactivatePart('${p.id}')">
-        Reativar
-       </button>
-      </td>
-
-     </tr>
-    `;
-
-   }
-
-   let[c,t]=status(p);
-
-   let hasHistory=
-    M.some(m=>m.part_id===p.id);
-
-   let action=
-
-    hasHistory
-
-     ?`
-      <button onclick="deactivatePart('${p.id}')">
-       Desativar
-      </button>
-     `
-
-     :`
-      <button onclick="deletePart('${p.id}')">
-       Excluir
-      </button>
-     `;
-
-   return `
-    <tr>
-
-     <td>${esc(p.code)}</td>
-     <td>${esc(p.description)}</td>
-     <td>${esc(p.unit)}</td>
-     <td>${p.current_stock}</td>
-     <td>${p.min_stock}</td>
-     <td>${p.max_stock}</td>
-     <td>${p.reorder_point}</td>
-     <td>${money(p.unit_cost)}</td>
-
-     <td>
-      <span class="tag ${
-       c==='normal'
-        ?'ok'
-        :c==='baixo'
-         ?'warn'
-         :'danger'
-      }">
-       ${t}
-      </span>
-     </td>
-
-     <td>
-      <button onclick="partForm('${p.id}')">
-       Editar
-      </button>
-
-      ${action}
-
-     </td>
-
-    </tr>
-   `;
-
-  }).join('');
-
- $('partsTable').innerHTML=tbl(
-
-  [
-   'Código',
-   'Descrição',
-   'Un.',
-   'Saldo',
-   'Mín.',
-   'Máx.',
-   'Repos.',
-   'Custo',
-   'Status',
-   'Ações'
-  ],
-
-  r
- );
-
- if($('inactiveBtn')){
-
-  $('inactiveBtn').textContent=
-
-   showInactive
-    ?`Voltar às ativas (${P.length})`
-    :`Ver desativadas (${I.length})`;
-
- }
+  }
 
 }
 
 
-/* MOVIMENTAÇÕES */
-function renderMoves(){
+/* =========================================================
+   CRIAR ACESSO
+========================================================= */
 
- let r=M.map(m=>{
+async function criarAcesso(){
 
-  let p=part(m.part_id);
+  const email =
+    $('email').value.trim();
 
-  let cl=
+  const password =
+    $('pass').value;
 
-   m.movement_type==='Saída'
-    ?'danger'
 
-    :m.movement_type==='Entrada'||
-     m.movement_type==='Devolução'
-      ?'ok'
-      :'info';
+  if(
+    email.toLowerCase() !==
+    'kelvin.batista@budny.com.br'
+  ){
+
+    msg(
+      'Informe o e-mail autorizado para criar acesso.',
+      true
+    );
+
+    return;
+  }
+
+
+  if(!password){
+
+    msg(
+      'Informe uma senha.',
+      true
+    );
+
+    return;
+  }
+
+
+  try{
+
+    const resultado =
+      await S.auth.signUp({
+        email:email,
+        password:password
+      });
+
+
+    if(resultado.error){
+
+      msg(
+        resultado.error.message,
+        true
+      );
+
+      return;
+    }
+
+
+    if(resultado.data.session){
+
+      msg(
+        'Acesso criado com sucesso.'
+      );
+
+    }else{
+
+      msg(
+        'Acesso criado. Verifique o e-mail caso a confirmação esteja ativada.'
+      );
+
+    }
+
+  }catch(erro){
+
+    console.error(
+      erro
+    );
+
+    msg(
+      'Erro ao criar acesso: ' +
+      (erro.message || erro),
+      true
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+async function logout(){
+
+  await S.auth.signOut();
+
+}
+
+
+/* =========================================================
+   MOSTRAR SISTEMA
+========================================================= */
+
+async function showApp(session){
+
+  $('login').classList.add(
+    'hidden'
+  );
+
+  $('app').classList.remove(
+    'hidden'
+  );
+
+  $('who').textContent =
+    session.user.email;
+
+
+  await load();
+
+}
+
+
+/* =========================================================
+   CARREGAR DADOS
+========================================================= */
+
+async function load(){
+
+  try{
+
+    const [
+      p,
+      m,
+      c,
+      l,
+      i
+    ] = await Promise.all([
+
+      S
+        .from('parts')
+        .select('*')
+        .eq('active',true)
+        .order('code'),
+
+      S
+        .from('stock_movements')
+        .select('*')
+        .order(
+          'movement_date',
+          {ascending:false}
+        ),
+
+      S
+        .from('categories')
+        .select('*')
+        .eq('active',true)
+        .order('name'),
+
+      S
+        .from('locations')
+        .select('*')
+        .eq('active',true)
+        .order('name'),
+
+      S
+        .from('parts')
+        .select('*')
+        .eq('active',false)
+        .order('code')
+
+    ]);
+
+
+    for(
+      const r of [
+        p,m,c,l,i
+      ]
+    ){
+
+      if(r.error){
+
+        throw r.error;
+
+      }
+
+    }
+
+
+    P = p.data || [];
+    M = m.data || [];
+    C = c.data || [];
+    L = l.data || [];
+    I = i.data || [];
+
+
+    render();
+
+
+  }catch(erro){
+
+    console.error(
+      'Erro ao carregar:',
+      erro
+    );
+
+    alert(
+      'Erro ao carregar os dados: ' +
+      (erro.message || erro)
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   RENDER GERAL
+========================================================= */
+
+function render(){
+
+  const valor =
+    P.reduce(
+      (s,p) =>
+        s +
+        (+p.current_stock || 0) *
+        (+p.unit_cost || 0),
+      0
+    );
+
+
+  $('kv').textContent =
+    money(valor);
+
+  $('ki').textContent =
+    P.length;
+
+  $('kl').textContent =
+    P.filter(
+      p =>
+        +p.current_stock <
+        +p.min_stock &&
+        +p.current_stock > 0
+    ).length;
+
+  $('kz').textContent =
+    P.filter(
+      p =>
+        +p.current_stock <= 0
+    ).length;
+
+
+  const atencao =
+    P
+      .filter(
+        p =>
+          +p.current_stock <=
+          +p.reorder_point
+      )
+      .sort(
+        (a,b) =>
+          +a.current_stock -
+          +b.current_stock
+      );
+
+
+  $('attention').innerHTML =
+    atencao.length
+
+      ?
+
+      atencao.map(
+        p => {
+
+          const [classe,texto] =
+            status(p);
+
+          return `
+            <div class="alert">
+
+              <div>
+
+                <b>
+                  ${esc(p.code)}
+                </b>
+
+                —
+                ${esc(p.description)}
+
+                <div class="muted">
+                  Saldo ${p.current_stock}
+                  ${esc(p.unit)}
+                  · mínimo ${p.min_stock}
+                  · reposição ${p.reorder_point}
+                </div>
+
+              </div>
+
+              <span class="tag ${
+                classe === 'ruptura'
+                  ? 'danger'
+                  : 'warn'
+              }">
+                ${texto}
+              </span>
+
+            </div>
+          `;
+
+        }
+      ).join('')
+
+      :
+
+      '<div class="empty">Nenhuma peça exige atenção.</div>';
+
+
+  $('recent').innerHTML =
+    M
+      .slice(0,8)
+      .map(
+        m => {
+
+          const p =
+            part(m.part_id);
+
+          return `
+            <div
+              style="
+                padding:8px 0;
+                border-bottom:1px solid var(--line)
+              "
+            >
+
+              <b>
+                ${esc(p?.code || '—')}
+              </b>
+
+              ·
+              ${esc(m.movement_type)}
+
+              ·
+              ${m.quantity}
+              ${esc(p?.unit || '')}
+
+              <div class="muted">
+
+                ${date(m.movement_date)}
+
+                ·
+
+                ${esc(
+                  m.maintenance_order ||
+                  m.document_number ||
+                  m.reason ||
+                  ''
+                )}
+
+              </div>
+
+            </div>
+          `;
+
+        }
+      )
+      .join('') ||
+
+      '<div class="empty">Nenhuma movimentação.</div>';
+
+
+  const rows =
+    P.map(
+      p => {
+
+        const [classe,texto] =
+          status(p);
+
+        return `
+          <tr>
+
+            <td>
+
+              <b>
+                ${esc(p.code)}
+              </b>
+
+              <div class="muted">
+                ${esc(p.description)}
+              </div>
+
+            </td>
+
+            <td>
+              ${p.current_stock}
+              ${esc(p.unit)}
+            </td>
+
+            <td>
+              ${p.min_stock}
+            </td>
+
+            <td>
+              ${money(p.unit_cost)}
+            </td>
+
+            <td>
+              ${money(
+                (+p.current_stock || 0) *
+                (+p.unit_cost || 0)
+              )}
+            </td>
+
+            <td>
+
+              <span class="tag ${
+                classe === 'normal'
+                  ? 'ok'
+                  : classe === 'baixo'
+                    ? 'warn'
+                    : 'danger'
+              }">
+
+                ${texto}
+
+              </span>
+
+            </td>
+
+          </tr>
+        `;
+
+      }
+    )
+    .join('');
+
+
+  $('dashTable').innerHTML =
+    tbl(
+      [
+        'Peça',
+        'Saldo',
+        'Mín.',
+        'Custo',
+        'Valor',
+        'Status'
+      ],
+      rows
+    );
+
+
+  renderParts();
+  renderMoves();
+  renderRep();
+  renderInd();
+
+}
+
+
+/* =========================================================
+   TABELA
+========================================================= */
+
+function tbl(headers,rows){
 
   return `
-   <tr>
+    <table>
 
-    <td>${date(m.movement_date)}</td>
+      <thead>
 
-    <td>
-     <span class="tag ${cl}">
-      ${esc(m.movement_type)}
-     </span>
-    </td>
+        <tr>
 
-    <td>
-     <b>${esc(p?.code||'—')}</b>
-     <div class="muted">
-      ${esc(p?.description||'')}
-     </div>
-    </td>
+          ${headers
+            .map(
+              h => `<th>${h}</th>`
+            )
+            .join('')}
 
-    <td>${m.quantity}</td>
+        </tr>
 
-    <td>
-     ${m.stock_before} → ${m.stock_after}
-    </td>
+      </thead>
 
-    <td>
-     ${esc(m.maintenance_order||'')}
-    </td>
+      <tbody>
 
-    <td>
-     ${esc(m.equipment||'')}
-    </td>
+        ${
+          rows ||
 
-    <td>
-     ${esc(m.document_number||m.reason||'')}
-    </td>
+          `
+            <tr>
+              <td
+                colspan="${headers.length}"
+                class="empty"
+              >
+                Nenhum registro.
+              </td>
+            </tr>
+          `
+        }
 
-   </tr>
+      </tbody>
+
+    </table>
   `;
 
- }).join('');
+}
 
- $('moveTable').innerHTML=tbl(
 
-  [
-   'Data',
-   'Tipo',
-   'Peça',
-   'Qtd.',
-   'Saldo',
-   'OS',
-   'Equipamento',
-   'Documento/Motivo'
-  ],
+/* =========================================================
+   PEÇAS
+========================================================= */
 
-  r
+function renderParts(){
 
- );
+  const busca =
+    (
+      $('search')?.value ||
+      ''
+    ).toLowerCase();
+
+  const filtro =
+    $('filter')?.value ||
+    '';
+
+  const fonte =
+    showInactive
+      ? I
+      : P;
+
+
+  const rows =
+    fonte
+
+      .filter(
+        p =>
+          (
+            !busca ||
+            [
+              p.code,
+              p.description
+            ]
+              .join(' ')
+              .toLowerCase()
+              .includes(busca)
+          )
+
+          &&
+
+          (
+            !filtro ||
+            status(p)[0] === filtro
+          )
+      )
+
+      .map(
+        p => {
+
+          if(showInactive){
+
+            return `
+              <tr>
+
+                <td>
+                  ${esc(p.code)}
+                </td>
+
+                <td>
+                  ${esc(p.description)}
+                </td>
+
+                <td>
+                  ${esc(p.unit)}
+                </td>
+
+                <td>
+                  ${p.current_stock}
+                </td>
+
+                <td>
+                  ${p.min_stock}
+                </td>
+
+                <td>
+                  ${p.max_stock}
+                </td>
+
+                <td>
+                  ${p.reorder_point}
+                </td>
+
+                <td>
+                  ${money(p.unit_cost)}
+                </td>
+
+                <td>
+                  <span class="tag info">
+                    Desativada
+                  </span>
+                </td>
+
+                <td>
+                  <button
+                    onclick="reactivatePart('${p.id}')"
+                  >
+                    Reativar
+                  </button>
+                </td>
+
+              </tr>
+            `;
+
+          }
+
+
+          const [
+            classe,
+            texto
+          ] = status(p);
+
+
+          const temHistorico =
+            M.some(
+              m =>
+                String(m.part_id) ===
+                String(p.id)
+            );
+
+
+          const acao =
+            temHistorico
+
+              ?
+
+              `
+                <button
+                  onclick="deactivatePart('${p.id}')"
+                >
+                  Desativar
+                </button>
+              `
+
+              :
+
+              `
+                <button
+                  onclick="deletePart('${p.id}')"
+                >
+                  Excluir
+                </button>
+              `;
+
+
+          return `
+            <tr>
+
+              <td>
+                ${esc(p.code)}
+              </td>
+
+              <td>
+                ${esc(p.description)}
+              </td>
+
+              <td>
+                ${esc(p.unit)}
+              </td>
+
+              <td>
+                ${p.current_stock}
+              </td>
+
+              <td>
+                ${p.min_stock}
+              </td>
+
+              <td>
+                ${p.max_stock}
+              </td>
+
+              <td>
+                ${p.reorder_point}
+              </td>
+
+              <td>
+                ${money(p.unit_cost)}
+              </td>
+
+              <td>
+
+                <span class="tag ${
+                  classe === 'normal'
+                    ? 'ok'
+                    : classe === 'baixo'
+                      ? 'warn'
+                      : 'danger'
+                }">
+
+                  ${texto}
+
+                </span>
+
+              </td>
+
+              <td>
+
+                <button
+                  onclick="partForm('${p.id}')"
+                >
+                  Editar
+                </button>
+
+                ${acao}
+
+              </td>
+
+            </tr>
+          `;
+
+        }
+      )
+      .join('');
+
+
+  $('partsTable').innerHTML =
+    tbl(
+      [
+        'Código',
+        'Descrição',
+        'Un.',
+        'Saldo',
+        'Mín.',
+        'Máx.',
+        'Repos.',
+        'Custo',
+        'Status',
+        'Ações'
+      ],
+      rows
+    );
+
+
+  if($('inactiveBtn')){
+
+    $('inactiveBtn').textContent =
+      showInactive
+
+        ? `Voltar às ativas (${P.length})`
+
+        : `Ver desativadas (${I.length})`;
+
+  }
 
 }
 
 
-/* REPOSIÇÃO */
+/* =========================================================
+   MOVIMENTAÇÕES
+========================================================= */
+
+function renderMoves(){
+
+  const rows =
+    M.map(
+      m => {
+
+        const p =
+          part(m.part_id);
+
+        const classe =
+          m.movement_type === 'Saída'
+            ? 'danger'
+            :
+            (
+              m.movement_type === 'Entrada' ||
+              m.movement_type === 'Devolução'
+            )
+              ? 'ok'
+              : 'info';
+
+
+        return `
+          <tr>
+
+            <td>
+              ${date(m.movement_date)}
+            </td>
+
+            <td>
+
+              <span class="tag ${classe}">
+                ${esc(m.movement_type)}
+              </span>
+
+            </td>
+
+            <td>
+
+              <b>
+                ${esc(p?.code || '—')}
+              </b>
+
+              <div class="muted">
+                ${esc(p?.description || '')}
+              </div>
+
+            </td>
+
+            <td>
+              ${m.quantity}
+            </td>
+
+            <td>
+              ${m.stock_before ?? '—'}
+              →
+              ${m.stock_after ?? '—'}
+            </td>
+
+            <td>
+              ${esc(m.maintenance_order || '')}
+            </td>
+
+            <td>
+              ${esc(m.equipment || '')}
+            </td>
+
+            <td>
+              ${esc(
+                m.document_number ||
+                m.reason ||
+                ''
+              )}
+            </td>
+
+          </tr>
+        `;
+
+      }
+    )
+    .join('');
+
+
+  $('moveTable').innerHTML =
+    tbl(
+      [
+        'Data',
+        'Tipo',
+        'Peça',
+        'Qtd.',
+        'Saldo',
+        'OS',
+        'Equipamento',
+        'Documento/Motivo'
+      ],
+      rows
+    );
+
+}
+
+
+/* =========================================================
+   REPOSIÇÃO
+========================================================= */
+
 function renderRep(){
 
- let r=P
+  const rows =
+    P
 
-  .filter(p=>
-   +p.current_stock<=+p.reorder_point
-  )
+      .filter(
+        p =>
+          +p.current_stock <=
+          +p.reorder_point
+      )
 
-  .map(p=>{
+      .map(
+        p => {
 
-   let n=Math.max(
-    0,
-    +p.max_stock-+p.current_stock
-   );
+          const quantidade =
+            Math.max(
+              0,
+              +p.max_stock -
+              +p.current_stock
+            );
 
-   return `
-    <tr>
 
-     <td>${esc(p.code)}</td>
-     <td>${esc(p.description)}</td>
-     <td>${esc(p.criticality)}</td>
-     <td>${p.current_stock}</td>
-     <td>${p.reorder_point}</td>
-     <td>${p.max_stock}</td>
+          return `
+            <tr>
 
-     <td>
-      <b>${n}</b>
-     </td>
+              <td>
+                ${esc(p.code)}
+              </td>
 
-     <td>
-      ${money(n*+p.unit_cost)}
-     </td>
+              <td>
+                ${esc(p.description)}
+              </td>
 
-    </tr>
-   `;
+              <td>
+                ${esc(p.criticality)}
+              </td>
 
-  }).join('');
+              <td>
+                ${p.current_stock}
+              </td>
 
- $('repTable').innerHTML=tbl(
+              <td>
+                ${p.reorder_point}
+              </td>
 
-  [
-   'Código',
-   'Descrição',
-   'Criticidade',
-   'Saldo',
-   'Ponto repos.',
-   'Máx.',
-   'Sugestão',
-   'Valor'
-  ],
+              <td>
+                ${p.max_stock}
+              </td>
 
-  r
+              <td>
+                <b>
+                  ${quantidade}
+                </b>
+              </td>
 
- );
+              <td>
+                ${money(
+                  quantidade *
+                  (+p.unit_cost || 0)
+                )}
+              </td>
+
+            </tr>
+          `;
+
+        }
+      )
+      .join('');
+
+
+  $('repTable').innerHTML =
+    tbl(
+      [
+        'Código',
+        'Descrição',
+        'Criticidade',
+        'Saldo',
+        'Ponto repos.',
+        'Máx.',
+        'Sugestão',
+        'Valor'
+      ],
+      rows
+    );
 
 }
 
 
-/* INDICADORES */
+/* =========================================================
+   INDICADORES
+========================================================= */
+
 function renderInd(){
 
- let o=M.filter(
-  m=>m.movement_type==='Saída'
- );
+  const saidas =
+    M.filter(
+      m =>
+        m.movement_type ===
+        'Saída'
+    );
 
- let q=o.reduce(
-  (s,m)=>s+(+m.quantity),
-  0
- );
 
- let v=o.reduce(
-  (s,m)=>
-   s+(+m.quantity*+m.unit_cost),
-  0
- );
+  const quantidade =
+    saidas.reduce(
+      (s,m) =>
+        s +
+        (+m.quantity || 0),
+      0
+    );
 
- let used=new Set(
-  o.map(m=>m.part_id)
- );
 
- let idle=P
+  const valor =
+    saidas.reduce(
+      (s,m) =>
+        s +
+        (+m.quantity || 0) *
+        (+m.unit_cost || 0),
+      0
+    );
 
-  .filter(p=>!used.has(p.id))
 
-  .reduce(
-   (s,p)=>
-    s+(+p.current_stock*+p.unit_cost),
-   0
+  const usados =
+    new Set(
+      saidas.map(
+        m => m.part_id
+      )
+    );
+
+
+  const parado =
+    P
+      .filter(
+        p =>
+          !usados.has(p.id)
+      )
+      .reduce(
+        (s,p) =>
+          s +
+          (+p.current_stock || 0) *
+          (+p.unit_cost || 0),
+        0
+      );
+
+
+  $('io').textContent =
+    saidas.length;
+
+  $('iq').textContent =
+    quantidade;
+
+  $('iv').textContent =
+    money(valor);
+
+  $('ii').textContent =
+    money(parado);
+
+
+  const top = {};
+
+
+  saidas.forEach(
+    m => {
+
+      top[m.part_id] =
+        (
+          top[m.part_id] ||
+          0
+        ) +
+        (+m.quantity || 0);
+
+    }
   );
 
- $('io').textContent=o.length;
- $('iq').textContent=q;
- $('iv').textContent=money(v);
- $('ii').textContent=money(idle);
+
+  const ranking =
+    Object.entries(top)
+      .sort(
+        (a,b) =>
+          b[1] - a[1]
+      )
+      .slice(0,7);
 
 
- let top={};
+  $('top').innerHTML =
+    ranking
 
- o.forEach(m=>{
-  top[m.part_id]=
-   (top[m.part_id]||0)+(+m.quantity);
- });
+      .map(
+        ([id,qtd]) => {
 
- let ar=Object.entries(top)
-  .sort((a,b)=>b[1]-a[1])
-  .slice(0,7);
+          const p =
+            part(id);
 
- $('top').innerHTML=
+          return `
+            <div
+              style="
+                margin:11px 0;
+                display:flex;
+                justify-content:space-between
+              "
+            >
 
-  ar.map(([id,n])=>{
+              <b>
+                ${esc(p?.code || '—')}
+              </b>
 
-   let p=part(id);
+              <span>
+                ${qtd}
+                ${esc(p?.unit || '')}
+              </span>
 
-   return `
-    <div style="
-     margin:11px 0;
-     display:flex;
-     justify-content:space-between
-    ">
-     <b>${esc(p?.code||'—')}</b>
-     <span>
-      ${n} ${esc(p?.unit||'')}
-     </span>
-    </div>
-   `;
+            </div>
+          `;
 
-  }).join('')
+        }
+      )
+      .join('')
 
-  ||
+      ||
 
-  '<div class="empty">Sem saídas.</div>';
+      '<div class="empty">Sem saídas.</div>';
 
 
- let c={
-  Crítica:0,
-  Alta:0,
-  Média:0,
-  Baixa:0
- };
+  const criticidade = {
+    'Crítica':0,
+    'Alta':0,
+    'Média':0,
+    'Baixa':0
+  };
 
- P.forEach(p=>{
-  c[p.criticality]=
-   (c[p.criticality]||0)+1;
- });
 
- $('crit').innerHTML=
+  P.forEach(
+    p => {
 
-  Object.entries(c).map(([k,n])=>`
+      criticidade[p.criticality] =
+        (
+          criticidade[p.criticality] ||
+          0
+        ) + 1;
 
-   <div style="
-    margin:11px 0;
-    display:flex;
-    justify-content:space-between
-   ">
-    <b>${k}</b>
-    <span>${n}</span>
-   </div>
+    }
+  );
 
-  `).join('');
+
+  $('crit').innerHTML =
+    Object.entries(
+      criticidade
+    )
+
+      .map(
+        ([nome,qtd]) => `
+          <div
+            style="
+              margin:11px 0;
+              display:flex;
+              justify-content:space-between
+            "
+          >
+
+            <b>
+              ${nome}
+            </b>
+
+            <span>
+              ${qtd}
+            </span>
+
+          </div>
+        `
+      )
+      .join('');
 
 }
 
 
-/* DESATIVADAS */
+/* =========================================================
+   DESATIVADAS
+========================================================= */
+
 function toggleInactive(){
 
- showInactive=!showInactive;
+  showInactive =
+    !showInactive;
 
- renderParts();
+  renderParts();
 
 }
 
 
-/* EXCLUIR */
+/* =========================================================
+   EXCLUIR PEÇA
+========================================================= */
+
 async function deletePart(id){
 
- let p=part(id);
+  const p =
+    part(id);
 
- if(!p)return;
+  if(!p) return;
 
- if(M.some(m=>m.part_id===id)){
 
-  return alert(
-   'Esta peça possui movimentações e não pode ser excluída. '+
-   'Ela deve ser desativada para preservar o histórico.'
-  );
+  if(
+    M.some(
+      m =>
+        String(m.part_id) ===
+        String(id)
+    )
+  ){
 
- }
+    alert(
+      'Esta peça possui movimentações e não pode ser excluída. Ela deve ser desativada para preservar o histórico.'
+    );
 
- if(!confirm(
-  `Excluir definitivamente a peça ${p.code} — ${p.description}?`
- ))return;
+    return;
+  }
 
- let r=await S
-  .from('parts')
-  .delete()
-  .eq('id',id);
 
- if(r.error)
-  return alert(
-   'Erro ao excluir: '+r.error.message
-  );
+  if(
+    !confirm(
+      `Excluir definitivamente a peça ${p.code} — ${p.description}?`
+    )
+  ){
 
- await load();
+    return;
+  }
 
- alert('Peça excluída definitivamente.');
+
+  try{
+
+    const r =
+      await S
+        .from('parts')
+        .delete()
+        .eq('id',id);
+
+
+    if(r.error)
+      throw r.error;
+
+
+    await load();
+
+
+    alert(
+      'Peça excluída definitivamente.'
+    );
+
+
+  }catch(erro){
+
+    alert(
+      'Erro ao excluir: ' +
+      erro.message
+    );
+
+  }
 
 }
 
 
-/* DESATIVAR */
+/* =========================================================
+   DESATIVAR
+========================================================= */
+
 async function deactivatePart(id){
 
- let p=part(id);
+  const p =
+    part(id);
 
- if(!p)return;
+  if(!p) return;
 
- if(!M.some(m=>m.part_id===id))
-  return deletePart(id);
 
- if(!confirm(
-  `Desativar a peça ${p.code} — ${p.description}? `+
-  `O histórico será preservado.`
- ))return;
+  if(
+    !M.some(
+      m =>
+        String(m.part_id) ===
+        String(id)
+    )
+  ){
 
- let r=await S
-  .from('parts')
-  .update({active:false})
-  .eq('id',id);
+    return deletePart(id);
 
- if(r.error)
-  return alert(
-   'Erro ao desativar: '+r.error.message
-  );
+  }
 
- await load();
 
- alert(
-  'Peça desativada. O histórico foi preservado.'
- );
+  if(
+    !confirm(
+      `Desativar a peça ${p.code} — ${p.description}? O histórico será preservado.`
+    )
+  ){
+
+    return;
+  }
+
+
+  try{
+
+    const r =
+      await S
+        .from('parts')
+        .update({
+          active:false
+        })
+        .eq('id',id);
+
+
+    if(r.error)
+      throw r.error;
+
+
+    await load();
+
+
+    alert(
+      'Peça desativada. O histórico foi preservado.'
+    );
+
+
+  }catch(erro){
+
+    alert(
+      'Erro ao desativar: ' +
+      erro.message
+    );
+
+  }
 
 }
 
 
-/* REATIVAR */
+/* =========================================================
+   REATIVAR
+========================================================= */
+
 async function reactivatePart(id){
 
- let p=I.find(x=>x.id===id);
+  const p =
+    I.find(
+      x =>
+        String(x.id) ===
+        String(id)
+    );
 
- if(!p)return;
+  if(!p) return;
 
- if(!confirm(
-  `Reativar a peça ${p.code} — ${p.description}?`
- ))return;
 
- let r=await S
-  .from('parts')
-  .update({active:true})
-  .eq('id',id);
+  if(
+    !confirm(
+      `Reativar a peça ${p.code} — ${p.description}?`
+    )
+  ){
 
- if(r.error)
-  return alert(
-   'Erro ao reativar: '+r.error.message
+    return;
+  }
+
+
+  try{
+
+    const r =
+      await S
+        .from('parts')
+        .update({
+          active:true
+        })
+        .eq('id',id);
+
+
+    if(r.error)
+      throw r.error;
+
+
+    showInactive = false;
+
+    await load();
+
+
+    alert(
+      'Peça reativada com sucesso.'
+    );
+
+
+  }catch(erro){
+
+    alert(
+      'Erro ao reativar: ' +
+      erro.message
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function openModal(titulo,conteudo){
+
+  $('mt').textContent =
+    titulo;
+
+  $('mb').innerHTML =
+    conteudo;
+
+  $('modal').classList.add(
+    'show'
   );
 
- showInactive=false;
-
- await load();
-
- alert('Peça reativada com sucesso.');
-
 }
 
-
-/* MODAL */
-function openModal(t,b){
-
- $('mt').textContent=t;
- $('mb').innerHTML=b;
- $('modal').classList.add('show');
-
-}
 
 function closeModal(){
 
- $('modal').classList.remove('show');
+  $('modal').classList.remove(
+    'show'
+  );
 
 }
 
 
-/* FORMULÁRIO DE PEÇA */
+/* =========================================================
+   FORMULÁRIO PEÇA
+========================================================= */
+
 function partForm(id){
 
- let p=id
-  ?part(id)
-  :{
-    code:'',
-    description:'',
-    category_id:'',
-    location_id:'',
-    unit:'UN',
-    min_stock:0,
-    max_stock:0,
-    reorder_point:0,
-    unit_cost:0,
-    criticality:'Média',
-    current_stock:0
-   };
+  const p =
+    id
+      ? part(id)
+      : {
+          code:'',
+          description:'',
+          category_id:'',
+          location_id:'',
+          unit:'UN',
+          min_stock:0,
+          max_stock:0,
+          reorder_point:0,
+          unit_cost:0,
+          criticality:'Média',
+          current_stock:0
+        };
 
- openModal(
 
-  id
-   ?'Editar peça'
-   :'Nova peça',
+  openModal(
+    id
+      ? 'Editar peça'
+      : 'Nova peça',
 
-  `
-  <form onsubmit="savePart(event,'${id||''}')">
+    `
+      <form
+        onsubmit="savePart(event,'${id || ''}')"
+      >
 
-   <div class="formgrid">
+        <div class="formgrid">
 
-    <div class="field">
-     <label>Código</label>
-     <input
-      name="code"
-      required
-      value="${esc(p.code)}">
-    </div>
+          <div class="field">
+            <label>Código</label>
+            <input
+              name="code"
+              required
+              value="${esc(p.code)}"
+            >
+          </div>
 
-    <div class="field">
-     <label>Descrição</label>
-     <input
-      name="description"
-      required
-      value="${esc(p.description)}">
-    </div>
+          <div class="field">
+            <label>Descrição</label>
+            <input
+              name="description"
+              required
+              value="${esc(p.description)}"
+            >
+          </div>
 
-    <div class="field">
-     <label>Unidade</label>
-     <input
-      name="unit"
-      value="${esc(p.unit)}">
-    </div>
+          <div class="field">
+            <label>Unidade</label>
+            <input
+              name="unit"
+              value="${esc(p.unit)}"
+            >
+          </div>
 
-    <div class="field">
-     <label>Categoria</label>
-     <select name="category_id">
+          <div class="field">
 
-      <option value="">
-       Selecione
-      </option>
+            <label>Categoria</label>
 
-      ${C.map(c=>`
+            <select name="category_id">
 
-       <option
-        value="${c.id}"
-        ${c.id===p.category_id?'selected':''}>
-        ${esc(c.name)}
-       </option>
+              <option value="">
+                Selecione
+              </option>
 
-      `).join('')}
+              ${C.map(
+                c =>
+                  `
+                    <option
+                      value="${c.id}"
+                      ${
+                        String(c.id) ===
+                        String(p.category_id)
+                          ? 'selected'
+                          : ''
+                      }
+                    >
+                      ${esc(c.name)}
+                    </option>
+                  `
+              ).join('')}
 
-     </select>
-    </div>
+            </select>
 
-    <div class="field">
-     <label>Localização</label>
-     <select name="location_id">
+          </div>
 
-      <option value="">
-       Selecione
-      </option>
+          <div class="field">
 
-      ${L.map(l=>`
+            <label>Localização</label>
 
-       <option
-        value="${l.id}"
-        ${l.id===p.location_id?'selected':''}>
-        ${esc(l.name)}
-       </option>
+            <select name="location_id">
 
-      `).join('')}
+              <option value="">
+                Selecione
+              </option>
 
-     </select>
-    </div>
+              ${L.map(
+                l =>
+                  `
+                    <option
+                      value="${l.id}"
+                      ${
+                        String(l.id) ===
+                        String(p.location_id)
+                          ? 'selected'
+                          : ''
+                      }
+                    >
+                      ${esc(l.name)}
+                    </option>
+                  `
+              ).join('')}
 
-    <div class="field">
-     <label>Criticidade</label>
+            </select>
 
-     <select name="criticality">
+          </div>
 
-      ${[
-       'Crítica',
-       'Alta',
-       'Média',
-       'Baixa'
-      ].map(x=>`
+          <div class="field">
 
-       <option
-        ${x===p.criticality?'selected':''}>
-        ${x}
-       </option>
+            <label>Criticidade</label>
 
-      `).join('')}
+            <select name="criticality">
 
-     </select>
+              ${[
+                'Crítica',
+                'Alta',
+                'Média',
+                'Baixa'
+              ]
+                .map(
+                  x =>
+                    `
+                      <option
+                        ${
+                          x ===
+                          p.criticality
+                            ? 'selected'
+                            : ''
+                        }
+                      >
+                        ${x}
+                      </option>
+                    `
+                )
+                .join('')}
 
-    </div>
+            </select>
 
-    <div class="field">
-     <label>Mínimo</label>
-     <input
-      type="number"
-      min="0"
-      step=".001"
-      name="min_stock"
-      value="${p.min_stock}">
-    </div>
+          </div>
 
-    <div class="field">
-     <label>Máximo</label>
-     <input
-      type="number"
-      min="0"
-      step=".001"
-      name="max_stock"
-      value="${p.max_stock}">
-    </div>
+          <div class="field">
+            <label>Mínimo</label>
+            <input
+              type="number"
+              min="0"
+              step=".001"
+              name="min_stock"
+              value="${p.min_stock}"
+            >
+          </div>
 
-    <div class="field">
-     <label>Ponto de reposição</label>
-     <input
-      type="number"
-      min="0"
-      step=".001"
-      name="reorder_point"
-      value="${p.reorder_point}">
-    </div>
+          <div class="field">
+            <label>Máximo</label>
+            <input
+              type="number"
+              min="0"
+              step=".001"
+              name="max_stock"
+              value="${p.max_stock}"
+            >
+          </div>
 
-    <div class="field">
-     <label>Custo unitário</label>
-     <input
-      type="number"
-      min="0"
-      step=".01"
-      name="unit_cost"
-      value="${p.unit_cost}">
-    </div>
+          <div class="field">
+            <label>Ponto de reposição</label>
+            <input
+              type="number"
+              min="0"
+              step=".001"
+              name="reorder_point"
+              value="${p.reorder_point}"
+            >
+          </div>
 
-    ${
-     id
-      ?''
-      :`
-       <div class="field">
-        <label>Saldo inicial</label>
-        <input
-         type="number"
-         min="0"
-         step=".001"
-         name="current_stock"
-         value="0">
-       </div>
-      `
-    }
+          <div class="field">
+            <label>Custo unitário</label>
+            <input
+              type="number"
+              min="0"
+              step=".01"
+              name="unit_cost"
+              value="${p.unit_cost}"
+            >
+          </div>
 
-   </div>
+          ${
+            id
+              ? ''
+              : `
+                <div class="field">
+                  <label>Saldo inicial</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step=".001"
+                    name="current_stock"
+                    value="0"
+                  >
+                </div>
+              `
+          }
 
-   <div class="actions">
+        </div>
 
-    <button
-     type="button"
-     onclick="closeModal()">
-     Cancelar
-    </button>
 
-    <button class="primary">
-     Salvar peça
-    </button>
+        <div class="actions">
 
-   </div>
+          <button
+            type="button"
+            onclick="closeModal()"
+          >
+            Cancelar
+          </button>
 
-  </form>
-  `
+          <button class="primary">
+            Salvar peça
+          </button>
 
- );
+        </div>
+
+      </form>
+    `
+  );
 
 }
 
 
-/* SALVAR PEÇA */
+/* =========================================================
+   SALVAR PEÇA
+========================================================= */
+
 async function savePart(e,id){
 
- e.preventDefault();
+  e.preventDefault();
 
- let f=new FormData(e.target);
 
- let d={
-  code:f.get('code').trim(),
-  description:f.get('description').trim(),
-  unit:f.get('unit')||'UN',
-  category_id:f.get('category_id')||null,
-  location_id:f.get('location_id')||null,
-  criticality:f.get('criticality'),
-  min_stock:+f.get('min_stock')||0,
-  max_stock:+f.get('max_stock')||0,
-  reorder_point:+f.get('reorder_point')||0,
-  unit_cost:+f.get('unit_cost')||0
- };
-
- let r=id
-
-  ?await S
-    .from('parts')
-    .update(d)
-    .eq('id',id)
-
-  :await S
-    .from('parts')
-    .insert({
-     ...d,
-     current_stock:+f.get('current_stock')||0
-    });
-
- if(r.error)
-  return alert(r.error.message);
-
- closeModal();
-
- await load();
-
-}
-
-
-/* FORMULÁRIO MOVIMENTAÇÃO */
-function moveForm(){
-
- if(!P.length)
-  return alert(
-   'Cadastre uma peça primeiro.'
-  );
-
- openModal(
-
-  'Registrar movimentação',
-
-  `
-  <form onsubmit="saveMove(event)">
-
-   <div class="formgrid">
-
-    <div class="field">
-     <label>Data</label>
-
-     <input
-      type="datetime-local"
-      name="movement_date"
-      required
-      value="${
-       new Date(
-        Date.now()-
-        new Date().getTimezoneOffset()*60000
-       ).toISOString().slice(0,16)
-      }">
-    </div>
-
-    <div class="field">
-     <label>Tipo</label>
-
-     <select name="movement_type">
-
-      <option>Entrada</option>
-      <option>Saída</option>
-      <option>Devolução</option>
-      <option>Ajuste</option>
-
-     </select>
-    </div>
-
-    <div class="field">
-     <label>Peça</label>
-
-     <select name="part_id">
-
-      ${P.map(p=>`
-
-       <option value="${p.id}">
-        ${esc(p.code)} —
-        ${esc(p.description)}
-        (saldo ${p.current_stock})
-       </option>
-
-      `).join('')}
-
-     </select>
-    </div>
-
-    <div class="field">
-     <label>Quantidade</label>
-
-     <input
-      type="number"
-      min=".001"
-      step=".001"
-      name="quantity"
-      required>
-    </div>
-
-    <div class="field">
-     <label>Ordem de manutenção</label>
-
-     <input
-      name="maintenance_order"
-      placeholder="Ex.: OS-1050">
-    </div>
-
-    <div class="field">
-     <label>Equipamento</label>
-     <input name="equipment">
-    </div>
-
-    <div class="field">
-     <label>Documento / NF</label>
-     <input name="document_number">
-    </div>
-
-    <div class="field">
-     <label>Motivo</label>
-     <input name="reason">
-    </div>
-
-   </div>
-
-   <div class="actions">
-
-    <button
-     type="button"
-     onclick="closeModal()">
-     Cancelar
-    </button>
-
-    <button class="primary">
-     Registrar movimentação
-    </button>
-
-   </div>
-
-  </form>
-  `
-
- );
-
-}
-
-
-/* SALVAR MOVIMENTAÇÃO */
-async function saveMove(e){
-
- e.preventDefault();
-
- let f=new FormData(e.target);
-
- let p=part(f.get('part_id'));
-
- let q=+f.get('quantity');
-
- let type=f.get('movement_type');
-
- if(type==='Saída'&&+p.current_stock<q){
-
-  return alert(
-   `Saldo insuficiente. Saldo atual: ${p.current_stock}.`
-  );
-
- }
-
- let d={
-
-  part_id:f.get('part_id'),
-
-  movement_type:type,
-
-  quantity:q,
-
-  unit_cost:+p.unit_cost||0,
-
-  maintenance_order:
-   f.get('maintenance_order')||null,
-
-  equipment:
-   f.get('equipment')||null,
-
-  document_number:
-   f.get('document_number')||null,
-
-  reason:
-   f.get('reason')||null,
-
-  movement_date:
-   new Date(
-    f.get('movement_date')
-   ).toISOString()
-
- };
-
- let r=await S
-  .from('stock_movements')
-  .insert(d);
-
- if(r.error)
-  return alert(r.error.message);
-
- closeModal();
-
- await load();
-
-}
-
-
-/* NAVEGAÇÃO */
-document
- .querySelectorAll('nav button[data-tab]')
- .forEach(b=>{
-
-  b.onclick=()=>{
-
-   document
-    .querySelectorAll('nav button[data-tab]')
-    .forEach(x=>
-     x.classList.remove('active')
+  const f =
+    new FormData(
+      e.target
     );
 
-   b.classList.add('active');
 
-   document
-    .querySelectorAll('.tab')
-    .forEach(x=>
-     x.classList.remove('active')
-    );
+  const dados = {
 
-   $(b.dataset.tab)
-    .classList.add('active');
+    code:
+      String(
+        f.get('code') || ''
+      ).trim(),
 
-   render();
+    description:
+      String(
+        f.get('description') || ''
+      ).trim(),
+
+    unit:
+      String(
+        f.get('unit') ||
+        'UN'
+      ),
+
+    category_id:
+      f.get('category_id') ||
+      null,
+
+    location_id:
+      f.get('location_id') ||
+      null,
+
+    criticality:
+      f.get('criticality'),
+
+    min_stock:
+      +f.get('min_stock') ||
+      0,
+
+    max_stock:
+      +f.get('max_stock') ||
+      0,
+
+    reorder_point:
+      +f.get('reorder_point') ||
+      0,
+
+    unit_cost:
+      +f.get('unit_cost') ||
+      0
 
   };
 
- });
+
+  try{
+
+    let r;
 
 
-/* VERIFICAR SESSÃO AO ABRIR */
-(async()=>{
+    if(id){
 
- const r=await S.auth.getSession();
+      r =
+        await S
+          .from('parts')
+          .update(dados)
+          .eq('id',id);
 
- if(r.data.session)
-  show(r.data.session);
+    }else{
+
+      r =
+        await S
+          .from('parts')
+          .insert({
+            ...dados,
+            current_stock:
+              +f.get('current_stock') ||
+              0
+          });
+
+    }
+
+
+    if(r.error)
+      throw r.error;
+
+
+    closeModal();
+
+    await load();
+
+
+  }catch(erro){
+
+    alert(
+      'Erro ao salvar peça: ' +
+      erro.message
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   FORMULÁRIO MOVIMENTAÇÃO
+========================================================= */
+
+function moveForm(){
+
+  if(!P.length){
+
+    alert(
+      'Cadastre uma peça primeiro.'
+    );
+
+    return;
+  }
+
+
+  const agora =
+    new Date(
+      Date.now() -
+      new Date().getTimezoneOffset() *
+      60000
+    )
+      .toISOString()
+      .slice(0,16);
+
+
+  openModal(
+    'Registrar movimentação',
+
+    `
+      <form
+        onsubmit="saveMove(event)"
+      >
+
+        <div class="formgrid">
+
+          <div class="field">
+
+            <label>Data</label>
+
+            <input
+              type="datetime-local"
+              name="movement_date"
+              required
+              value="${agora}"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Tipo</label>
+
+            <select name="movement_type">
+
+              <option>
+                Entrada
+              </option>
+
+              <option>
+                Saída
+              </option>
+
+              <option>
+                Devolução
+              </option>
+
+              <option>
+                Ajuste
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Peça</label>
+
+            <select name="part_id">
+
+              ${P.map(
+                p =>
+                  `
+                    <option value="${p.id}">
+                      ${esc(p.code)}
+                      —
+                      ${esc(p.description)}
+                      (saldo ${p.current_stock})
+                    </option>
+                  `
+              ).join('')}
+
+            </select>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Quantidade</label>
+
+            <input
+              type="number"
+              min=".001"
+              step=".001"
+              name="quantity"
+              required
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Ordem de manutenção</label>
+
+            <input
+              name="maintenance_order"
+              placeholder="Ex.: OS-1050"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Equipamento</label>
+
+            <input name="equipment">
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Documento / NF</label>
+
+            <input name="document_number">
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Motivo</label>
+
+            <input name="reason">
+
+          </div>
+
+        </div>
+
+
+        <div class="actions">
+
+          <button
+            type="button"
+            onclick="closeModal()"
+          >
+            Cancelar
+          </button>
+
+          <button class="primary">
+            Registrar movimentação
+          </button>
+
+        </div>
+
+      </form>
+    `
+  );
+
+}
+
+
+/* =========================================================
+   SALVAR MOVIMENTAÇÃO
+========================================================= */
+
+async function saveMove(e){
+
+  e.preventDefault();
+
+
+  const f =
+    new FormData(
+      e.target
+    );
+
+
+  const p =
+    part(
+      f.get('part_id')
+    );
+
+
+  if(!p){
+
+    alert(
+      'Peça não encontrada.'
+    );
+
+    return;
+  }
+
+
+  const quantidade =
+    +f.get('quantity');
+
+
+  const tipo =
+    f.get('movement_type');
+
+
+  if(
+    tipo === 'Saída' &&
+    +p.current_stock <
+    quantidade
+  ){
+
+    alert(
+      `Saldo insuficiente. Saldo atual: ${p.current_stock}.`
+    );
+
+    return;
+  }
+
+
+  const dados = {
+
+    part_id:
+      f.get('part_id'),
+
+    movement_type:
+      tipo,
+
+    quantity:
+      quantidade,
+
+    unit_cost:
+      +p.unit_cost ||
+      0,
+
+    maintenance_order:
+      f.get('maintenance_order') ||
+      null,
+
+    equipment:
+      f.get('equipment') ||
+      null,
+
+    document_number:
+      f.get('document_number') ||
+      null,
+
+    reason:
+      f.get('reason') ||
+      null,
+
+    movement_date:
+      new Date(
+        f.get('movement_date')
+      ).toISOString()
+
+  };
+
+
+  try{
+
+    const r =
+      await S
+        .from('stock_movements')
+        .insert(dados);
+
+
+    if(r.error)
+      throw r.error;
+
+
+    closeModal();
+
+    await load();
+
+
+  }catch(erro){
+
+    alert(
+      'Erro ao registrar movimentação: ' +
+      erro.message
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   NAVEGAÇÃO
+========================================================= */
+
+document
+  .querySelectorAll(
+    'nav button[data-tab]'
+  )
+  .forEach(
+    botao => {
+
+      botao.addEventListener(
+        'click',
+        function(){
+
+          document
+            .querySelectorAll(
+              'nav button[data-tab]'
+            )
+            .forEach(
+              b =>
+                b.classList.remove(
+                  'active'
+                )
+            );
+
+
+          this.classList.add(
+            'active'
+          );
+
+
+          document
+            .querySelectorAll(
+              '.tab'
+            )
+            .forEach(
+              t =>
+                t.classList.remove(
+                  'active'
+                )
+            );
+
+
+          $(this.dataset.tab)
+            .classList.add(
+              'active'
+            );
+
+
+          render();
+
+        }
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   EVENTOS DO LOGIN
+========================================================= */
+
+$('btnLogin')
+  .addEventListener(
+    'click',
+    fazerLogin
+  );
+
+
+$('btnSignup')
+  .addEventListener(
+    'click',
+    criarAcesso
+  );
+
+
+$('btnLogout')
+  .addEventListener(
+    'click',
+    logout
+  );
+
+
+$('email')
+  .addEventListener(
+    'keydown',
+    function(e){
+
+      if(
+        e.key === 'Enter'
+      ){
+
+        e.preventDefault();
+
+        fazerLogin();
+
+      }
+
+    }
+  );
+
+
+$('pass')
+  .addEventListener(
+    'keydown',
+    function(e){
+
+      if(
+        e.key === 'Enter'
+      ){
+
+        e.preventDefault();
+
+        fazerLogin();
+
+      }
+
+    }
+  );
+
+
+$('email')
+  .addEventListener(
+    'input',
+    function(){
+
+      const autorizado =
+        this.value
+          .trim()
+          .toLowerCase() ===
+        'kelvin.batista@budny.com.br';
+
+
+      $('btnSignup').style.display =
+        autorizado
+          ? 'block'
+          : 'none';
+
+    }
+  );
+
+
+$('search')
+  .addEventListener(
+    'input',
+    renderParts
+  );
+
+
+$('filter')
+  .addEventListener(
+    'change',
+    renderParts
+  );
+
+
+$('modal')
+  .addEventListener(
+    'click',
+    function(e){
+
+      if(
+        e.target ===
+        $('modal')
+      ){
+
+        closeModal();
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   AUTENTICAÇÃO INICIAL
+========================================================= */
+
+S.auth.onAuthStateChange(
+  function(event,session){
+
+    if(session){
+
+      showApp(session);
+
+    }else{
+
+      $('app')
+        .classList
+        .add('hidden');
+
+      $('login')
+        .classList
+        .remove('hidden');
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   VERIFICAR SESSÃO
+========================================================= */
+
+(async function(){
+
+  try{
+
+    const resultado =
+      await S.auth.getSession();
+
+
+    if(
+      resultado.data &&
+      resultado.data.session
+    ){
+
+      await showApp(
+        resultado.data.session
+      );
+
+    }
+
+  }catch(erro){
+
+    console.error(
+      'Erro ao verificar sessão:',
+      erro
+    );
+
+  }
 
 })();
 
